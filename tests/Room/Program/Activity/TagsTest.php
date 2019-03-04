@@ -29,4 +29,14 @@ class TagsTest extends TestCase
                 );
             });
     }
+
+    public function testMatches()
+    {
+        $tags = new Tags('foo', 'bar', 'baz');
+
+        $this->assertTrue($tags->matches());
+        $this->assertTrue($tags->matches('bar'));
+        $this->assertTrue($tags->matches('baz', 'foo', 'bar'));
+        $this->assertFalse($tags->matches('foo', 'foobar'));
+    }
 }

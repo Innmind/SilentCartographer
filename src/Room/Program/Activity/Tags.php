@@ -14,6 +14,17 @@ final class Tags implements \Iterator
         $this->tags = Stream::of('string', ...$tags);
     }
 
+    public function matches(string ...$tags): bool
+    {
+        foreach ($tags as $tag) {
+            if (!$this->tags->contains($tag)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function current(): string
     {
         return $this->tags->current();
