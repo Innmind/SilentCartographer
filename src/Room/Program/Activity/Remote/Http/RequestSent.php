@@ -7,11 +7,7 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity,
     Activity\Tags,
 };
-use Innmind\Http\Message\{
-    Request,
-    Request\Stringable,
-};
-use Innmind\Immutable\Str;
+use Innmind\Http\Message\Request;
 
 final class RequestSent implements Activity
 {
@@ -31,9 +27,7 @@ final class RequestSent implements Activity
 
     public function __toString(): string
     {
-        $request = Str::of((string) new Stringable($this->request))
-            ->split("\n")
-            ->first();
+        $request = "{$this->request->method()} {$this->request->url()} HTTP/{$this->request->protocolVersion()}";
 
         return "Request sent: $request";
     }

@@ -7,11 +7,7 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity,
     Activity\Tags,
 };
-use Innmind\Http\Message\{
-    Response,
-    Response\Stringable,
-};
-use Innmind\Immutable\Str;
+use Innmind\Http\Message\Response;
 
 final class ResponseReceived implements Activity
 {
@@ -31,9 +27,7 @@ final class ResponseReceived implements Activity
 
     public function __toString(): string
     {
-        $response = Str::of((string) new Stringable($this->response))
-            ->split("\n")
-            ->first();
+        $response = "HTTP/{$this->response->protocolVersion()} {$this->response->statusCode()} {$this->response->reasonPhrase()}";
 
         return "Response received: $response";
     }
