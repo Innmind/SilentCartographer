@@ -21,7 +21,8 @@
         "innmind/immutable": "^2.13",
         "innmind/operating-system": "^1.6",
         "innmind/ipc": "^2.0",
-        "innmind/json": "^1.1"
+        "innmind/json": "^1.1",
+        "innmind/cli": "^1.7"
     },
     "autoload": {
         "psr-4": {
