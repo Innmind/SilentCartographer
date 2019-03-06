@@ -33,6 +33,8 @@ final class SubRoutine
 
     public function __invoke(): void
     {
+        $this->panels = $this->panels->clear();
+
         ($this->listen)(function(Message $message, Client $client): void {
             if ($this->panelActivated->equals($message)) {
                 $tags = Json::decode((string) $message->content())['tags'];
