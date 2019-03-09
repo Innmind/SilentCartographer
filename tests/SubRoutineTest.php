@@ -20,6 +20,7 @@ use Innmind\IPC\{
     Server,
     Client,
     Message,
+    Exception\Stop,
 };
 use Innmind\Server\Status\Server\Process\Pid;
 use Innmind\Url\UrlInterface;
@@ -207,10 +208,12 @@ class SubRoutineTest extends TestCase
         $panel
             ->expects($this->never())
             ->method('send');
+        $otherPanel = $this->createMock(Client::class);
         $server
             ->expects($this->once())
             ->method('__invoke')
-            ->with($this->callback(static function(callable $listen) use ($message, $program, $panel): bool {
+            ->with($this->callback(static function(callable $listen) use ($message, $program, $panel, $otherPanel): bool {
+                $listen(new PanelActivated, $otherPanel);
                 $listen(new PanelActivated, $panel);
                 $listen(new PanelDeactivated, $panel);
                 $listen($message, $program);
@@ -304,6 +307,31 @@ class SubRoutineTest extends TestCase
                 $listen($message, $program);
 
                 return true;
+            }));
+
+        $this->assertNull($subRoutine());
+    }
+
+    public function testStopSubRoutineWhenLastPanelIsDeactivated()
+    {
+        $subRoutine = new SubRoutine(
+            $server = $this->createMock(Server::class),
+            $this->createMock(Protocol::class)
+        );
+        $panel = $this->createMock(Client::class);
+        $server
+            ->expects($this->once())
+            ->method('__invoke')
+            ->with($this->callback(static function(callable $listen) use ($panel): bool {
+                $listen(new PanelActivated, $panel);
+
+                try {
+                    $listen(new PanelDeactivated, $panel);
+
+                    return false;
+                } catch (Stop $e) {
+                    return true;
+                }
             }));
 
         $this->assertNull($subRoutine());

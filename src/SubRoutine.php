@@ -12,6 +12,7 @@ use Innmind\IPC\{
     Server,
     Message,
     Client,
+    Exception\Stop,
 };
 use Innmind\Json\Json;
 use Innmind\Immutable\Map;
@@ -55,6 +56,10 @@ final class SubRoutine
     private function unregister(Client $client): void
     {
         $this->panels = $this->panels->remove($client);
+
+        if ($this->panels->empty()) {
+            throw new Stop;
+        }
     }
 
     private function forward(Message $message): void
