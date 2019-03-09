@@ -60,6 +60,8 @@ function bootstrap(OS $os): array
                     $os->control()->processes()
                 ),
                 new Command\SubRoutine(
+                    $ipc,
+                    $subRoutine,
                     new SubRoutine(
                         $ipc->listen($subRoutine),
                         $protocol

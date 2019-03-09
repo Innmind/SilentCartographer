@@ -10,18 +10,33 @@ use Innmind\CLI\{
     Command\Options,
     Environment,
 };
+use Innmind\IPC\{
+    IPC,
+    Process\Name,
+};
 
 final class SubRoutine implements Command
 {
+    private $ipc;
+    private $subRoutine;
     private $listen;
 
-    public function __construct(Listen $listen)
-    {
+    public function __construct(
+        IPC $ipc,
+        Name $subRoutine,
+        Listen $listen
+    ) {
+        $this->ipc = $ipc;
+        $this->subRoutine = $subRoutine;
         $this->listen = $listen;
     }
 
     public function __invoke(Environment $env, Arguments $arguments, Options $options): void
     {
+        if ($this->ipc->exist($this->subRoutine)) {
+            return;
+        }
+
         ($this->listen)();
     }
 
