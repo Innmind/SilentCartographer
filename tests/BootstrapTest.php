@@ -9,9 +9,10 @@ use Innmind\SilentCartographer\{
     OperatingSystem,
     SendActivity,
 };
-use Innmind\OperatingSystem\OperatingSystem as OS;
+use Innmind\OperatingSystem\Factory;
 use Innmind\Url\UrlInterface;
 use Innmind\IPC\Process\Name;
+use Innmind\CLI\Commands;
 use Innmind\ObjectGraph\{
     Assert\Stack,
     Graph,
@@ -22,26 +23,27 @@ class BootstrapTest extends TestCase
 {
     public function testInterface()
     {
-        $services = bootstrap();
+        $services = bootstrap(Factory::build());
 
         $this->assertIsArray($services);
-        $this->assertCount(4, $services);
+        $this->assertCount(5, $services);
         $this->assertInstanceOf(Name::class, $services['sub_routine']);
         $this->assertInstanceOf(Protocol::class, $services['protocol']);
         $this->assertIsCallable($services['http_server']);
         $this->assertIsCallable($services['cli']);
+        $this->assertIsCallable($services['commands']);
 
         $httpServer = $services['http_server'](
-            $this->createMock(OS::class),
             $this->createMock(UrlInterface::class)
         );
         $cli = $services['cli'](
-            $this->createMock(OS::class),
             $this->createMock(UrlInterface::class)
         );
+        $commands = $services['commands']();
 
         $this->assertInstanceOf(OperatingSystem::class, $httpServer);
         $this->assertInstanceOf(OperatingSystem::class, $cli);
+        $this->assertInstanceOf(Commands::class, $commands);
 
         $sendEveryAction = Stack::of(
             OperatingSystem::class,
