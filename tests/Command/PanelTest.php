@@ -123,7 +123,7 @@ USAGE;
         $output
             ->expects($this->once())
             ->method('write')
-            ->with(Str::of('[http][42][/somewhere/on/filesystem][foo/bar/baz] message'))
+            ->with(Str::of("[http][42][/somewhere/on/filesystem][foo/bar/baz] message\n"))
             ->will($this->returnSelf());
         $process
             ->expects($this->at(2))

@@ -87,7 +87,7 @@ USAGE;
                 $message = $process->wait();
                 $roomActivity = $this->protocol->decode($message);
 
-                $output->write(Str::of('[%s][%s][%s][%s] %s')->sprintf(
+                $output->write(Str::of("[%s][%s][%s][%s] %s\n")->sprintf(
                     $roomActivity->program()->type(),
                     $roomActivity->program()->id(),
                     $roomActivity->program()->room()->location()->path(),
