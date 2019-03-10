@@ -13,6 +13,7 @@ use Innmind\IPC\{
     Process,
     Process\Name,
     Exception\ConnectionClosed,
+    Exception\RuntimeException,
 };
 use Innmind\OperatingSystem\CurrentProcess\Signals;
 use Innmind\Signals\Signal;
@@ -69,7 +70,13 @@ USAGE;
     {
         $softClose = function() use ($process): void {
             $process->send(new PanelDeactivated);
-            $process->close();
+
+            try {
+                $process->close();
+            } catch (RuntimeException $e) {
+                // it can happen if the sub routine closes before we trigger the
+                // close
+            }
         };
 
         $this->signals->listen(Signal::hangup(), $softClose);

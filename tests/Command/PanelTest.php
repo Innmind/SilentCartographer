@@ -20,6 +20,7 @@ use Innmind\IPC\{
     Process\Name,
     Message,
     Exception\ConnectionClosed,
+    Exception\RuntimeException,
 };
 use Innmind\OperatingSystem\CurrentProcess\Signals;
 use Innmind\CLI\{
@@ -171,6 +172,115 @@ USAGE;
         $process
             ->expects($this->exactly(6))
             ->method('close');
+        $signals
+            ->expects($this->at(0))
+            ->method('listen')
+            ->with(
+                Signal::hangup(),
+                $this->callback(static function($listen): bool {
+                    $listen();
+
+                    return true;
+                })
+            );
+        $signals
+            ->expects($this->at(1))
+            ->method('listen')
+            ->with(
+                Signal::interrupt(),
+                $this->callback(static function($listen): bool {
+                    $listen();
+
+                    return true;
+                })
+            );
+        $signals
+            ->expects($this->at(2))
+            ->method('listen')
+            ->with(
+                Signal::abort(),
+                $this->callback(static function($listen): bool {
+                    $listen();
+
+                    return true;
+                })
+            );
+        $signals
+            ->expects($this->at(3))
+            ->method('listen')
+            ->with(
+                Signal::terminate(),
+                $this->callback(static function($listen): bool {
+                    $listen();
+
+                    return true;
+                })
+            );
+        $signals
+            ->expects($this->at(4))
+            ->method('listen')
+            ->with(
+                Signal::terminalStop(),
+                $this->callback(static function($listen): bool {
+                    $listen();
+
+                    return true;
+                })
+            );
+        $signals
+            ->expects($this->at(5))
+            ->method('listen')
+            ->with(
+                Signal::alarm(),
+                $this->callback(static function($listen): bool {
+                    $listen();
+
+                    return true;
+                })
+            );
+        $process
+            ->expects($this->once())
+            ->method('wait')
+            ->will($this->throwException(new ConnectionClosed));
+
+        $this->assertNull($command(
+            $this->createMock(Environment::class),
+            new Arguments(
+                Map::of('string', 'mixed')
+                    ('tags', Stream::of('string'))
+            ),
+            new Options()
+        ));
+    }
+
+    public function testHandleExceptionWhenClosingConnectionOnSignalHandling()
+    {
+        $command = new Panel(
+            $ipc = $this->createMock(IPC::class),
+            $subRoutine = new Name('sub_routine'),
+            $protocol = $this->createMock(Protocol::class),
+            $signals = $this->createMock(Signals::class)
+        );
+        $ipc
+            ->expects($this->once())
+            ->method('wait')
+            ->with($subRoutine);
+        $ipc
+            ->expects($this->once())
+            ->method('get')
+            ->with($subRoutine)
+            ->willReturn($process = $this->createMock(Process::class));
+        $process
+            ->expects($this->exactly(7))
+            ->method('send')
+            ->with($this->logicalOr(
+                $this->equalTo(new PanelActivated), // on first call (see testInvokation)
+                $this->equalTo(new PanelDeactivated)
+            ));
+        $process
+            ->expects($this->exactly(6))
+            ->method('close')
+            ->will($this->throwException(new RuntimeException));
         $signals
             ->expects($this->at(0))
             ->method('listen')
