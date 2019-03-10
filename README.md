@@ -8,7 +8,7 @@
 
 Simple tool to visualize all the operations done on the operating system inside other php applications.
 
-![](example.mov)
+![](example.gif)
 
 ## Installation
 
