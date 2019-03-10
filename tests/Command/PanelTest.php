@@ -133,7 +133,7 @@ USAGE;
         $process
             ->expects($this->at(3))
             ->method('wait')
-            ->will($this->throwException(new ConnectionClosed));
+            ->will($this->throwException(new RuntimeException));
 
         $this->assertNull($command(
             $env,

@@ -12,7 +12,6 @@ use Innmind\IPC\{
     IPC,
     Process,
     Process\Name,
-    Exception\ConnectionClosed,
     Exception\RuntimeException,
 };
 use Innmind\OperatingSystem\CurrentProcess\Signals;
@@ -102,7 +101,7 @@ USAGE;
                     $roomActivity->activity()
                 ));
             } while (!$process->closed());
-        } catch (ConnectionClosed $e) {
+        } catch (RuntimeException $e) {
             // stop the loop
         }
     }
