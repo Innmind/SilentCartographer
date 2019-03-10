@@ -1,0 +1,44 @@
+{
+    "name": "innmind/silent-cartographer",
+    "type": "library",
+    "description": "Library to visualize processes manipulating the operating system",
+    "keywords": [],
+    "homepage": "http://github.com/Innmind/SilentCartographer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Baptiste Langlade",
+            "email": "langlade.baptiste@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/Innmind/SilentCartographer/issues"
+    },
+    "require": {
+        "php": "~7.2",
+        "innmind/url": "^2.0",
+        "innmind/server-status": "^1.3",
+        "innmind/immutable": "^2.13",
+        "innmind/operating-system": "^1.6",
+        "innmind/ipc": "^2.0",
+        "innmind/json": "^1.1",
+        "innmind/cli": "^1.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Innmind\\SilentCartographer\\": "src/"
+        },
+        "files": ["src/bootstrap.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Innmind\\SilentCartographer\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~8.0",
+        "giorgiosironi/eris": "^0.11.0",
+        "innmind/object-graph": "^1.4"
+    },
+    "bin": ["silent-cartographer"]
+}
