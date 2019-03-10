@@ -15,6 +15,10 @@ class FunctionalTest extends TestCase
 {
     public function testBehaviour()
     {
+        if (getenv('CI')) {
+            return;
+        }
+
         $os = Factory::build();
         $processes = $os->control()->processes();
         $crawler = $processes->execute(
