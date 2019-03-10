@@ -16,6 +16,8 @@ use Innmind\IPC\{
     Process,
     Process\Name,
     Message,
+    Exception\MessageNotSent,
+    Exception\FailedToConnect,
 };
 use Innmind\OperatingSystem\CurrentProcess;
 use Innmind\Url\UrlInterface;
@@ -214,6 +216,79 @@ class IPCTest extends TestCase
             ->with($message);
 
         $this->assertNull($send($activity));
+        $this->assertNull($send($activity));
+    }
+
+    public function testCatchWhenTheMessageCantBeSent()
+    {
+        $send = new IPC(
+            $room = new Room($this->createMock(UrlInterface::class)),
+            $type = Type::cli(),
+            $process = $this->createMock(CurrentProcess::class),
+            $protocol = $this->createMock(Protocol::class),
+            $ipc = $this->createMock(IPCInterface::class),
+            $name = new Name('sub_routine')
+        );
+        $activity = $this->createMock(Activity::class);
+        $process
+            ->expects($this->any())
+            ->method('id')
+            ->willReturn($pid = new Pid(42));
+        $ipc
+            ->expects($this->once())
+            ->method('exist')
+            ->with($name)
+            ->willReturn(true);
+        $ipc
+            ->expects($this->once())
+            ->method('get')
+            ->with($name)
+            ->willReturn($client = $this->createMock(Process::class));
+        $protocol
+            ->expects($this->once())
+            ->method('encode')
+            ->with($this->callback(static function($roomActivity) use ($activity, $room, $type, $pid): bool {
+                return $roomActivity->activity() === $activity &&
+                    $roomActivity->program()->id() === $pid &&
+                    $roomActivity->program()->type() === $type &&
+                    $roomActivity->program()->room() === $room;
+            }))
+            ->willReturn($message = $this->createMock(Message::class));
+        $client
+            ->expects($this->once())
+            ->method('send')
+            ->with($message)
+            ->will($this->throwException(new MessageNotSent));
+
+        $this->assertNull($send($activity));
+    }
+
+    public function testCatchWhenFailToConnectToProcess()
+    {
+        $send = new IPC(
+            $room = new Room($this->createMock(UrlInterface::class)),
+            $type = Type::cli(),
+            $process = $this->createMock(CurrentProcess::class),
+            $protocol = $this->createMock(Protocol::class),
+            $ipc = $this->createMock(IPCInterface::class),
+            $name = new Name('sub_routine')
+        );
+        $activity = $this->createMock(Activity::class);
+        $process
+            ->expects($this->any())
+            ->method('id')
+            ->willReturn($pid = new Pid(42));
+        $ipc
+            ->expects($this->once())
+            ->method('exist')
+            ->with($name)
+            ->willReturn(true);
+        $ipc
+            ->expects($this->once())
+            ->method('get')
+            ->with($name)
+            ->will($this->throwException(new FailedToConnect));
+
         $this->assertNull($send($activity));
     }
 }

@@ -18,6 +18,8 @@ use Innmind\IPC\{
     IPC as IPCInterface,
     Process,
     Process\Name,
+    Exception\MessageNotSent,
+    Exception\FailedToConnect,
 };
 
 final class IPC implements SendActivity
@@ -50,16 +52,20 @@ final class IPC implements SendActivity
     {
         // we access the pid here instead of at construct time to allow to always
         // have the correct pid in case of a fork of the process
-        $this->client()->send(
-            $this->protocol->encode(new RoomActivity(
-                new Program(
-                    $this->process->id(),
-                    $this->type,
-                    $this->room
-                ),
-                $activity
-            ))
-        );
+        try {
+            $this->client()->send(
+                $this->protocol->encode(new RoomActivity(
+                    new Program(
+                        $this->process->id(),
+                        $this->type,
+                        $this->room
+                    ),
+                    $activity
+                ))
+            );
+        } catch (MessageNotSent $e) {
+            // nothing to do
+        }
     }
 
     private function client(): Process
@@ -74,6 +80,10 @@ final class IPC implements SendActivity
             return $this->client();
         }
 
-        return $this->client ?? $this->client = $this->ipc->get($this->subRoutine);
+        try {
+            return $this->client ?? $this->client = $this->ipc->get($this->subRoutine);
+        } catch (FailedToConnect $e) {
+            return new NullProcess($this->subRoutine);
+        }
     }
 }
