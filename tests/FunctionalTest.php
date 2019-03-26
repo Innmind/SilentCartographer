@@ -42,16 +42,17 @@ class FunctionalTest extends TestCase
         $processes->kill($crawler->pid(), Signal::interrupt());
         $pid = $crawler->pid();
 
+        $dir = dirname(__DIR__);
         $this->assertStringContainsString(
-            "[cli][$pid][/Users/baptouuuu/Sites/Innmind/SilentCartographer/fixtures][os/remote/http] Request sent: GET http://example.com/ HTTP/2.0",
+            "[cli][$pid][$dir/fixtures][os/remote/http] Request sent: GET http://example.com/ HTTP/2.0",
             (string) $panel->output()
         );
         $this->assertStringContainsString(
-            "[cli][$pid][/Users/baptouuuu/Sites/Innmind/SilentCartographer/fixtures][os/remote/http] Response received: HTTP/1.1 200 OK",
+            "[cli][$pid][$dir/fixtures][os/remote/http] Response received: HTTP/1.1 200 OK",
             (string) $panel->output()
         );
         $this->assertStringContainsString(
-            "[cli][$pid][/Users/baptouuuu/Sites/Innmind/SilentCartographer/fixtures][os/process] Process halted: 200ms",
+            "[cli][$pid][$dir/fixtures][os/process] Process halted: 200ms",
             (string) $panel->output()
         );
     }
