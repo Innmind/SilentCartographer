@@ -51,17 +51,27 @@ final class Panel implements Command
         $this->safe($process);
         $process->send(new PanelActivated(...$arguments->pack()));
 
-        $this->print($process, $env->output());
+        $this->print(
+            $process,
+            $env->output(),
+            $options->contains('format') ? $options->get('format') : '[{type}][{pid}][{room}][{tags}] {activity}'
+        );
     }
 
     public function __toString(): string
     {
         return <<<USAGE
-panel ...tags
+panel ...tags --format=
 
 Open a panel to display all activity that matches the given tags
 
 When no tag provided it will display all messages
+Available placeholders for the format option:
+* {type}
+* {pid}
+* {room}
+* {tags}
+* {activity}
 USAGE;
     }
 
@@ -86,20 +96,21 @@ USAGE;
         $this->signals->listen(Signal::alarm(), $softClose);
     }
 
-    private function print(Process $process, Writable $output): void
+    private function print(Process $process, Writable $output, string $format): void
     {
         try {
             do {
                 $message = $process->wait();
                 $roomActivity = $this->protocol->decode($message);
 
-                $output->write(Str::of("[%s][%s][%s][%s] %s\n")->sprintf(
-                    $roomActivity->program()->type(),
-                    $roomActivity->program()->id(),
-                    $roomActivity->program()->room()->location()->path(),
-                    \implode('/', \iterator_to_array($roomActivity->activity()->tags())),
-                    $roomActivity->activity()
-                ));
+                $output->write(
+                    Str::of("$format\n")
+                        ->replace('{type}', (string) $roomActivity->program()->type())
+                        ->replace('{pid}', (string) $roomActivity->program()->id())
+                        ->replace('{room}', (string) $roomActivity->program()->room()->location()->path())
+                        ->replace('{tags}', \implode('/', \iterator_to_array($roomActivity->activity()->tags())))
+                        ->replace('{activity}', (string) $roomActivity->activity())
+                );
             } while (!$process->closed());
         } catch (RuntimeException $e) {
             // stop the loop
