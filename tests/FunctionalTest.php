@@ -15,7 +15,7 @@ class FunctionalTest extends TestCase
 {
     public function testBehaviour()
     {
-        if (getenv('CI')) {
+        if (getenv('CI') && PHP_OS === 'Linux') {
             return;
         }
 
