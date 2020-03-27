@@ -11,8 +11,8 @@ use Innmind\Http\Message\Request;
 
 final class RequestSent implements Activity
 {
-    private $request;
-    private $tags;
+    private Request $request;
+    private Tags $tags;
 
     public function __construct(Request $request)
     {
@@ -25,9 +25,9 @@ final class RequestSent implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        $request = "{$this->request->method()} {$this->request->url()} HTTP/{$this->request->protocolVersion()}";
+        $request = "{$this->request->method()->toString()} {$this->request->url()->toString()} HTTP/{$this->request->protocolVersion()->toString()}";
 
         return "Request sent: $request";
     }

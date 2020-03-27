@@ -6,15 +6,17 @@ namespace Innmind\SilentCartographer\OperatingSystem;
 use Innmind\SilentCartographer\{
     SendActivity,
     Room\Program\Activity\Filesystem\PathMounted,
+    Room\Program\Activity\Filesystem\WatchingPath,
 };
 use Innmind\OperatingSystem\Filesystem as FilesystemInterface;
 use Innmind\Filesystem\Adapter;
-use Innmind\Url\PathInterface;
+use Innmind\FileWatch\Ping;
+use Innmind\Url\Path;
 
 final class Filesystem implements FilesystemInterface
 {
-    private $filesystem;
-    private $send;
+    private FilesystemInterface $filesystem;
+    private SendActivity $send;
 
     public function __construct(FilesystemInterface $filesystem, SendActivity $send)
     {
@@ -22,14 +24,26 @@ final class Filesystem implements FilesystemInterface
         $this->send = $send;
     }
 
-    public function mount(PathInterface $path): Adapter
+    public function mount(Path $path): Adapter
     {
         ($this->send)(new PathMounted($path));
 
         return new Filesystem\Adapter(
             $this->filesystem->mount($path),
             $this->send,
-            $path
+            $path,
         );
+    }
+
+    public function contains(Path $path): bool
+    {
+        return $this->filesystem->contains($path);
+    }
+
+    public function watch(Path $path): Ping
+    {
+        ($this->send)(new WatchingPath($path));
+
+        return $this->filesystem->watch($path);
     }
 }

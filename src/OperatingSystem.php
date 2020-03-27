@@ -13,19 +13,19 @@ use Innmind\OperatingSystem\{
 };
 use Innmind\Server\Status\Server as ServerStatus;
 use Innmind\Server\Control\Server as ServerControl;
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
 
 final class OperatingSystem implements OperatingSystemInterface
 {
-    private $os;
-    private $send;
-    private $filesystem;
-    private $status;
-    private $control;
-    private $ports;
-    private $sockets;
-    private $remote;
-    private $process;
+    private OperatingSystemInterface $os;
+    private SendActivity $send;
+    private ?OperatingSystem\Filesystem $filesystem = null;
+    private ?OperatingSystem\Status $status = null;
+    private ?OperatingSystem\Control $control = null;
+    private ?OperatingSystem\Ports $ports = null;
+    private ?OperatingSystem\Sockets $sockets = null;
+    private ?OperatingSystem\Remote $remote = null;
+    private ?OperatingSystem\CurrentProcess $process = null;
 
     public function __construct(
         OperatingSystemInterface $os,
@@ -35,64 +35,64 @@ final class OperatingSystem implements OperatingSystemInterface
         $this->send = $send;
     }
 
-    public function clock(): TimeContinuumInterface
+    public function clock(): Clock
     {
         return $this->os->clock();
     }
 
     public function filesystem(): Filesystem
     {
-        return $this->filesystem ?? $this->filesystem = new OperatingSystem\Filesystem(
+        return $this->filesystem ??= new OperatingSystem\Filesystem(
             $this->os->filesystem(),
-            $this->send
+            $this->send,
         );
     }
 
     public function status(): ServerStatus
     {
-        return $this->status ?? $this->status = new OperatingSystem\Status(
+        return $this->status ??= new OperatingSystem\Status(
             $this->os->status(),
-            $this->send
+            $this->send,
         );
     }
 
     public function control(): ServerControl
     {
-        return $this->control ?? $this->control = new OperatingSystem\Control(
+        return $this->control ??= new OperatingSystem\Control(
             $this->os->control(),
-            $this->send
+            $this->send,
         );
     }
 
     public function ports(): Ports
     {
-        return $this->ports ?? $this->ports = new OperatingSystem\Ports(
+        return $this->ports ??= new OperatingSystem\Ports(
             $this->os->ports(),
-            $this->send
+            $this->send,
         );
     }
 
     public function sockets(): Sockets
     {
-        return $this->sockets ?? $this->sockets = new OperatingSystem\Sockets(
+        return $this->sockets ??= new OperatingSystem\Sockets(
             $this->os->sockets(),
-            $this->send
+            $this->send,
         );
     }
 
     public function remote(): Remote
     {
-        return $this->remote ?? $this->remote = new OperatingSystem\Remote(
+        return $this->remote ??= new OperatingSystem\Remote(
             $this->os->remote(),
-            $this->send
+            $this->send,
         );
     }
 
     public function process(): CurrentProcess
     {
-        return $this->process ?? $this->process = new OperatingSystem\CurrentProcess(
+        return $this->process ??= new OperatingSystem\CurrentProcess(
             $this->os->process(),
-            $this->send
+            $this->send,
         );
     }
 }

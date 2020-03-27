@@ -7,7 +7,7 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\CurrentProcess\ProcessForked,
     Activity,
 };
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 use PHPUnit\Framework\TestCase;
 
 class ProcessForkedTest extends TestCase
@@ -19,7 +19,7 @@ class ProcessForkedTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'process'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Process forked: 42', (string) $activity);
+        $this->assertSame(['os', 'process'], $activity->tags()->list());
+        $this->assertSame('Process forked: 42', $activity->toString());
     }
 }

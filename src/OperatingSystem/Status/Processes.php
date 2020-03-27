@@ -12,12 +12,12 @@ use Innmind\Server\Status\Server\{
     Process,
     Process\Pid,
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 
 final class Processes implements ProcessesInterface
 {
-    private $processes;
-    private $send;
+    private ProcessesInterface $processes;
+    private SendActivity $send;
 
     public function __construct(ProcessesInterface $processes, SendActivity $send)
     {
@@ -28,11 +28,14 @@ final class Processes implements ProcessesInterface
     /**
      * {@inheritdoc}
      */
-    public function all(): MapInterface
+    public function all(): Map
     {
-        return $this->processes->all()->foreach(function(int $pid, Process $process): void {
+        $processes =  $this->processes->all();
+        $processes->foreach(function(int $pid, Process $process): void {
             ($this->send)(new ProcessStatusAccessed($process->pid()));
         });
+
+        return $processes;
     }
 
     public function get(Pid $pid): Process

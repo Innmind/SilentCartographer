@@ -16,7 +16,7 @@ use Innmind\Server\Control\Server\{
     Command,
     Signal,
 };
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 use PHPUnit\Framework\TestCase;
 
 class ProcessesTest extends TestCase
@@ -27,7 +27,7 @@ class ProcessesTest extends TestCase
             ProcessesInterface::class,
             new Processes(
                 $this->createMock(ProcessesInterface::class),
-                $this->createMock(AuthorityInterface::class),
+                Authority::none(),
                 $this->createMock(SendActivity::class)
             )
         );
@@ -37,7 +37,7 @@ class ProcessesTest extends TestCase
     {
         $processes = new Processes(
             $inner = $this->createMock(ProcessesInterface::class),
-            $authority = $this->createMock(AuthorityInterface::class),
+            $authority = Authority::none(),
             $send = $this->createMock(SendActivity::class)
         );
         $command = Command::foreground('php');
@@ -58,7 +58,7 @@ class ProcessesTest extends TestCase
     {
         $processes = new Processes(
             $inner = $this->createMock(ProcessesInterface::class),
-            $authority = $this->createMock(AuthorityInterface::class),
+            $authority = Authority::none(),
             $send = $this->createMock(SendActivity::class)
         );
         $pid = new Pid(42);
@@ -69,9 +69,8 @@ class ProcessesTest extends TestCase
         $inner
             ->expects($this->once())
             ->method('kill')
-            ->with($pid, Signal::kill())
-            ->will($this->returnSelf());
+            ->with($pid, Signal::kill());
 
-        $this->assertSame($processes, $processes->kill($pid, Signal::kill()));
+        $this->assertNull($processes->kill($pid, Signal::kill()));
     }
 }

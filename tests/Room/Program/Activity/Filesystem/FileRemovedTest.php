@@ -15,12 +15,12 @@ class FileRemovedTest extends TestCase
     public function testInterface()
     {
         $activity = new FileRemoved(
-            $path = new Path('foo')
+            $path = Path::of('foo')
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'filesystem'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'filesystem'], $activity->tags()->list());
         $this->assertSame($path, $activity->path());
-        $this->assertSame('File removed: foo', (string) $activity);
+        $this->assertSame('File removed: foo', $activity->toString());
     }
 }

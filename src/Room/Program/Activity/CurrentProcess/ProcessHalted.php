@@ -7,15 +7,15 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity,
     Activity\Tags,
 };
-use Innmind\TimeContinuum\PeriodInterface;
+use Innmind\TimeContinuum\Period;
 use Innmind\TimeWarp\PeriodToMilliseconds;
 
 final class ProcessHalted implements Activity
 {
-    private $period;
-    private $tags;
+    private int $period;
+    private Tags $tags;
 
-    public function __construct(PeriodInterface $period)
+    public function __construct(Period $period)
     {
         $this->period = (new PeriodToMilliseconds)($period);
         $this->tags = new Tags('os', 'process');
@@ -26,7 +26,7 @@ final class ProcessHalted implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Process halted: {$this->period}ms";
     }

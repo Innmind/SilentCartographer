@@ -7,6 +7,7 @@ use Innmind\SilentCartographer\{
     SendActivity,
     Room\Program\Activity\CurrentProcess\ProcessForked,
     Room\Program\Activity\CurrentProcess\ProcessHalted,
+    Room\Program\Activity\CurrentProcess\CurrentMemory,
 };
 use Innmind\OperatingSystem\{
     CurrentProcess as CurrentProcessInterface,
@@ -14,13 +15,14 @@ use Innmind\OperatingSystem\{
     CurrentProcess\Children,
     CurrentProcess\Signals,
 };
-use Innmind\Server\Status\Server\Process\Pid;
-use Innmind\TimeContinuum\PeriodInterface;
+use Innmind\Server\Control\Server\Process\Pid;
+use Innmind\Server\Status\Server\Memory\Bytes;
+use Innmind\TimeContinuum\Period;
 
 final class CurrentProcess implements CurrentProcessInterface
 {
-    private $process;
-    private $send;
+    private CurrentProcessInterface $process;
+    private SendActivity $send;
 
     public function __construct(CurrentProcessInterface $process, SendActivity $send)
     {
@@ -57,10 +59,18 @@ final class CurrentProcess implements CurrentProcessInterface
         return $this->process->signals();
     }
 
-    public function halt(PeriodInterface $period): void
+    public function halt(Period $period): void
     {
         ($this->send)(new ProcessHalted($period));
 
         $this->process->halt($period);
+    }
+
+    public function memory(): Bytes
+    {
+        $memory = $this->process->memory();
+        ($this->send)(new CurrentMemory($memory));
+
+        return $memory;
     }
 }

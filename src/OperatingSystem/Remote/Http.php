@@ -16,8 +16,8 @@ use Innmind\Http\Message\{
 
 final class Http implements Transport
 {
-    private $fulfill;
-    private $send;
+    private Transport $fulfill;
+    private SendActivity $send;
 
     public function __construct(Transport $fulfill, SendActivity $send)
     {

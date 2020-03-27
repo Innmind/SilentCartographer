@@ -25,7 +25,7 @@ class TagsTest extends TestCase
             ->then(function($s1, $s2, $s3): void {
                 $this->assertSame(
                     [$s1, $s2, $s3],
-                    \iterator_to_array(new Tags($s1, $s2, $s3))
+                    (new Tags($s1, $s2, $s3))->list(),
                 );
             });
     }

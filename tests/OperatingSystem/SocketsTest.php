@@ -37,7 +37,7 @@ class SocketsTest extends TestCase
             $inner = $this->createMock(SocketsInterface::class),
             $send = $this->createMock(SendActivity::class)
         );
-        $name = new Unix('/tmp/foo');
+        $name = Unix::of('/tmp/foo');
         $send
             ->expects($this->once())
             ->method('__invoke')
@@ -57,7 +57,7 @@ class SocketsTest extends TestCase
             $inner = $this->createMock(SocketsInterface::class),
             $send = $this->createMock(SendActivity::class)
         );
-        $name = new Unix('/tmp/foo');
+        $name = Unix::of('/tmp/foo');
         $send
             ->expects($this->once())
             ->method('__invoke')
@@ -77,7 +77,7 @@ class SocketsTest extends TestCase
             $inner = $this->createMock(SocketsInterface::class),
             $send = $this->createMock(SendActivity::class)
         );
-        $name = new Unix('/tmp/foo');
+        $name = Unix::of('/tmp/foo');
         $send
             ->expects($this->once())
             ->method('__invoke')

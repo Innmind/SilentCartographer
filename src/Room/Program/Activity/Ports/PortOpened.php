@@ -9,20 +9,17 @@ use Innmind\SilentCartographer\Room\Program\{
 };
 use Innmind\Socket\Internet\Transport;
 use Innmind\IP\IP;
-use Innmind\Url\Authority\PortInterface;
+use Innmind\Url\Authority\Port;
 
 final class PortOpened implements Activity
 {
-    private $transport;
-    private $ip;
-    private $port;
-    private $tags;
+    private Transport $transport;
+    private IP $ip;
+    private Port $port;
+    private Tags $tags;
 
-    public function __construct(
-        Transport $transport,
-        IP $ip,
-        PortInterface $port
-    ) {
+    public function __construct(Transport $transport, IP $ip, Port $port)
+    {
         $this->transport = $transport;
         $this->ip = $ip;
         $this->port = $port;
@@ -34,8 +31,8 @@ final class PortOpened implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "Port opened: {$this->transport}://{$this->ip}:{$this->port}";
+        return "Port opened: {$this->transport->toString()}://{$this->ip->toString()}:{$this->port->toString()}";
     }
 }

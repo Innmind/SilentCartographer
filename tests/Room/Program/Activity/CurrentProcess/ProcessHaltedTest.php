@@ -7,7 +7,7 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\CurrentProcess\ProcessHalted,
     Activity,
 };
-use Innmind\TimeContinuum\Period\Earth\Minute;
+use Innmind\TimeContinuum\Earth\Period\Minute;
 use PHPUnit\Framework\TestCase;
 
 class ProcessHaltedTest extends TestCase
@@ -19,7 +19,7 @@ class ProcessHaltedTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'process'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Process halted: 2520000ms', (string) $activity);
+        $this->assertSame(['os', 'process'], $activity->tags()->list());
+        $this->assertSame('Process halted: 2520000ms', $activity->toString());
     }
 }

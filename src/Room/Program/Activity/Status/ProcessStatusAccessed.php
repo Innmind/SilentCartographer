@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\Process\Pid;
 
 final class ProcessStatusAccessed implements Activity
 {
-    private $pid;
-    private $tags;
+    private Pid $pid;
+    private Tags $tags;
 
     public function __construct(Pid $pid)
     {
@@ -25,8 +25,8 @@ final class ProcessStatusAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "Process status accessed: {$this->pid}";
+        return "Process status accessed: {$this->pid->toString()}";
     }
 }

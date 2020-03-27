@@ -5,13 +5,13 @@ namespace Innmind\SilentCartographer\IPC\Message;
 
 use Innmind\IPC\Message;
 use Innmind\Json\Json;
-use Innmind\Filesystem\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Str;
 
 final class PanelActivated implements Message
 {
-    private $content;
-    private $mediaType;
+    private Str $content;
+    private MediaType $mediaType;
 
     public function __construct(string ...$tags)
     {
@@ -19,7 +19,7 @@ final class PanelActivated implements Message
             'message' => 'panel_activated',
             'tags' => $tags,
         ]));
-        $this->mediaType = new MediaType\MediaType('application', 'json');
+        $this->mediaType = new MediaType('application', 'json');
     }
 
     public function mediaType(): MediaType
@@ -34,11 +34,12 @@ final class PanelActivated implements Message
 
     public function equals(Message $message): bool
     {
-        if ((string) $this->mediaType !== (string) $message->mediaType()) {
+        if ($this->mediaType->toString() !== $message->mediaType()->toString()) {
             return false;
         }
 
-        $data = Json::decode((string) $message->content());
+        /** @var array */
+        $data = Json::decode($message->content()->toString());
 
         return ($data['message'] ?? '') === 'panel_activated';
     }

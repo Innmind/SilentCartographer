@@ -10,7 +10,7 @@ use Innmind\SilentCartographer\{
 use Innmind\Server\Control\Server;
 use PHPUnit\Framework\TestCase;
 
-class SshTest extends TestCase
+class ControlTest extends TestCase
 {
     public function testInterface()
     {
@@ -22,5 +22,39 @@ class SshTest extends TestCase
         $this->assertInstanceOf(Server::class, $server);
         $this->assertInstanceOf(Control\Processes::class, $server->processes());
         $this->assertSame($server->processes(), $server->processes());
+        $this->assertInstanceOf(Control\Volumes::class, $server->volumes());
+        $this->assertSame($server->volumes(), $server->volumes());
+    }
+
+    public function testReboot()
+    {
+        $server = new Control(
+            $inner = $this->createMock(Server::class),
+            $send = $this->createMock(SendActivity::class)
+        );
+        $inner
+            ->expects($this->once())
+            ->method('reboot');
+        $send
+            ->expects($this->once())
+            ->method('__invoke');
+
+        $this->assertNull($server->reboot());
+    }
+
+    public function testShutdown()
+    {
+        $server = new Control(
+            $inner = $this->createMock(Server::class),
+            $send = $this->createMock(SendActivity::class)
+        );
+        $inner
+            ->expects($this->once())
+            ->method('shutdown');
+        $send
+            ->expects($this->once())
+            ->method('__invoke');
+
+        $this->assertNull($server->shutdown());
     }
 }

@@ -18,8 +18,8 @@ use Innmind\Server\Control\Server\{
 
 final class Processes implements ProcessesInterface
 {
-    private $processes;
-    private $send;
+    private ProcessesInterface $processes;
+    private SendActivity $send;
 
     public function __construct(ProcessesInterface $processes, SendActivity $send)
     {
@@ -34,11 +34,9 @@ final class Processes implements ProcessesInterface
         return $this->processes->execute($command);
     }
 
-    public function kill(Pid $pid, Signal $signal): ProcessesInterface
+    public function kill(Pid $pid, Signal $signal): void
     {
         ($this->send)(new ProcessKilled($pid));
         $this->processes->kill($pid, $signal);
-
-        return $this;
     }
 }

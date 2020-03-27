@@ -11,8 +11,8 @@ use Innmind\Socket\Address\Unix;
 
 final class ConnectedToSocket implements Activity
 {
-    private $address;
-    private $tags;
+    private Unix $address;
+    private Tags $tags;
 
     public function __construct(Unix $address)
     {
@@ -25,8 +25,8 @@ final class ConnectedToSocket implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "Connected to socket: {$this->address}";
+        return "Connected to socket: {$this->address->toString()}";
     }
 }

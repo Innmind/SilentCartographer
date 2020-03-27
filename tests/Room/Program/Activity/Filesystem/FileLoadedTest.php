@@ -15,12 +15,12 @@ class FileLoadedTest extends TestCase
     public function testInterface()
     {
         $activity = new FileLoaded(
-            $path = new Path('foo')
+            $path = Path::of('foo')
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'filesystem'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'filesystem'], $activity->tags()->list());
         $this->assertSame($path, $activity->path());
-        $this->assertSame('File loaded: foo', (string) $activity);
+        $this->assertSame('File loaded: foo', $activity->toString());
     }
 }

@@ -19,11 +19,11 @@ class PortOpenedTest extends TestCase
         $activity = new PortOpened(
             Transport::tcp(),
             IPv4::localhost(),
-            new Port(80)
+            Port::of(80)
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'socket', 'port'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Port opened: tcp://127.0.0.1:80', (string) $activity);
+        $this->assertSame(['os', 'socket', 'port'], $activity->tags()->list());
+        $this->assertSame('Port opened: tcp://127.0.0.1:80', $activity->toString());
     }
 }

@@ -15,12 +15,12 @@ class PathMountedTest extends TestCase
     public function testInterface()
     {
         $activity = new PathMounted(
-            $path = new Path('foo')
+            $path = Path::of('foo')
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'filesystem'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'filesystem'], $activity->tags()->list());
         $this->assertSame($path, $activity->path());
-        $this->assertSame('Path mounted: foo', (string) $activity);
+        $this->assertSame('Path mounted: foo', $activity->toString());
     }
 }

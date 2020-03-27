@@ -16,12 +16,12 @@ class ExecutingCommandTest extends TestCase
     public function testInterface()
     {
         $activity = new ExecutingCommand(
-            Url::fromString('ssh://foo@bar:2224/')->authority(),
+            Url::of('ssh://foo@bar:2224/')->authority(),
             Command::foreground('php')
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'remote', 'ssh', 'control', 'process'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Executing command: [foo@bar:2224] php', (string) $activity);
+        $this->assertSame(['os', 'remote', 'ssh', 'control', 'process'], $activity->tags()->list());
+        $this->assertSame('Executing command: [foo@bar:2224] php', $activity->toString());
     }
 }

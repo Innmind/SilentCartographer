@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\Memory;
 
 final class MemoryUsageAccessed implements Activity
 {
-    private $memory;
-    private $tags;
+    private Memory $memory;
+    private Tags $tags;
 
     public function __construct(Memory $memory)
     {
@@ -25,16 +25,16 @@ final class MemoryUsageAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return \sprintf(
             'Memory usage: total(%s) wired(%s) active(%s) free(%s) swap(%s) used(%s)',
-            $this->memory->total(),
-            $this->memory->wired(),
-            $this->memory->active(),
-            $this->memory->free(),
-            $this->memory->swap(),
-            $this->memory->used()
+            $this->memory->total()->toString(),
+            $this->memory->wired()->toString(),
+            $this->memory->active()->toString(),
+            $this->memory->free()->toString(),
+            $this->memory->swap()->toString(),
+            $this->memory->used()->toString(),
         );
     }
 }

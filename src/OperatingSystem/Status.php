@@ -17,14 +17,14 @@ use Innmind\Server\Status\{
     Server\LoadAverage,
     Server\Disk,
 };
-use Innmind\Url\PathInterface;
+use Innmind\Url\Path;
 
 final class Status implements Server
 {
-    private $server;
-    private $send;
-    private $processes;
-    private $disk;
+    private Server $server;
+    private SendActivity $send;
+    private ?Status\Processes $processes = null;
+    private ?Status\Disk $disk = null;
 
     public function __construct(Server $server, SendActivity $send)
     {
@@ -50,9 +50,9 @@ final class Status implements Server
 
     public function processes(): Processes
     {
-        return $this->processes ?? $this->processes = new Status\Processes(
+        return $this->processes ??= new Status\Processes(
             $this->server->processes(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -66,13 +66,13 @@ final class Status implements Server
 
     public function disk(): Disk
     {
-        return $this->disk ?? $this->disk = new Status\Disk(
+        return $this->disk ??= new Status\Disk(
             $this->server->disk(),
-            $this->send
+            $this->send,
         );
     }
 
-    public function tmp(): PathInterface
+    public function tmp(): Path
     {
         return $this->server->tmp();
     }

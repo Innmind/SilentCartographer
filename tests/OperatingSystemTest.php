@@ -8,7 +8,7 @@ use Innmind\SilentCartographer\{
     SendActivity,
 };
 use Innmind\OperatingSystem\OperatingSystem as OperatingSystemInterface;
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
 use PHPUnit\Framework\TestCase;
 
 class OperatingSystemTest extends TestCase
@@ -21,7 +21,7 @@ class OperatingSystemTest extends TestCase
         );
 
         $this->assertInstanceOf(OperatingSystemInterface::class, $os);
-        $this->assertInstanceOf(TimeContinuumInterface::class, $os->clock());
+        $this->assertInstanceOf(Clock::class, $os->clock());
         $this->assertInstanceOf(OperatingSystem\Filesystem::class, $os->filesystem());
         $this->assertInstanceOf(OperatingSystem\Status::class, $os->status());
         $this->assertInstanceOf(OperatingSystem\Control::class, $os->control());

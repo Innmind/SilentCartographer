@@ -8,14 +8,14 @@ use Innmind\Server\Control\Server\{
     Command,
     Signal,
 };
-use Innmind\TimeContinuum\Period\Earth\Second;
+use Innmind\TimeContinuum\Earth\Period\Second;
 use PHPUnit\Framework\TestCase;
 
 class FunctionalTest extends TestCase
 {
     public function testBehaviour()
     {
-        if (getenv('CI')) {
+        if (getenv('CI') && PHP_OS === 'Linux') {
             return;
         }
 
@@ -44,16 +44,16 @@ class FunctionalTest extends TestCase
 
         $dir = dirname(__DIR__);
         $this->assertStringContainsString(
-            "[cli][$pid][$dir/fixtures][os/remote/http] Request sent: GET http://example.com/ HTTP/2.0",
-            (string) $panel->output()
+            "[cli][{$pid->toString()}][$dir/fixtures][os/remote/http] Request sent: GET https://github.com/ HTTP/2.0",
+            $panel->output()->toString(),
         );
         $this->assertStringContainsString(
-            "[cli][$pid][$dir/fixtures][os/remote/http] Response received: HTTP/1.1 200 OK",
-            (string) $panel->output()
+            "[cli][{$pid->toString()}][$dir/fixtures][os/remote/http] Response received: HTTP/1.1 200 OK",
+            $panel->output()->toString(),
         );
         $this->assertStringContainsString(
-            "[cli][$pid][$dir/fixtures][os/process] Process halted: 200ms",
-            (string) $panel->output()
+            "[cli][{$pid->toString()}][$dir/fixtures][os/process] Process halted: 200ms",
+            $panel->output()->toString(),
         );
     }
 }

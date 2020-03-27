@@ -3,18 +3,18 @@ declare(strict_types = 1);
 
 namespace Innmind\SilentCartographer;
 
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 
 final class Room
 {
-    private $location;
+    private Url $location;
 
-    public function __construct(UrlInterface $location)
+    public function __construct(Url $location)
     {
         $this->location = $location;
     }
 
-    public function location(): UrlInterface
+    public function location(): Url
     {
         return $this->location;
     }

@@ -19,7 +19,7 @@ use Innmind\Server\Status\{
     Server\Memory\Bytes,
     Server\LoadAverage,
 };
-use Innmind\Url\PathInterface;
+use Innmind\Url\Path;
 use PHPUnit\Framework\TestCase;
 
 class StatusTest extends TestCase
@@ -136,7 +136,7 @@ class StatusTest extends TestCase
         $server
             ->expects($this->once())
             ->method('tmp')
-            ->willReturn($tmp = $this->createMock(PathInterface::class));
+            ->willReturn($tmp = Path::none());
 
         $this->assertSame($tmp, $status->tmp());
     }

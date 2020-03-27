@@ -24,13 +24,14 @@ use Innmind\CLI\{
 };
 use Innmind\Stream\Writable;
 use Innmind\Immutable\Str;
+use function Innmind\Immutable\unwrap;
 
 final class Panel implements Command
 {
-    private $ipc;
-    private $subRoutine;
-    private $protocol;
-    private $signals;
+    private IPC $ipc;
+    private Name $subRoutine;
+    private Protocol $protocol;
+    private Signals $signals;
 
     public function __construct(
         IPC $ipc,
@@ -49,16 +50,16 @@ final class Panel implements Command
         $this->ipc->wait($this->subRoutine);
         $process = $this->ipc->get($this->subRoutine);
         $this->safe($process);
-        $process->send(new PanelActivated(...$arguments->pack()));
+        $process->send(new PanelActivated(...unwrap($arguments->pack())));
 
         $this->print(
             $process,
             $env->output(),
-            $options->contains('format') ? $options->get('format') : '[{type}][{pid}][{room}][{tags}] {activity}'
+            $options->contains('format') ? $options->get('format') : '[{type}][{pid}][{room}][{tags}] {activity}',
         );
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 panel ...tags --format=
@@ -105,11 +106,11 @@ USAGE;
 
                 $output->write(
                     Str::of("$format\n")
-                        ->replace('{type}', (string) $roomActivity->program()->type())
-                        ->replace('{pid}', (string) $roomActivity->program()->id())
-                        ->replace('{room}', (string) $roomActivity->program()->room()->location()->path())
-                        ->replace('{tags}', \implode('/', \iterator_to_array($roomActivity->activity()->tags())))
-                        ->replace('{activity}', (string) $roomActivity->activity())
+                        ->replace('{type}', $roomActivity->program()->type()->toString())
+                        ->replace('{pid}', $roomActivity->program()->id()->toString())
+                        ->replace('{room}', $roomActivity->program()->room()->location()->path()->toString())
+                        ->replace('{tags}', \implode('/', $roomActivity->activity()->tags()->list()))
+                        ->replace('{activity}', $roomActivity->activity()->toString()),
                 );
             } while (!$process->closed());
         } catch (RuntimeException $e) {

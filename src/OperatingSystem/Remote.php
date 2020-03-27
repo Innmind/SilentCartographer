@@ -14,16 +14,16 @@ use Innmind\Socket\{
     Client,
 };
 use Innmind\Url\{
-    UrlInterface,
-    AuthorityInterface,
+    Url,
+    Authority,
 };
 use Innmind\HttpTransport\Transport as HttpTransport;
 
 final class Remote implements RemoteInterface
 {
-    private $remote;
-    private $send;
-    private $http;
+    private RemoteInterface $remote;
+    private SendActivity $send;
+    private ?Remote\Http $http = null;
 
     public function __construct(RemoteInterface $remote, SendActivity $send)
     {
@@ -31,16 +31,16 @@ final class Remote implements RemoteInterface
         $this->send = $send;
     }
 
-    public function ssh(UrlInterface $server): Server
+    public function ssh(Url $server): Server
     {
         return new Remote\Ssh(
             $this->remote->ssh($server),
             $server->authority(),
-            $this->send
+            $this->send,
         );
     }
 
-    public function socket(Transport $transport, AuthorityInterface $authority): Client
+    public function socket(Transport $transport, Authority $authority): Client
     {
         ($this->send)(new SocketOpened($transport, $authority));
 
@@ -49,9 +49,9 @@ final class Remote implements RemoteInterface
 
     public function http(): HttpTransport
     {
-        return $this->http ?? $this->http = new Remote\Http(
+        return $this->http ??= new Remote\Http(
             $this->remote->http(),
-            $this->send
+            $this->send,
         );
     }
 }

@@ -11,8 +11,8 @@ use Innmind\Socket\Address\Unix;
 
 final class SocketOpened implements Activity
 {
-    private $address;
-    private $tags;
+    private Unix $address;
+    private Tags $tags;
 
     public function __construct(Unix $address)
     {
@@ -25,8 +25,8 @@ final class SocketOpened implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "Socket opened: {$this->address}";
+        return "Socket opened: {$this->address->toString()}";
     }
 }

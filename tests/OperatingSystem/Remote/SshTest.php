@@ -8,7 +8,7 @@ use Innmind\SilentCartographer\{
     SendActivity,
 };
 use Innmind\Server\Control\Server;
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 use PHPUnit\Framework\TestCase;
 
 class SshTest extends TestCase
@@ -17,12 +17,48 @@ class SshTest extends TestCase
     {
         $server = new Ssh(
             $this->createMock(Server::class),
-            $this->createMock(AuthorityInterface::class),
+            Authority::none(),
             $this->createMock(SendActivity::class)
         );
 
         $this->assertInstanceOf(Server::class, $server);
         $this->assertInstanceOf(Ssh\Processes::class, $server->processes());
         $this->assertSame($server->processes(), $server->processes());
+        $this->assertInstanceOf(Ssh\Volumes::class, $server->volumes());
+        $this->assertSame($server->volumes(), $server->volumes());
+    }
+
+    public function testReboot()
+    {
+        $server = new Ssh(
+            $inner = $this->createMock(Server::class),
+            Authority::none(),
+            $send = $this->createMock(SendActivity::class),
+        );
+        $inner
+            ->expects($this->once())
+            ->method('reboot');
+        $send
+            ->expects($this->once())
+            ->method('__invoke');
+
+        $this->assertNull($server->reboot());
+    }
+
+    public function testShutdown()
+    {
+        $server = new Ssh(
+            $inner = $this->createMock(Server::class),
+            Authority::none(),
+            $send = $this->createMock(SendActivity::class),
+        );
+        $inner
+            ->expects($this->once())
+            ->method('shutdown');
+        $send
+            ->expects($this->once())
+            ->method('__invoke');
+
+        $this->assertNull($server->shutdown());
     }
 }

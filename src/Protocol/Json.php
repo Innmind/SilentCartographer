@@ -14,9 +14,9 @@ use Innmind\SilentCartographer\{
     Exception\UnknownProtocol,
 };
 use Innmind\IPC\Message;
-use Innmind\Filesystem\MediaType\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Url\Url;
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 use Innmind\Json\Json as Format;
 use Innmind\Immutable\Str;
 
@@ -28,40 +28,41 @@ final class Json implements Protocol
             new MediaType('application', 'json'),
             Str::of(Format::encode([
                 'room' => [
-                    'location' => (string) $roomActivity->program()->room()->location(),
+                    'location' => $roomActivity->program()->room()->location()->toString(),
                     'program' => [
                         'id' => $roomActivity->program()->id()->toInt(),
-                        'type' => (string) $roomActivity->program()->type(),
+                        'type' => $roomActivity->program()->type()->toString(),
                     ],
                     'activity' => [
-                        'tags' => \iterator_to_array($roomActivity->activity()->tags()),
-                        'message' => (string) $roomActivity->activity(),
-                    ]
+                        'tags' => $roomActivity->activity()->tags()->list(),
+                        'message' => $roomActivity->activity()->toString(),
+                    ],
                 ],
-            ]))
+            ])),
         );
     }
 
     public function decode(Message $message): RoomActivity
     {
-        if ((string) $message->mediaType() !== 'application/json') {
+        if ($message->mediaType()->toString() !== 'application/json') {
             throw new UnknownProtocol;
         }
 
-        $data = Format::decode((string) $message->content());
+        /** @var array{room: array{program: array{id: int, type: 'cli'|'http'}, location: string, activity: array{message: string, tags: list<string>}}} */
+        $data = Format::decode($message->content()->toString());
 
         return new RoomActivity(
             new Program(
                 new Pid($data['room']['program']['id']),
-                Type::{$data['room']['program']['type']}(),
+                Type::of($data['room']['program']['type']),
                 new Room(
-                    Url::fromString($data['room']['location'])
-                )
+                    Url::of($data['room']['location']),
+                ),
             ),
             new Activity\Generic(
                 new Tags(...$data['room']['activity']['tags']),
-                $data['room']['activity']['message']
-            )
+                $data['room']['activity']['message'],
+            ),
         );
     }
 }

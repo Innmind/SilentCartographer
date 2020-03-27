@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\LoadAverage;
 
 final class LoadAverageAccessed implements Activity
 {
-    private $load;
-    private $tags;
+    private LoadAverage $load;
+    private Tags $tags;
 
     public function __construct(LoadAverage $load)
     {
@@ -25,13 +25,13 @@ final class LoadAverageAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return \sprintf(
             'Load average: %s, %s, %s',
             $this->load->lastMinute(),
             $this->load->lastFiveMinutes(),
-            $this->load->lastFifteenMinutes()
+            $this->load->lastFifteenMinutes(),
         );
     }
 }

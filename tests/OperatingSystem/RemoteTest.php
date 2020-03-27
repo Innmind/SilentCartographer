@@ -14,8 +14,8 @@ use Innmind\Socket\{
     Internet\Transport,
 };
 use Innmind\Url\{
-    UrlInterface,
-    AuthorityInterface,
+    Url,
+    Authority,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +31,7 @@ class RemoteTest extends TestCase
         $this->assertInstanceOf(RemoteInterface::class, $remote);
         $this->assertInstanceOf(
             Remote\Ssh::class,
-            $remote->ssh($this->createMock(UrlInterface::class))
+            $remote->ssh(Url::of('ssh://example.com'))
         );
         $this->assertInstanceOf(Remote\Http::class, $remote->http());
         $this->assertSame($remote->http(), $remote->http());
@@ -44,7 +44,7 @@ class RemoteTest extends TestCase
             $send = $this->createMock(SendActivity::class)
         );
         $transport = Transport::tcp();
-        $authority = $this->createMock(AuthorityInterface::class);
+        $authority = Authority::none();
         $inner
             ->expects($this->once())
             ->method('socket')

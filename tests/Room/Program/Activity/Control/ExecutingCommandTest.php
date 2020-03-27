@@ -19,7 +19,7 @@ class ExecutingCommandTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'control', 'process'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Executing command: php', (string) $activity);
+        $this->assertSame(['os', 'control', 'process'], $activity->tags()->list());
+        $this->assertSame('Executing command: php', $activity->toString());
     }
 }

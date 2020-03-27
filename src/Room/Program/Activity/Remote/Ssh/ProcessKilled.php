@@ -8,15 +8,15 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\Tags,
 };
 use Innmind\Server\Control\Server\Process\Pid;
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 
 final class ProcessKilled implements Activity
 {
-    private $authority;
-    private $pid;
-    private $tags;
+    private Authority $authority;
+    private Pid $pid;
+    private Tags $tags;
 
-    public function __construct(AuthorityInterface $authority, Pid $pid)
+    public function __construct(Authority $authority, Pid $pid)
     {
         $this->authority = $authority;
         $this->pid = $pid;
@@ -28,8 +28,8 @@ final class ProcessKilled implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "Process killed: [{$this->authority}] {$this->pid}";
+        return "Process killed: [{$this->authority->toString()}] {$this->pid->toString()}";
     }
 }

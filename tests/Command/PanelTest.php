@@ -31,11 +31,11 @@ use Innmind\CLI\{
 };
 use Innmind\Url\Url;
 use Innmind\Stream\Writable;
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 use Innmind\Signals\Signal;
 use Innmind\Immutable\{
     Map,
-    Stream,
+    Sequence,
     Str,
 };
 use PHPUnit\Framework\TestCase;
@@ -77,7 +77,7 @@ Available placeholders for the format option:
 * {activity}
 USAGE;
 
-        $this->assertSame($expected, (string) $command);
+        $this->assertSame($expected, $command->toString());
     }
 
     public function testInvokation()
@@ -114,7 +114,7 @@ USAGE;
                     new Pid(42),
                     Type::http(),
                     new Room(
-                        Url::fromString('file:///somewhere/on/filesystem')
+                        Url::of('file:///somewhere/on/filesystem')
                     )
                 ),
                 new Activity\Generic(
@@ -144,8 +144,8 @@ USAGE;
         $this->assertNull($command(
             $env,
             new Arguments(
-                Map::of('string', 'mixed')
-                    ('tags', Stream::of('string', 'foo', 'bar'))
+                null,
+                Sequence::strings('foo', 'bar')
             ),
             new Options
         ));
@@ -185,7 +185,7 @@ USAGE;
                     new Pid(42),
                     Type::http(),
                     new Room(
-                        Url::fromString('file:///somewhere/on/filesystem')
+                        Url::of('file:///somewhere/on/filesystem')
                     )
                 ),
                 new Activity\Generic(
@@ -215,11 +215,11 @@ USAGE;
         $this->assertNull($command(
             $env,
             new Arguments(
-                Map::of('string', 'mixed')
-                    ('tags', Stream::of('string', 'foo', 'bar'))
+                null,
+                Sequence::strings('foo', 'bar')
             ),
             new Options(
-                Map::of('string', 'mixed')
+                Map::of('string', 'string')
                     ('format', '[{room}] {activity}')
             )
         ));
@@ -326,8 +326,8 @@ USAGE;
         $this->assertNull($command(
             $this->createMock(Environment::class),
             new Arguments(
-                Map::of('string', 'mixed')
-                    ('tags', Stream::of('string'))
+                null,
+                Sequence::strings()
             ),
             new Options()
         ));
@@ -435,8 +435,8 @@ USAGE;
         $this->assertNull($command(
             $this->createMock(Environment::class),
             new Arguments(
-                Map::of('string', 'mixed')
-                    ('tags', Stream::of('string'))
+                null,
+                Sequence::strings()
             ),
             new Options()
         ));

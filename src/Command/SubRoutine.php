@@ -17,15 +17,12 @@ use Innmind\IPC\{
 
 final class SubRoutine implements Command
 {
-    private $ipc;
-    private $subRoutine;
-    private $listen;
+    private IPC $ipc;
+    private Name $subRoutine;
+    private Listen $listen;
 
-    public function __construct(
-        IPC $ipc,
-        Name $subRoutine,
-        Listen $listen
-    ) {
+    public function __construct(IPC $ipc, Name $subRoutine, Listen $listen)
+    {
         $this->ipc = $ipc;
         $this->subRoutine = $subRoutine;
         $this->listen = $listen;
@@ -40,7 +37,7 @@ final class SubRoutine implements Command
         ($this->listen)();
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 sub-routine

@@ -7,12 +7,12 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity,
     Activity\Tags,
 };
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 
 final class ProcessForked implements Activity
 {
-    private $child;
-    private $tags;
+    private Pid $child;
+    private Tags $tags;
 
     public function __construct(Pid $child)
     {
@@ -25,8 +25,8 @@ final class ProcessForked implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "Process forked: {$this->child}";
+        return "Process forked: {$this->child->toString()}";
     }
 }

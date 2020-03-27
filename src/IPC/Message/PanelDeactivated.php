@@ -4,18 +4,18 @@ declare(strict_types = 1);
 namespace Innmind\SilentCartographer\IPC\Message;
 
 use Innmind\IPC\Message;
-use Innmind\Filesystem\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Str;
 
 final class PanelDeactivated implements Message
 {
-    private $content;
-    private $mediaType;
+    private Str $content;
+    private MediaType $mediaType;
 
     public function __construct()
     {
         $this->content = Str::of('panel_deactivated');
-        $this->mediaType = new MediaType\MediaType('text', 'plain');
+        $this->mediaType = new MediaType('text', 'plain');
     }
 
     public function mediaType(): MediaType
@@ -30,7 +30,7 @@ final class PanelDeactivated implements Message
 
     public function equals(Message $message): bool
     {
-        return (string) $this->mediaType === (string) $message->mediaType() &&
-            (string) $this->content === (string) $message->content();
+        return $this->mediaType->toString() === $message->mediaType()->toString() &&
+            $this->content->toString() === $message->content()->toString();
     }
 }

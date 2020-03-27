@@ -19,16 +19,18 @@ use Innmind\Immutable\Map;
 
 final class SubRoutine
 {
-    private $listen;
-    private $protocol;
-    private $panelActivated;
-    private $panels;
+    private Server $listen;
+    private Protocol $protocol;
+    private PanelActivated $panelActivated;
+    /** @var Map<Client, list<string>> */
+    private Map $panels;
 
     public function __construct(Server $listen, Protocol $protocol)
     {
         $this->listen = $listen;
         $this->protocol = $protocol;
         $this->panelActivated = new PanelActivated;
+        /** @var Map<Client, list<string>> */
         $this->panels = Map::of(Client::class, 'array');
     }
 
@@ -38,7 +40,9 @@ final class SubRoutine
 
         ($this->listen)(function(Message $message, Client $client): void {
             if ($this->panelActivated->equals($message)) {
-                $tags = Json::decode((string) $message->content())['tags'];
+                /** @var array{message: string, tags: list<string>} */
+                $content = Json::decode($message->content()->toString());
+                $tags = $content['tags'];
                 $this->register($client, ...$tags);
             } else if ($message->equals(new PanelDeactivated)) {
                 $this->unregister($client);
@@ -50,7 +54,7 @@ final class SubRoutine
 
     private function register(Client $client, string ...$tags): void
     {
-        $this->panels = $this->panels->put($client, $tags);
+        $this->panels = ($this->panels)($client, $tags);
     }
 
     private function unregister(Client $client): void

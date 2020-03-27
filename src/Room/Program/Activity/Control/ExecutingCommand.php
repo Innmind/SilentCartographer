@@ -11,8 +11,8 @@ use Innmind\Server\Control\Server\Command;
 
 final class ExecutingCommand implements Activity
 {
-    private $command;
-    private $tags;
+    private Command $command;
+    private Tags $tags;
 
     public function __construct(Command $command)
     {
@@ -25,8 +25,8 @@ final class ExecutingCommand implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return "Executing command: {$this->command}";
+        return "Executing command: {$this->command->toString()}";
     }
 }

@@ -14,10 +14,10 @@ use Innmind\SilentCartographer\{
     Room\Program\Activity\Tags,
     Exception\UnknownProtocol,
 };
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 use Innmind\Url\Url;
 use Innmind\IPC\Message;
-use Innmind\Filesystem\MediaType\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
@@ -36,7 +36,7 @@ class JsonTest extends TestCase
                 new Pid(42),
                 Type::cli(),
                 new Room(
-                    Url::fromString('file:///somewhere/on/the/filesystem')
+                    Url::of('file:///somewhere/on/the/filesystem')
                 )
             ),
             new Activity\Generic(
@@ -48,10 +48,10 @@ class JsonTest extends TestCase
         $message = $protocol->encode($activity);
 
         $this->assertInstanceOf(Message::class, $message);
-        $this->assertSame('application/json', (string) $message->mediaType());
+        $this->assertSame('application/json', $message->mediaType()->toString());
         $this->assertSame(
             '{"room":{"location":"file:\/\/\/somewhere\/on\/the\/filesystem","program":{"id":42,"type":"cli"},"activity":{"tags":["foo","bar","baz"],"message":"watev"}}}',
-            (string) $message->content()
+            $message->content()->toString(),
         );
     }
 
@@ -77,10 +77,10 @@ class JsonTest extends TestCase
         ));
 
         $this->assertInstanceOf(RoomActivity::class, $roomActivity);
-        $this->assertSame('file:///somewhere/on/the/filesystem', (string) $roomActivity->program()->room()->location());
+        $this->assertSame('file:///somewhere/on/the/filesystem', $roomActivity->program()->room()->location()->toString());
         $this->assertSame(42, $roomActivity->program()->id()->toInt());
         $this->assertSame(Type::cli(), $roomActivity->program()->type());
-        $this->assertSame(['foo', 'bar', 'baz'], \iterator_to_array($roomActivity->activity()->tags()));
-        $this->assertSame('watev', (string) $roomActivity->activity());
+        $this->assertSame(['foo', 'bar', 'baz'], $roomActivity->activity()->tags()->list());
+        $this->assertSame('watev', $roomActivity->activity()->toString());
     }
 }

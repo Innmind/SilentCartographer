@@ -8,5 +8,5 @@ use Innmind\SilentCartographer\Room\Program\Activity\Tags;
 interface Activity
 {
     public function tags(): Tags;
-    public function __toString(): string;
+    public function toString(): string;
 }

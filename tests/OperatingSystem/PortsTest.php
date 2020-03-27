@@ -14,7 +14,7 @@ use Innmind\Socket\{
     Server,
 };
 use Innmind\IP\IP;
-use Innmind\Url\Authority\PortInterface;
+use Innmind\Url\Authority\Port;
 use PHPUnit\Framework\TestCase;
 
 class PortsTest extends TestCase
@@ -38,7 +38,7 @@ class PortsTest extends TestCase
         );
         $transport = Transport::tcp();
         $ip = $this->createMock(IP::class);
-        $port = $this->createMock(PortInterface::class);
+        $port = Port::none();
         $inner
             ->expects($this->once())
             ->method('open')

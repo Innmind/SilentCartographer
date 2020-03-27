@@ -11,8 +11,8 @@ use Innmind\Http\Message\Response;
 
 final class ResponseReceived implements Activity
 {
-    private $response;
-    private $tags;
+    private Response $response;
+    private Tags $tags;
 
     public function __construct(Response $response)
     {
@@ -25,9 +25,9 @@ final class ResponseReceived implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        $response = "HTTP/{$this->response->protocolVersion()} {$this->response->statusCode()} {$this->response->reasonPhrase()}";
+        $response = "HTTP/{$this->response->protocolVersion()->toString()} {$this->response->statusCode()->toString()} {$this->response->reasonPhrase()->toString()}";
 
         return "Response received: $response";
     }

@@ -9,8 +9,8 @@ use Innmind\SilentCartographer\Room\Program\{
 };
 use Innmind\Http\{
     Message\Response\Response,
-    Message\StatusCode\StatusCode,
-    ProtocolVersion\ProtocolVersion,
+    Message\StatusCode,
+    ProtocolVersion,
 };
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +27,7 @@ class ResponseReceivedTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'remote', 'http'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Response received: HTTP/2.0 201 Created', (string) $activity);
+        $this->assertSame(['os', 'remote', 'http'], $activity->tags()->list());
+        $this->assertSame('Response received: HTTP/2.0 201 Created', $activity->toString());
     }
 }

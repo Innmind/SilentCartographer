@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\Cpu;
 
 final class CpuUsageAccessed implements Activity
 {
-    private $cpu;
-    private $tags;
+    private Cpu $cpu;
+    private Tags $tags;
 
     public function __construct(Cpu $cpu)
     {
@@ -25,8 +25,8 @@ final class CpuUsageAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return (string) $this->cpu;
+        return $this->cpu->toString();
     }
 }
