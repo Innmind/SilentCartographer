@@ -3,7 +3,11 @@ declare(strict_types = 1);
 
 namespace Innmind\SilentCartographer\OperatingSystem\Remote;
 
-use Innmind\SilentCartographer\SendActivity;
+use Innmind\SilentCartographer\{
+    SendActivity,
+    Room\Program\Activity\Remote\Ssh\Reboot,
+    Room\Program\Activity\Remote\Ssh\Shutdown,
+};
 use Innmind\Server\Control\{
     Server,
     Server\Processes,
@@ -17,6 +21,7 @@ final class Ssh implements Server
     private Authority $authority;
     private SendActivity $send;
     private ?Ssh\Processes $processes = null;
+    private ?Ssh\Volumes $volumes = null;
 
     public function __construct(
         Server $server,
@@ -39,16 +44,22 @@ final class Ssh implements Server
 
     public function volumes(): Volumes
     {
-        return $this->server->volumes();
+        return $this->volumes ??= new Ssh\Volumes(
+            $this->server->volumes(),
+            $this->authority,
+            $this->send,
+        );
     }
 
     public function reboot(): void
     {
+        ($this->send)(new Reboot($this->authority));
         $this->server->reboot();
     }
 
     public function shutdown(): void
     {
+        ($this->send)(new Shutdown($this->authority));
         $this->server->shutdown();
     }
 }

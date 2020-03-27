@@ -6,6 +6,7 @@ namespace Innmind\SilentCartographer\OperatingSystem;
 use Innmind\SilentCartographer\{
     SendActivity,
     Room\Program\Activity\Filesystem\PathMounted,
+    Room\Program\Activity\Filesystem\WatchingPath,
 };
 use Innmind\OperatingSystem\Filesystem as FilesystemInterface;
 use Innmind\Filesystem\Adapter;
@@ -41,6 +42,8 @@ final class Filesystem implements FilesystemInterface
 
     public function watch(Path $path): Ping
     {
+        ($this->send)(new WatchingPath($path));
+
         return $this->filesystem->watch($path);
     }
 }

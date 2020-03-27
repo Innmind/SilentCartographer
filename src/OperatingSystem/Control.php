@@ -3,7 +3,11 @@ declare(strict_types = 1);
 
 namespace Innmind\SilentCartographer\OperatingSystem;
 
-use Innmind\SilentCartographer\SendActivity;
+use Innmind\SilentCartographer\{
+    SendActivity,
+    Room\Program\Activity\Control\Reboot,
+    Room\Program\Activity\Control\Shutdown,
+};
 use Innmind\Server\Control\{
     Server,
     Server\Processes,
@@ -15,6 +19,7 @@ final class Control implements Server
     private Server $server;
     private SendActivity $send;
     private ?Control\Processes $processes = null;
+    private ?Control\Volumes $volumes = null;
 
     public function __construct(Server $server, SendActivity $send)
     {
@@ -32,16 +37,21 @@ final class Control implements Server
 
     public function volumes(): Volumes
     {
-        return $this->server->volumes();
+        return $this->volumes ??= new Control\Volumes(
+            $this->server->volumes(),
+            $this->send,
+        );
     }
 
     public function reboot(): void
     {
+        ($this->send)(new Reboot);
         $this->server->reboot();
     }
 
     public function shutdown(): void
     {
+        ($this->send)(new Shutdown);
         $this->server->shutdown();
     }
 }
