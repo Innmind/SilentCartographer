@@ -21,11 +21,8 @@ final class SubRoutine implements Command
     private Name $subRoutine;
     private Listen $listen;
 
-    public function __construct(
-        IPC $ipc,
-        Name $subRoutine,
-        Listen $listen
-    ) {
+    public function __construct(IPC $ipc, Name $subRoutine, Listen $listen)
+    {
         $this->ipc = $ipc;
         $this->subRoutine = $subRoutine;
         $this->listen = $listen;

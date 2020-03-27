@@ -19,11 +19,8 @@ final class DiscardSubsequentSend implements SendActivity
     private Name $subRoutine;
     private ?bool $discard = null;
 
-    public function __construct(
-        SendActivity $send,
-        IPC $ipc,
-        Name $subRoutine
-    ) {
+    public function __construct(SendActivity $send, IPC $ipc, Name $subRoutine)
+    {
         $this->send = $send;
         $this->ipc = $ipc;
         $this->subRoutine = $subRoutine;

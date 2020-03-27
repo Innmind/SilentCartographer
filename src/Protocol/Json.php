@@ -36,9 +36,9 @@ final class Json implements Protocol
                     'activity' => [
                         'tags' => $roomActivity->activity()->tags()->list(),
                         'message' => $roomActivity->activity()->toString(),
-                    ]
+                    ],
                 ],
-            ]))
+            ])),
         );
     }
 
@@ -56,13 +56,13 @@ final class Json implements Protocol
                 new Pid($data['room']['program']['id']),
                 Type::of($data['room']['program']['type']),
                 new Room(
-                    Url::of($data['room']['location'])
-                )
+                    Url::of($data['room']['location']),
+                ),
             ),
             new Activity\Generic(
                 new Tags(...$data['room']['activity']['tags']),
-                $data['room']['activity']['message']
-            )
+                $data['room']['activity']['message'],
+            ),
         );
     }
 }

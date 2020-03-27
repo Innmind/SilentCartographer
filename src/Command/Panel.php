@@ -55,7 +55,7 @@ final class Panel implements Command
         $this->print(
             $process,
             $env->output(),
-            $options->contains('format') ? $options->get('format') : '[{type}][{pid}][{room}][{tags}] {activity}'
+            $options->contains('format') ? $options->get('format') : '[{type}][{pid}][{room}][{tags}] {activity}',
         );
     }
 

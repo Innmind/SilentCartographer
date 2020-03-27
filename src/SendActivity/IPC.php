@@ -58,10 +58,10 @@ final class IPC implements SendActivity
                     new Program(
                         $this->process->id(),
                         $this->type,
-                        $this->room
+                        $this->room,
                     ),
-                    $activity
-                ))
+                    $activity,
+                )),
             );
         } catch (MessageNotSent $e) {
             // nothing to do

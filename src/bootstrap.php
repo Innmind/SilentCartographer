@@ -31,11 +31,11 @@ function bootstrap(OS $os): array
                         $os->process(),
                         $protocol,
                         $ipc,
-                        $subRoutine
+                        $subRoutine,
                     ),
                     $ipc,
-                    $subRoutine
-                )
+                    $subRoutine,
+                ),
             );
         },
         'cli' => static function(Url $location) use ($os, $ipc, $protocol, $subRoutine): OS {
@@ -47,8 +47,8 @@ function bootstrap(OS $os): array
                     $os->process(),
                     $protocol,
                     $ipc,
-                    $subRoutine
-                )
+                    $subRoutine,
+                ),
             );
         },
         'commands' => static function() use ($os, $ipc, $protocol, $subRoutine): Commands {
@@ -58,19 +58,19 @@ function bootstrap(OS $os): array
                         $ipc,
                         $subRoutine,
                         $protocol,
-                        $os->process()->signals()
+                        $os->process()->signals(),
                     ),
-                    $os->control()->processes()
+                    $os->control()->processes(),
                 ),
                 new Command\SubRoutine(
                     $ipc,
                     $subRoutine,
                     new SubRoutine(
                         $ipc->listen($subRoutine),
-                        $protocol
-                    )
-                )
+                        $protocol,
+                    ),
+                ),
             );
-        }
+        },
     ];
 }

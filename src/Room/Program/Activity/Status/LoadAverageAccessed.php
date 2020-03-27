@@ -31,7 +31,7 @@ final class LoadAverageAccessed implements Activity
             'Load average: %s, %s, %s',
             $this->load->lastMinute(),
             $this->load->lastFiveMinutes(),
-            $this->load->lastFifteenMinutes()
+            $this->load->lastFifteenMinutes(),
         );
     }
 }

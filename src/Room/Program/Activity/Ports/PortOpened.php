@@ -18,11 +18,8 @@ final class PortOpened implements Activity
     private Port $port;
     private Tags $tags;
 
-    public function __construct(
-        Transport $transport,
-        IP $ip,
-        Port $port
-    ) {
+    public function __construct(Transport $transport, IP $ip, Port $port)
+    {
         $this->transport = $transport;
         $this->ip = $ip;
         $this->port = $port;

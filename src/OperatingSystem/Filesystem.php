@@ -30,7 +30,7 @@ final class Filesystem implements FilesystemInterface
         return new Filesystem\Adapter(
             $this->filesystem->mount($path),
             $this->send,
-            $path
+            $path,
         );
     }
 

@@ -54,7 +54,7 @@ final class SubRoutine
 
     private function register(Client $client, string ...$tags): void
     {
-        $this->panels = $this->panels->put($client, $tags);
+        $this->panels = ($this->panels)($client, $tags);
     }
 
     private function unregister(Client $client): void

@@ -36,7 +36,7 @@ final class Remote implements RemoteInterface
         return new Remote\Ssh(
             $this->remote->ssh($server),
             $server->authority(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -51,7 +51,7 @@ final class Remote implements RemoteInterface
     {
         return $this->http ??= new Remote\Http(
             $this->remote->http(),
-            $this->send
+            $this->send,
         );
     }
 }

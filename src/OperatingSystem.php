@@ -44,7 +44,7 @@ final class OperatingSystem implements OperatingSystemInterface
     {
         return $this->filesystem ??= new OperatingSystem\Filesystem(
             $this->os->filesystem(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -52,7 +52,7 @@ final class OperatingSystem implements OperatingSystemInterface
     {
         return $this->status ??= new OperatingSystem\Status(
             $this->os->status(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -60,7 +60,7 @@ final class OperatingSystem implements OperatingSystemInterface
     {
         return $this->control ??= new OperatingSystem\Control(
             $this->os->control(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -68,7 +68,7 @@ final class OperatingSystem implements OperatingSystemInterface
     {
         return $this->ports ??= new OperatingSystem\Ports(
             $this->os->ports(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -76,7 +76,7 @@ final class OperatingSystem implements OperatingSystemInterface
     {
         return $this->sockets ??= new OperatingSystem\Sockets(
             $this->os->sockets(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -84,7 +84,7 @@ final class OperatingSystem implements OperatingSystemInterface
     {
         return $this->remote ??= new OperatingSystem\Remote(
             $this->os->remote(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -92,7 +92,7 @@ final class OperatingSystem implements OperatingSystemInterface
     {
         return $this->process ??= new OperatingSystem\CurrentProcess(
             $this->os->process(),
-            $this->send
+            $this->send,
         );
     }
 }

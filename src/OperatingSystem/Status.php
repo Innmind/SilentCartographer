@@ -52,7 +52,7 @@ final class Status implements Server
     {
         return $this->processes ??= new Status\Processes(
             $this->server->processes(),
-            $this->send
+            $this->send,
         );
     }
 
@@ -68,7 +68,7 @@ final class Status implements Server
     {
         return $this->disk ??= new Status\Disk(
             $this->server->disk(),
-            $this->send
+            $this->send,
         );
     }
 
