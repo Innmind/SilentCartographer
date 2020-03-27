@@ -25,7 +25,7 @@ final class ConnectedToSocket implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Connected to socket: {$this->address->toString()}";
     }

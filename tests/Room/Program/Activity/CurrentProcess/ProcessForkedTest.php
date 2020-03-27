@@ -20,6 +20,6 @@ class ProcessForkedTest extends TestCase
 
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'process'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Process forked: 42', (string) $activity);
+        $this->assertSame('Process forked: 42', $activity->toString());
     }
 }

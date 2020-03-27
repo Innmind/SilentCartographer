@@ -29,6 +29,6 @@ class RequestSentTest extends TestCase
 
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'remote', 'http'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Request sent: GET https://example.com/foo HTTP/2.0', (string) $activity);
+        $this->assertSame('Request sent: GET https://example.com/foo HTTP/2.0', $activity->toString());
     }
 }

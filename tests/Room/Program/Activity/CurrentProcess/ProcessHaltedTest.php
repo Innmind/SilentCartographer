@@ -20,6 +20,6 @@ class ProcessHaltedTest extends TestCase
 
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'process'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Process halted: 2520000ms', (string) $activity);
+        $this->assertSame('Process halted: 2520000ms', $activity->toString());
     }
 }

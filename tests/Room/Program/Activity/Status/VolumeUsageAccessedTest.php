@@ -20,6 +20,6 @@ class VolumeUsageAccessedTest extends TestCase
 
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'status'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Volume usage accessed: /dev', (string) $activity);
+        $this->assertSame('Volume usage accessed: /dev', $activity->toString());
     }
 }

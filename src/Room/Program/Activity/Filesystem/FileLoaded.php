@@ -30,7 +30,7 @@ final class FileLoaded implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "File loaded: {$this->path->toString()}";
     }

@@ -25,7 +25,7 @@ final class SocketTakenOver implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Socket taken over: {$this->address->toString()}";
     }

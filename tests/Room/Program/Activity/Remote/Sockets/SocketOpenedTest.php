@@ -22,6 +22,6 @@ class SocketOpenedTest extends TestCase
 
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'remote', 'socket'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Socket opened: tcp://user:pwd@foo:443', (string) $activity);
+        $this->assertSame('Socket opened: tcp://user:pwd@foo:443', $activity->toString());
     }
 }

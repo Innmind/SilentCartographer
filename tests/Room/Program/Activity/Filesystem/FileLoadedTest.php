@@ -21,6 +21,6 @@ class FileLoadedTest extends TestCase
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'filesystem'], \iterator_to_array($activity->tags()));
         $this->assertSame($path, $activity->path());
-        $this->assertSame('File loaded: foo', (string) $activity);
+        $this->assertSame('File loaded: foo', $activity->toString());
     }
 }

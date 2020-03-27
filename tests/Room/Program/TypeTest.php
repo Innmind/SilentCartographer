@@ -14,7 +14,7 @@ class TypeTest extends TestCase
         $this->assertInstanceOf(Type::class, Type::http());
         $this->assertSame(Type::cli(), Type::cli());
         $this->assertSame(Type::http(), Type::http());
-        $this->assertSame('cli', (string) Type::cli());
-        $this->assertSame('http', (string) Type::http());
+        $this->assertSame('cli', Type::cli()->toString());
+        $this->assertSame('http', Type::http()->toString());
     }
 }

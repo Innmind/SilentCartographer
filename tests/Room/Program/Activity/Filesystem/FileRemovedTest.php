@@ -21,6 +21,6 @@ class FileRemovedTest extends TestCase
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'filesystem'], \iterator_to_array($activity->tags()));
         $this->assertSame($path, $activity->path());
-        $this->assertSame('File removed: foo', (string) $activity);
+        $this->assertSame('File removed: foo', $activity->toString());
     }
 }

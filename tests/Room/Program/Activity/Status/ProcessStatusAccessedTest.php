@@ -20,6 +20,6 @@ class ProcessStatusAccessedTest extends TestCase
 
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'status'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Process status accessed: 42', (string) $activity);
+        $this->assertSame('Process status accessed: 42', $activity->toString());
     }
 }

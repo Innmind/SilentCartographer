@@ -20,6 +20,6 @@ class ProcessKilledTest extends TestCase
 
         $this->assertInstanceOf(Activity::class, $activity);
         $this->assertSame(['os', 'control', 'process'], \iterator_to_array($activity->tags()));
-        $this->assertSame('Process killed: 42', (string) $activity);
+        $this->assertSame('Process killed: 42', $activity->toString());
     }
 }

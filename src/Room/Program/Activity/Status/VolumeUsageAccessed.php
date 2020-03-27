@@ -25,7 +25,7 @@ final class VolumeUsageAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Volume usage accessed: {$this->mountPoint->toString()}";
     }

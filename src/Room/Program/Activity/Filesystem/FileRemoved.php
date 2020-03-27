@@ -30,7 +30,7 @@ final class FileRemoved implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "File removed: {$this->path->toString()}";
     }

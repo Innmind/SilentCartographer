@@ -28,7 +28,7 @@ final class ProcessKilled implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Process killed: [{$this->authority->toString()}] {$this->pid->toString()}";
     }

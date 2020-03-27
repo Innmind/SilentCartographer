@@ -28,7 +28,7 @@ final class SocketOpened implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Socket opened: {$this->transport->toString()}://{$this->authority->toString()}";
     }

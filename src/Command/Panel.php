@@ -106,11 +106,11 @@ USAGE;
 
                 $output->write(
                     Str::of("$format\n")
-                        ->replace('{type}', (string) $roomActivity->program()->type())
+                        ->replace('{type}', $roomActivity->program()->type()->toString())
                         ->replace('{pid}', $roomActivity->program()->id()->toString())
                         ->replace('{room}', $roomActivity->program()->room()->location()->path()->toString())
                         ->replace('{tags}', \implode('/', \iterator_to_array($roomActivity->activity()->tags())))
-                        ->replace('{activity}', (string) $roomActivity->activity())
+                        ->replace('{activity}', $roomActivity->activity()->toString()),
                 );
             } while (!$process->closed());
         } catch (RuntimeException $e) {

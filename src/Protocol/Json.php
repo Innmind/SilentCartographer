@@ -31,11 +31,11 @@ final class Json implements Protocol
                     'location' => $roomActivity->program()->room()->location()->toString(),
                     'program' => [
                         'id' => $roomActivity->program()->id()->toInt(),
-                        'type' => (string) $roomActivity->program()->type(),
+                        'type' => $roomActivity->program()->type()->toString(),
                     ],
                     'activity' => [
                         'tags' => \iterator_to_array($roomActivity->activity()->tags()),
-                        'message' => (string) $roomActivity->activity(),
+                        'message' => $roomActivity->activity()->toString(),
                     ]
                 ],
             ]))

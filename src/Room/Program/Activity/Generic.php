@@ -21,7 +21,7 @@ final class Generic implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->message;
     }

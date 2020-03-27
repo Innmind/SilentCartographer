@@ -25,7 +25,7 @@ final class CpuUsageAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->cpu->toString();
     }

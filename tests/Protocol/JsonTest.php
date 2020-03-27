@@ -81,6 +81,6 @@ class JsonTest extends TestCase
         $this->assertSame(42, $roomActivity->program()->id()->toInt());
         $this->assertSame(Type::cli(), $roomActivity->program()->type());
         $this->assertSame(['foo', 'bar', 'baz'], \iterator_to_array($roomActivity->activity()->tags()));
-        $this->assertSame('watev', (string) $roomActivity->activity());
+        $this->assertSame('watev', $roomActivity->activity()->toString());
     }
 }

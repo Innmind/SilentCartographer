@@ -25,7 +25,7 @@ final class LoadAverageAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return \sprintf(
             'Load average: %s, %s, %s',

@@ -25,7 +25,7 @@ final class RequestSent implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         $request = "{$this->request->method()->toString()} {$this->request->url()->toString()} HTTP/{$this->request->protocolVersion()->toString()}";
 

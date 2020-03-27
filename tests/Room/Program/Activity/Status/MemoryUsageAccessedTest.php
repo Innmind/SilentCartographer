@@ -32,7 +32,7 @@ class MemoryUsageAccessedTest extends TestCase
         $this->assertSame(['os', 'status'], \iterator_to_array($activity->tags()));
         $this->assertSame(
             'Memory usage: total(1B) wired(2B) active(3B) free(4B) swap(5B) used(6B)',
-            (string) $activity
+            $activity->toString(),
         );
     }
 }

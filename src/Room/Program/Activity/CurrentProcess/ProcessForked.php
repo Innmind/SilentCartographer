@@ -25,7 +25,7 @@ final class ProcessForked implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Process forked: {$this->child->toString()}";
     }

@@ -28,7 +28,7 @@ final class ExecutingCommand implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Executing command: [{$this->authority->toString()}] {$this->command->toString()}";
     }

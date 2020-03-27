@@ -34,7 +34,7 @@ class GenericTest extends TestCase
 
                 $this->assertInstanceOf(Activity::class, $activity);
                 $this->assertSame($tags, $activity->tags());
-                $this->assertSame($s3, (string) $activity);
+                $this->assertSame($s3, $activity->toString());
             });
     }
 }

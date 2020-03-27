@@ -26,7 +26,7 @@ final class ProcessHalted implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Process halted: {$this->period}ms";
     }

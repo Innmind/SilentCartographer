@@ -25,7 +25,7 @@ final class ResponseReceived implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         $response = "HTTP/{$this->response->protocolVersion()->toString()} {$this->response->statusCode()->toString()} {$this->response->reasonPhrase()->toString()}";
 

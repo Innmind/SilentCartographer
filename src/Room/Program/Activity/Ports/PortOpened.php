@@ -34,7 +34,7 @@ final class PortOpened implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return "Port opened: {$this->transport->toString()}://{$this->ip->toString()}:{$this->port->toString()}";
     }

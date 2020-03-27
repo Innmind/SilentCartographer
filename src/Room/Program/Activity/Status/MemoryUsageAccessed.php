@@ -25,7 +25,7 @@ final class MemoryUsageAccessed implements Activity
         return $this->tags;
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return \sprintf(
             'Memory usage: total(%s) wired(%s) active(%s) free(%s) swap(%s) used(%s)',

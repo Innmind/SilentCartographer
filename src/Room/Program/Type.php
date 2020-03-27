@@ -40,7 +40,7 @@ final class Type
         return self::$http ??= new self('http');
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->value;
     }
