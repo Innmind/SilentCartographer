@@ -109,7 +109,7 @@ USAGE;
                         ->replace('{type}', $roomActivity->program()->type()->toString())
                         ->replace('{pid}', $roomActivity->program()->id()->toString())
                         ->replace('{room}', $roomActivity->program()->room()->location()->path()->toString())
-                        ->replace('{tags}', \implode('/', \iterator_to_array($roomActivity->activity()->tags())))
+                        ->replace('{tags}', \implode('/', $roomActivity->activity()->tags()->list()))
                         ->replace('{activity}', $roomActivity->activity()->toString()),
                 );
             } while (!$process->closed());

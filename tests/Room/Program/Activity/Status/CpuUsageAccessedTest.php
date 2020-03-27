@@ -28,7 +28,7 @@ class CpuUsageAccessedTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'status'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'status'], $activity->tags()->list());
         $this->assertSame($cpu->toString(), $activity->toString());
     }
 }

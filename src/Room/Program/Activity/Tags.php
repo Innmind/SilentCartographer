@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Innmind\SilentCartographer\Room\Program\Activity;
 
-final class Tags implements \Iterator
+final class Tags
 {
     /** @var list<string> */
     private array $tags;
@@ -24,28 +24,11 @@ final class Tags implements \Iterator
         return true;
     }
 
-    public function current(): string
+    /**
+     * @return list<string>
+     */
+    public function list(): array
     {
-        return \current($this->tags);
-    }
-
-    public function key(): int
-    {
-        return \key($this->tags);
-    }
-
-    public function next(): void
-    {
-        \next($this->tags);
-    }
-
-    public function rewind(): void
-    {
-        \reset($this->tags);
-    }
-
-    public function valid(): bool
-    {
-        return \is_string(\current($this->tags));
+        return $this->tags;
     }
 }

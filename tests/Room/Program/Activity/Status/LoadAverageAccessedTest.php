@@ -19,7 +19,7 @@ class LoadAverageAccessedTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'status'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'status'], $activity->tags()->list());
         $this->assertSame('Load average: 1.1, 5.1, 15.1', $activity->toString());
     }
 }

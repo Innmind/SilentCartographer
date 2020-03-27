@@ -34,7 +34,7 @@ final class Json implements Protocol
                         'type' => $roomActivity->program()->type()->toString(),
                     ],
                     'activity' => [
-                        'tags' => \iterator_to_array($roomActivity->activity()->tags()),
+                        'tags' => $roomActivity->activity()->tags()->list(),
                         'message' => $roomActivity->activity()->toString(),
                     ]
                 ],

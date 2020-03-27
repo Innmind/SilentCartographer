@@ -23,7 +23,7 @@ class PortOpenedTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'socket', 'port'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'socket', 'port'], $activity->tags()->list());
         $this->assertSame('Port opened: tcp://127.0.0.1:80', $activity->toString());
     }
 }

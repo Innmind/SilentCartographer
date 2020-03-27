@@ -80,7 +80,7 @@ class JsonTest extends TestCase
         $this->assertSame('file:///somewhere/on/the/filesystem', $roomActivity->program()->room()->location()->toString());
         $this->assertSame(42, $roomActivity->program()->id()->toInt());
         $this->assertSame(Type::cli(), $roomActivity->program()->type());
-        $this->assertSame(['foo', 'bar', 'baz'], \iterator_to_array($roomActivity->activity()->tags()));
+        $this->assertSame(['foo', 'bar', 'baz'], $roomActivity->activity()->tags()->list());
         $this->assertSame('watev', $roomActivity->activity()->toString());
     }
 }

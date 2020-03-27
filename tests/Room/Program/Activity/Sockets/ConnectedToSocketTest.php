@@ -19,7 +19,7 @@ class ConnectedToSocketTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'socket', 'unix'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'socket', 'unix'], $activity->tags()->list());
         $this->assertSame('Connected to socket: /tmp/foo.sock', $activity->toString());
     }
 }

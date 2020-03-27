@@ -21,7 +21,7 @@ class ExecutingCommandTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'remote', 'ssh', 'control', 'process'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'remote', 'ssh', 'control', 'process'], $activity->tags()->list());
         $this->assertSame('Executing command: [foo@bar:2224] php', $activity->toString());
     }
 }

@@ -21,7 +21,7 @@ class ProcessKilledTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'remote', 'ssh', 'control', 'process'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'remote', 'ssh', 'control', 'process'], $activity->tags()->list());
         $this->assertSame('Process killed: [foo@bar:2224] 42', $activity->toString());
     }
 }

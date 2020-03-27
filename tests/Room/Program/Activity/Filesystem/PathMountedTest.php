@@ -19,7 +19,7 @@ class PathMountedTest extends TestCase
         );
 
         $this->assertInstanceOf(Activity::class, $activity);
-        $this->assertSame(['os', 'filesystem'], \iterator_to_array($activity->tags()));
+        $this->assertSame(['os', 'filesystem'], $activity->tags()->list());
         $this->assertSame($path, $activity->path());
         $this->assertSame('Path mounted: foo', $activity->toString());
     }
