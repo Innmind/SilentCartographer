@@ -40,7 +40,7 @@ use function Innmind\SilentCartographer\bootstrap;
 new class extends Main {
     protected function main(Environment $env, OperatingSystem $os): void
     {
-        $os = bootstrap($os)['cli'](new Path(__DIR__));
+        $os = bootstrap($os)['cli'](Path::of(__DIR__));
         // then use the $os variable like you would normally do
     }
 }
