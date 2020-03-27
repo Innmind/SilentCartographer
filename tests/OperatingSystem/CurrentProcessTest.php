@@ -16,6 +16,7 @@ use Innmind\OperatingSystem\{
     CurrentProcess\Signals,
 };
 use Innmind\Server\Control\Server\Process\Pid;
+use Innmind\Server\Status\Server\Memory\Bytes;
 use Innmind\TimeContinuum\Period;
 use PHPUnit\Framework\TestCase;
 
@@ -135,5 +136,22 @@ class CurrentProcessTest extends TestCase
             ->with($period);
 
         $this->assertNull($process->halt($period));
+    }
+
+    public function testMemory()
+    {
+        $process = new CurrentProcess(
+            $inner = $this->createMock(CurrentProcessInterface::class),
+            $send = $this->createMock(SendActivity::class)
+        );
+        $send
+            ->expects($this->once())
+            ->method('__invoke');
+        $inner
+            ->expects($this->once())
+            ->method('memory')
+            ->willReturn($expected = new Bytes(42));
+
+        $this->assertSame($expected, $process->memory());
     }
 }

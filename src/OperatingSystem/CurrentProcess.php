@@ -7,6 +7,7 @@ use Innmind\SilentCartographer\{
     SendActivity,
     Room\Program\Activity\CurrentProcess\ProcessForked,
     Room\Program\Activity\CurrentProcess\ProcessHalted,
+    Room\Program\Activity\CurrentProcess\CurrentMemory,
 };
 use Innmind\OperatingSystem\{
     CurrentProcess as CurrentProcessInterface,
@@ -67,6 +68,9 @@ final class CurrentProcess implements CurrentProcessInterface
 
     public function memory(): Bytes
     {
-        return $this->process->memory();
+        $memory = $this->process->memory();
+        ($this->send)(new CurrentMemory($memory));
+
+        return $memory;
     }
 }
