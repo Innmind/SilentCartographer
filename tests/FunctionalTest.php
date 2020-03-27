@@ -44,7 +44,7 @@ class FunctionalTest extends TestCase
 
         $dir = dirname(__DIR__);
         $this->assertStringContainsString(
-            "[cli][$pid][$dir/fixtures][os/remote/http] Request sent: GET http://example.com/ HTTP/2.0",
+            "[cli][$pid][$dir/fixtures][os/remote/http] Request sent: GET https://github.com/ HTTP/2.0",
             (string) $panel->output()
         );
         $this->assertStringContainsString(

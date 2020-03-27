@@ -18,7 +18,7 @@ $os = bootstrap($os)['cli'](Url::fromString('file://'.__DIR__));
 
 do {
     $os->remote()->http()(new Request(
-        Url::fromString('http://example.com'),
+        Url::fromString('https://github.com'),
         Method::get(),
         new ProtocolVersion(2, 0)
     ));
