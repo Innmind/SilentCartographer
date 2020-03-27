@@ -10,8 +10,8 @@ use Innmind\Immutable\Str;
 
 final class PanelActivated implements Message
 {
-    private $content;
-    private $mediaType;
+    private Str $content;
+    private MediaType $mediaType;
 
     public function __construct(string ...$tags)
     {

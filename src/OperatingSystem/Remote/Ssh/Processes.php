@@ -19,9 +19,9 @@ use Innmind\Url\AuthorityInterface;
 
 final class Processes implements ProcessesInterface
 {
-    private $processes;
-    private $authority;
-    private $send;
+    private ProcessesInterface $processes;
+    private AuthorityInterface $authority;
+    private SendActivity $send;
 
     public function __construct(
         ProcessesInterface $processes,

@@ -17,8 +17,8 @@ use Innmind\IP\IP;
 
 final class Ports implements PortsInterface
 {
-    private $ports;
-    private $send;
+    private PortsInterface $ports;
+    private SendActivity $send;
 
     public function __construct(PortsInterface $ports, SendActivity $send)
     {

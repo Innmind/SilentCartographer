@@ -16,8 +16,8 @@ use Innmind\Immutable\MapInterface;
 
 final class Disk implements DiskInterface
 {
-    private $disk;
-    private $send;
+    private DiskInterface $disk;
+    private SendActivity $send;
 
     public function __construct(DiskInterface $disk, SendActivity $send)
     {

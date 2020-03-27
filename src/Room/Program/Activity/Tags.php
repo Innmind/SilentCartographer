@@ -7,7 +7,7 @@ use Innmind\Immutable\Stream;
 
 final class Tags implements \Iterator
 {
-    private $tags;
+    private Stream $tags;
 
     public function __construct(string ...$tags)
     {

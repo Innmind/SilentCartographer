@@ -11,8 +11,8 @@ use Innmind\Url\PathInterface;
 
 final class FileLoaded implements Activity
 {
-    private $path;
-    private $tags;
+    private PathInterface $path;
+    private Tags $tags;
 
     public function __construct(PathInterface $path)
     {

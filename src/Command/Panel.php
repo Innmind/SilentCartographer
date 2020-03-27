@@ -27,10 +27,10 @@ use Innmind\Immutable\Str;
 
 final class Panel implements Command
 {
-    private $ipc;
-    private $subRoutine;
-    private $protocol;
-    private $signals;
+    private IPC $ipc;
+    private Name $subRoutine;
+    private Protocol $protocol;
+    private Signals $signals;
 
     public function __construct(
         IPC $ipc,

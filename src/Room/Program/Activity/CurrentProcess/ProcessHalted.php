@@ -12,8 +12,8 @@ use Innmind\TimeWarp\PeriodToMilliseconds;
 
 final class ProcessHalted implements Activity
 {
-    private $period;
-    private $tags;
+    private int $period;
+    private Tags $tags;
 
     public function __construct(PeriodInterface $period)
     {

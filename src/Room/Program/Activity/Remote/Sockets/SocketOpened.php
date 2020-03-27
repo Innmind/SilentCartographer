@@ -12,9 +12,9 @@ use Innmind\Url\AuthorityInterface;
 
 final class SocketOpened implements Activity
 {
-    private $transport;
-    private $authority;
-    private $tags;
+    private Transport $transport;
+    private AuthorityInterface $authority;
+    private Tags $tags;
 
     public function __construct(Transport $transport, AuthorityInterface $authority)
     {

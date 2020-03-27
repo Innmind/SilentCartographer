@@ -11,9 +11,9 @@ use Innmind\Server\Control\{
 
 final class Control implements Server
 {
-    private $server;
-    private $send;
-    private $processes;
+    private Server $server;
+    private SendActivity $send;
+    private ?Control\Processes $processes = null;
 
     public function __construct(Server $server, SendActivity $send)
     {
@@ -23,9 +23,9 @@ final class Control implements Server
 
     public function processes(): Processes
     {
-        return $this->processes ?? $this->processes = new Control\Processes(
+        return $this->processes ??= new Control\Processes(
             $this->server->processes(),
-            $this->send
+            $this->send,
         );
     }
 }

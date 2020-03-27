@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\Cpu;
 
 final class CpuUsageAccessed implements Activity
 {
-    private $cpu;
-    private $tags;
+    private Cpu $cpu;
+    private Tags $tags;
 
     public function __construct(Cpu $cpu)
     {

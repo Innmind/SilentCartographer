@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\Process\Pid;
 
 final class ProcessForked implements Activity
 {
-    private $child;
-    private $tags;
+    private Pid $child;
+    private Tags $tags;
 
     public function __construct(Pid $child)
     {

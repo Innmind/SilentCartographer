@@ -16,8 +16,8 @@ use Innmind\Immutable\MapInterface;
 
 final class Processes implements ProcessesInterface
 {
-    private $processes;
-    private $send;
+    private ProcessesInterface $processes;
+    private SendActivity $send;
 
     public function __construct(ProcessesInterface $processes, SendActivity $send)
     {

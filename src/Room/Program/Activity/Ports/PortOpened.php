@@ -13,10 +13,10 @@ use Innmind\Url\Authority\PortInterface;
 
 final class PortOpened implements Activity
 {
-    private $transport;
-    private $ip;
-    private $port;
-    private $tags;
+    private Transport $transport;
+    private IP $ip;
+    private PortInterface $port;
+    private Tags $tags;
 
     public function __construct(
         Transport $transport,

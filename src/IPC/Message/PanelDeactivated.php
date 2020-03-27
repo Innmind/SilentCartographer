@@ -9,8 +9,8 @@ use Innmind\Immutable\Str;
 
 final class PanelDeactivated implements Message
 {
-    private $content;
-    private $mediaType;
+    private Str $content;
+    private MediaType $mediaType;
 
     public function __construct()
     {

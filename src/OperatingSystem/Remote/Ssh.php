@@ -12,10 +12,10 @@ use Innmind\Url\AuthorityInterface;
 
 final class Ssh implements Server
 {
-    private $server;
-    private $authority;
-    private $send;
-    private $processes;
+    private Server $server;
+    private AuthorityInterface $authority;
+    private SendActivity $send;
+    private ?Ssh\Processes $processes = null;
 
     public function __construct(
         Server $server,
@@ -29,7 +29,7 @@ final class Ssh implements Server
 
     public function processes(): Processes
     {
-        return $this->processes ?? $this->processes = new Ssh\Processes(
+        return $this->processes ??= new Ssh\Processes(
             $this->server->processes(),
             $this->authority,
             $this->send

@@ -19,10 +19,10 @@ use Innmind\Immutable\Map;
 
 final class SubRoutine
 {
-    private $listen;
-    private $protocol;
-    private $panelActivated;
-    private $panels;
+    private Server $listen;
+    private Protocol $protocol;
+    private PanelActivated $panelActivated;
+    private Map $panels;
 
     public function __construct(Server $listen, Protocol $protocol)
     {

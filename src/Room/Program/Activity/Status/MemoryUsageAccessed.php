@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\Memory;
 
 final class MemoryUsageAccessed implements Activity
 {
-    private $memory;
-    private $tags;
+    private Memory $memory;
+    private Tags $tags;
 
     public function __construct(Memory $memory)
     {

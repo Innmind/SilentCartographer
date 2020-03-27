@@ -10,8 +10,8 @@ use Innmind\SilentCartographer\Room\{
 
 final class RoomActivity
 {
-    private $program;
-    private $activity;
+    private Program $program;
+    private Activity $activity;
 
     public function __construct(Program $program, Activity $activity)
     {

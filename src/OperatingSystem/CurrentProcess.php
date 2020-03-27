@@ -19,8 +19,8 @@ use Innmind\TimeContinuum\PeriodInterface;
 
 final class CurrentProcess implements CurrentProcessInterface
 {
-    private $process;
-    private $send;
+    private CurrentProcessInterface $process;
+    private SendActivity $send;
 
     public function __construct(CurrentProcessInterface $process, SendActivity $send)
     {

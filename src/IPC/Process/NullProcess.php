@@ -12,8 +12,8 @@ use Innmind\TimeContinuum\ElapsedPeriodInterface;
 
 final class NullProcess implements Process
 {
-    private $name;
-    private $closed = false;
+    private Process\Name $name;
+    private bool $closed = false;
 
     public function __construct(Process\Name $name)
     {

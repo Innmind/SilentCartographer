@@ -16,8 +16,8 @@ use Innmind\Server\Control\Server\{
 
 final class AutoStartSubRoutine implements Command
 {
-    private $run;
-    private $processes;
+    private Command $run;
+    private Processes $processes;
 
     public function __construct(Command $run, Processes $processes)
     {

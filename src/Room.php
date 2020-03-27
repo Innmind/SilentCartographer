@@ -7,7 +7,7 @@ use Innmind\Url\UrlInterface;
 
 final class Room
 {
-    private $location;
+    private UrlInterface $location;
 
     public function __construct(UrlInterface $location)
     {

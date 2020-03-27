@@ -13,8 +13,8 @@ use Innmind\Url\PathInterface;
 
 final class Filesystem implements FilesystemInterface
 {
-    private $filesystem;
-    private $send;
+    private FilesystemInterface $filesystem;
+    private SendActivity $send;
 
     public function __construct(FilesystemInterface $filesystem, SendActivity $send)
     {

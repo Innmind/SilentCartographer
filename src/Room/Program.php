@@ -11,9 +11,9 @@ use Innmind\Server\Status\Server\Process\Pid;
 
 final class Program
 {
-    private $id;
-    private $type;
-    private $room;
+    private Pid $id;
+    private Type $type;
+    private Room $room;
 
     public function __construct(Pid $id, Type $type, Room $room)
     {

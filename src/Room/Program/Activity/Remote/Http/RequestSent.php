@@ -11,8 +11,8 @@ use Innmind\Http\Message\Request;
 
 final class RequestSent implements Activity
 {
-    private $request;
-    private $tags;
+    private Request $request;
+    private Tags $tags;
 
     public function __construct(Request $request)
     {

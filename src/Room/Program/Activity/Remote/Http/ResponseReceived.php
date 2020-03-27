@@ -11,8 +11,8 @@ use Innmind\Http\Message\Response;
 
 final class ResponseReceived implements Activity
 {
-    private $response;
-    private $tags;
+    private Response $response;
+    private Tags $tags;
 
     public function __construct(Response $response)
     {

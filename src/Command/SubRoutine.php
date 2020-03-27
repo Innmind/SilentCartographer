@@ -17,9 +17,9 @@ use Innmind\IPC\{
 
 final class SubRoutine implements Command
 {
-    private $ipc;
-    private $subRoutine;
-    private $listen;
+    private IPC $ipc;
+    private Name $subRoutine;
+    private Listen $listen;
 
     public function __construct(
         IPC $ipc,

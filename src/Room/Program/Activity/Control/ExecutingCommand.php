@@ -11,8 +11,8 @@ use Innmind\Server\Control\Server\Command;
 
 final class ExecutingCommand implements Activity
 {
-    private $command;
-    private $tags;
+    private Command $command;
+    private Tags $tags;
 
     public function __construct(Command $command)
     {

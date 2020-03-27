@@ -11,8 +11,8 @@ use Innmind\Socket\Address\Unix;
 
 final class SocketOpened implements Activity
 {
-    private $address;
-    private $tags;
+    private Unix $address;
+    private Tags $tags;
 
     public function __construct(Unix $address)
     {

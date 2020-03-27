@@ -5,10 +5,10 @@ namespace Innmind\SilentCartographer\Room\Program;
 
 final class Type
 {
-    private static $cli;
-    private static $http;
+    private static ?self $cli = null;
+    private static ?self $http = null;
 
-    private $value;
+    private string $value;
 
     private function __construct(string $value)
     {
@@ -17,12 +17,12 @@ final class Type
 
     public static function cli(): self
     {
-        return self::$cli ?? self::$cli = new self('cli');
+        return self::$cli ??= new self('cli');
     }
 
     public static function http(): self
     {
-        return self::$http ?? self::$http = new self('http');
+        return self::$http ??= new self('http');
     }
 
     public function __toString(): string

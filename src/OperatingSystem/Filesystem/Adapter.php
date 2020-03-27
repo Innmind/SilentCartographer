@@ -21,9 +21,9 @@ use Innmind\Immutable\MapInterface;
 
 final class Adapter implements AdapterInterface
 {
-    private $adapter;
-    private $send;
-    private $path;
+    private AdapterInterface $adapter;
+    private SendActivity $send;
+    private string $path;
 
     public function __construct(
         AdapterInterface $adapter,

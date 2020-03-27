@@ -18,8 +18,8 @@ use Innmind\Socket\{
 
 final class Sockets implements SocketsInterface
 {
-    private $sockets;
-    private $send;
+    private SocketsInterface $sockets;
+    private SendActivity $send;
 
     public function __construct(SocketsInterface $sockets, SendActivity $send)
     {

@@ -7,8 +7,8 @@ use Innmind\SilentCartographer\Room\Program\Activity;
 
 final class Generic implements Activity
 {
-    private $tags;
-    private $message;
+    private Tags $tags;
+    private string $message;
 
     public function __construct(Tags $tags, string $message)
     {

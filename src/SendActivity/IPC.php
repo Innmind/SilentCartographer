@@ -24,13 +24,13 @@ use Innmind\IPC\{
 
 final class IPC implements SendActivity
 {
-    private $room;
-    private $type;
-    private $process;
-    private $protocol;
-    private $ipc;
-    private $subRoutine;
-    private $client;
+    private Room $room;
+    private Type $type;
+    private CurrentProcess $process;
+    private Protocol $protocol;
+    private IPCInterface $ipc;
+    private Name $subRoutine;
+    private ?Process $client = null;
 
     public function __construct(
         Room $room,
@@ -81,7 +81,7 @@ final class IPC implements SendActivity
         }
 
         try {
-            return $this->client ?? $this->client = $this->ipc->get($this->subRoutine);
+            return $this->client ??= $this->ipc->get($this->subRoutine);
         } catch (FailedToConnect $e) {
             return new NullProcess($this->subRoutine);
         }

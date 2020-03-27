@@ -14,10 +14,10 @@ use Innmind\IPC\{
 
 final class DiscardSubsequentSend implements SendActivity
 {
-    private $send;
-    private $ipc;
-    private $subRoutine;
-    private $discard;
+    private SendActivity $send;
+    private IPC $ipc;
+    private Name $subRoutine;
+    private ?bool $discard = null;
 
     public function __construct(
         SendActivity $send,

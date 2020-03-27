@@ -12,9 +12,9 @@ use Innmind\Url\AuthorityInterface;
 
 final class ExecutingCommand implements Activity
 {
-    private $authority;
-    private $command;
-    private $tags;
+    private AuthorityInterface $authority;
+    private Command $command;
+    private Tags $tags;
 
     public function __construct(AuthorityInterface $authority, Command $command)
     {

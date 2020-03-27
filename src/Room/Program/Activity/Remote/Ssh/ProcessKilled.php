@@ -12,9 +12,9 @@ use Innmind\Url\AuthorityInterface;
 
 final class ProcessKilled implements Activity
 {
-    private $authority;
-    private $pid;
-    private $tags;
+    private AuthorityInterface $authority;
+    private Pid $pid;
+    private Tags $tags;
 
     public function __construct(AuthorityInterface $authority, Pid $pid)
     {

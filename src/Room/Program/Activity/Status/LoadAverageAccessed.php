@@ -11,8 +11,8 @@ use Innmind\Server\Status\Server\LoadAverage;
 
 final class LoadAverageAccessed implements Activity
 {
-    private $load;
-    private $tags;
+    private LoadAverage $load;
+    private Tags $tags;
 
     public function __construct(LoadAverage $load)
     {

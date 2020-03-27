@@ -11,8 +11,8 @@ use Innmind\Server\Control\Server\Process\Pid;
 
 final class ProcessKilled implements Activity
 {
-    private $pid;
-    private $tags;
+    private Pid $pid;
+    private Tags $tags;
 
     public function __construct(Pid $pid)
     {
