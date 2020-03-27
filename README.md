@@ -1,10 +1,8 @@
 # Silent Cartographer
 
-| `develop` |
-|-----------|
-| [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Innmind/SilentCartographer/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/SilentCartographer/?branch=develop) |
-| [![Code Coverage](https://scrutinizer-ci.com/g/Innmind/SilentCartographer/badges/coverage.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/SilentCartographer/?branch=develop) |
-| [![Build Status](https://scrutinizer-ci.com/g/Innmind/SilentCartographer/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/Innmind/SilentCartographer/build-status/develop) |
+[![Build Status](https://github.com/Innmind/SilentCartographer/workflows/CI/badge.svg)](https://github.com/Innmind/SilentCartographer/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/Innmind/SilentCartographer/branch/develop/graph/badge.svg)](https://codecov.io/gh/Innmind/SilentCartographer)
+[![Type Coverage](https://shepherd.dev/github/Innmind/SilentCartographer/coverage.svg)](https://shepherd.dev/github/Innmind/SilentCartographer)
 
 Simple tool to visualize all the operations done on the operating system inside other php applications.
 
