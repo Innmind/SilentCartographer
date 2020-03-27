@@ -38,6 +38,7 @@ final class PanelActivated implements Message
             return false;
         }
 
+        /** @var array */
         $data = Json::decode($message->content()->toString());
 
         return ($data['message'] ?? '') === 'panel_activated';

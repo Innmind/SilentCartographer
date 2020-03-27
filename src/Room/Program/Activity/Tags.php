@@ -5,6 +5,7 @@ namespace Innmind\SilentCartographer\Room\Program\Activity;
 
 final class Tags implements \Iterator
 {
+    /** @var list<string> */
     private array $tags;
 
     public function __construct(string ...$tags)

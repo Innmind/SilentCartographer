@@ -9,6 +9,9 @@ use Innmind\IPC\Process\Name;
 use Innmind\CLI\Commands;
 use function Innmind\IPC\bootstrap as ipc;
 
+/**
+ * @return array{protocol: Protocol, sub_routine: Name, http_server: callable(Url): OS, cli: callable(Url): OS, commands: callable(): Commands}
+ */
 function bootstrap(OS $os): array
 {
     $protocol = new Protocol\Json;

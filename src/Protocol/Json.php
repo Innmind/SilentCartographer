@@ -48,12 +48,13 @@ final class Json implements Protocol
             throw new UnknownProtocol;
         }
 
+        /** @var array{room: array{program: array{id: int, type: 'cli'|'http'}, location: string, activity: array{message: string, tags: list<string>}}} */
         $data = Format::decode($message->content()->toString());
 
         return new RoomActivity(
             new Program(
                 new Pid($data['room']['program']['id']),
-                Type::{$data['room']['program']['type']}(),
+                Type::of($data['room']['program']['type']),
                 new Room(
                     Url::of($data['room']['location'])
                 )
