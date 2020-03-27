@@ -8,7 +8,7 @@ use Innmind\SilentCartographer\{
     SendActivity,
 };
 use Innmind\OperatingSystem\Filesystem as FilesystemInterface;
-use Innmind\Url\PathInterface;
+use Innmind\Url\Path;
 use PHPUnit\Framework\TestCase;
 
 class FilesystemTest extends TestCase
@@ -33,7 +33,7 @@ class FilesystemTest extends TestCase
 
         $this->assertInstanceOf(
             Filesystem\Adapter::class,
-            $filesystem->mount($this->createMock(PathInterface::class))
+            $filesystem->mount(Path::none())
         );
     }
 }

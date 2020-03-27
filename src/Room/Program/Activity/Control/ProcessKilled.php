@@ -27,6 +27,6 @@ final class ProcessKilled implements Activity
 
     public function __toString(): string
     {
-        return "Process killed: {$this->pid}";
+        return "Process killed: {$this->pid->toString()}";
     }
 }

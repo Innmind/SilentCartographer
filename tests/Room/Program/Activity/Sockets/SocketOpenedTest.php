@@ -15,7 +15,7 @@ class SocketOpenedTest extends TestCase
     public function testInterface()
     {
         $activity = new SocketOpened(
-            new Unix('/tmp/foo.sock')
+            Unix::of('/tmp/foo.sock')
         );
 
         $this->assertInstanceOf(Activity::class, $activity);

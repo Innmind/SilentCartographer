@@ -13,7 +13,7 @@ use Innmind\OperatingSystem\{
 };
 use Innmind\Server\Status\Server as ServerStatus;
 use Innmind\Server\Control\Server as ServerControl;
-use Innmind\TimeContinuum\TimeContinuumInterface;
+use Innmind\TimeContinuum\Clock;
 
 final class OperatingSystem implements OperatingSystemInterface
 {
@@ -35,7 +35,7 @@ final class OperatingSystem implements OperatingSystemInterface
         $this->send = $send;
     }
 
-    public function clock(): TimeContinuumInterface
+    public function clock(): Clock
     {
         return $this->os->clock();
     }

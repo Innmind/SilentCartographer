@@ -24,6 +24,7 @@ use Innmind\CLI\{
 };
 use Innmind\Stream\Writable;
 use Innmind\Immutable\Str;
+use function Innmind\Immutable\unwrap;
 
 final class Panel implements Command
 {
@@ -49,7 +50,7 @@ final class Panel implements Command
         $this->ipc->wait($this->subRoutine);
         $process = $this->ipc->get($this->subRoutine);
         $this->safe($process);
-        $process->send(new PanelActivated(...$arguments->pack()));
+        $process->send(new PanelActivated(...unwrap($arguments->pack())));
 
         $this->print(
             $process,
@@ -58,7 +59,7 @@ final class Panel implements Command
         );
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 panel ...tags --format=
@@ -106,8 +107,8 @@ USAGE;
                 $output->write(
                     Str::of("$format\n")
                         ->replace('{type}', (string) $roomActivity->program()->type())
-                        ->replace('{pid}', (string) $roomActivity->program()->id())
-                        ->replace('{room}', (string) $roomActivity->program()->room()->location()->path())
+                        ->replace('{pid}', $roomActivity->program()->id()->toString())
+                        ->replace('{room}', $roomActivity->program()->room()->location()->path()->toString())
                         ->replace('{tags}', \implode('/', \iterator_to_array($roomActivity->activity()->tags())))
                         ->replace('{activity}', (string) $roomActivity->activity())
                 );

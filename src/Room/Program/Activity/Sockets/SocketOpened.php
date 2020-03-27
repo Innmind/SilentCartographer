@@ -27,6 +27,6 @@ final class SocketOpened implements Activity
 
     public function __toString(): string
     {
-        return "Socket opened: {$this->address}";
+        return "Socket opened: {$this->address->toString()}";
     }
 }

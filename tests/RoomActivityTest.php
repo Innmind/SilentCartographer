@@ -10,8 +10,8 @@ use Innmind\SilentCartographer\{
     Room\Program\Type,
     Room\Program\Activity,
 };
-use Innmind\Url\UrlInterface;
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Url\Url;
+use Innmind\Server\Control\Server\Process\Pid;
 use PHPUnit\Framework\TestCase;
 
 class RoomActivityTest extends TestCase
@@ -22,7 +22,7 @@ class RoomActivityTest extends TestCase
             $program = new Program(
                 new Pid(42),
                 Type::cli(),
-                new Room($this->createMock(UrlInterface::class))
+                new Room(Url::of('file:///somewhere'))
             ),
             $activity = $this->createMock(Activity::class)
         );

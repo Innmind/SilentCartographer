@@ -7,7 +7,7 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\CurrentProcess\ProcessForked,
     Activity,
 };
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 use PHPUnit\Framework\TestCase;
 
 class ProcessForkedTest extends TestCase

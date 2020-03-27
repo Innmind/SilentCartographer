@@ -32,14 +32,14 @@ final class AutoStartSubRoutine implements Command
             ->execute(
                 Executable::background('silent-cartographer')
                     ->withArgument('sub-routine')
-                    ->withWorkingDirectory((string) $env->workingDirectory())
+                    ->withWorkingDirectory($env->workingDirectory())
             );
 
         ($this->run)($env, $arguments, $options);
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return (string) $this->run;
+        return $this->run->toString();
     }
 }

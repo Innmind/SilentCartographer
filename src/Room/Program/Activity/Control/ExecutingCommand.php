@@ -27,6 +27,6 @@ final class ExecutingCommand implements Activity
 
     public function __toString(): string
     {
-        return "Executing command: {$this->command}";
+        return "Executing command: {$this->command->toString()}";
     }
 }

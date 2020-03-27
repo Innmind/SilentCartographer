@@ -13,13 +13,11 @@ use Innmind\SilentCartographer\{
 use Innmind\Filesystem\{
     Adapter as AdapterInterface,
     File,
+    Name,
 };
-use Innmind\Url\{
-    PathInterface,
-    Path,
-};
+use Innmind\Url\Path;
 use Innmind\Stream\Readable;
-use Innmind\Immutable\Map;
+use Innmind\Immutable\Set;
 use PHPUnit\Framework\TestCase;
 
 class AdapterTest extends TestCase
@@ -31,7 +29,7 @@ class AdapterTest extends TestCase
             new Adapter(
                 $this->createMock(AdapterInterface::class),
                 $this->createMock(SendActivity::class),
-                $this->createMock(PathInterface::class)
+                Path::none()
             )
         );
     }
@@ -41,23 +39,22 @@ class AdapterTest extends TestCase
         $adapter = new Adapter(
             $inner = $this->createMock(AdapterInterface::class),
             $send = $this->createMock(SendActivity::class),
-            new Path('/tmp/')
+            Path::of('/tmp/')
         );
-        $file = new File\File(
+        $file = File\File::named(
             'foo',
             $this->createMock(Readable::class)
         );
         $send
             ->expects($this->once())
             ->method('__invoke')
-            ->with(new FilePersisted(new Path('/tmp/foo')));
+            ->with(new FilePersisted(Path::of('/tmp/foo')));
         $inner
             ->expects($this->once())
             ->method('add')
-            ->with($file)
-            ->will($this->returnSelf());
+            ->with($file);
 
-        $this->assertSame($adapter, $adapter->add($file));
+        $this->assertNull($adapter->add($file));
     }
 
     public function testGet()
@@ -65,23 +62,23 @@ class AdapterTest extends TestCase
         $adapter = new Adapter(
             $inner = $this->createMock(AdapterInterface::class),
             $send = $this->createMock(SendActivity::class),
-            new Path('/tmp/')
+            Path::of('/tmp/')
         );
-        $file = new File\File(
+        $file = File\File::named(
             'foo',
             $this->createMock(Readable::class)
         );
         $send
             ->expects($this->once())
             ->method('__invoke')
-            ->with(new FileLoaded(new Path('/tmp/foo')));
+            ->with(new FileLoaded(Path::of('/tmp/foo')));
         $inner
             ->expects($this->once())
             ->method('get')
-            ->with('foo')
+            ->with(new Name('foo'))
             ->willReturn($file);
 
-        $this->assertSame($file, $adapter->get('foo'));
+        $this->assertSame($file, $adapter->get(new Name('foo')));
     }
 
     public function testHas()
@@ -89,9 +86,9 @@ class AdapterTest extends TestCase
         $adapter = new Adapter(
             $inner = $this->createMock(AdapterInterface::class),
             $send = $this->createMock(SendActivity::class),
-            new Path('/tmp/')
+            Path::of('/tmp/')
         );
-        $file = new File\File(
+        $file = File\File::named(
             'foo',
             $this->createMock(Readable::class)
         );
@@ -100,12 +97,12 @@ class AdapterTest extends TestCase
             ->method('__invoke');
         $inner
             ->expects($this->exactly(2))
-            ->method('has')
-            ->with('foo')
+            ->method('contains')
+            ->with(new Name('foo'))
             ->will($this->onConsecutiveCalls(false, true));
 
-        $this->assertFalse($adapter->has('foo'));
-        $this->assertTrue($adapter->has('foo'));
+        $this->assertFalse($adapter->contains(new Name('foo')));
+        $this->assertTrue($adapter->contains(new Name('foo')));
     }
 
     public function testRemove()
@@ -113,23 +110,22 @@ class AdapterTest extends TestCase
         $adapter = new Adapter(
             $inner = $this->createMock(AdapterInterface::class),
             $send = $this->createMock(SendActivity::class),
-            new Path('/tmp/')
+            Path::of('/tmp/')
         );
-        $file = new File\File(
+        $file = File\File::named(
             'foo',
             $this->createMock(Readable::class)
         );
         $send
             ->expects($this->once())
             ->method('__invoke')
-            ->with(new FileRemoved(new Path('/tmp/foo')));
+            ->with(new FileRemoved(Path::of('/tmp/foo')));
         $inner
             ->expects($this->once())
             ->method('remove')
-            ->with('foo')
-            ->will($this->returnSelf());
+            ->with(new Name('foo'));
 
-        $this->assertSame($adapter, $adapter->remove('foo'));
+        $this->assertNull($adapter->remove(new Name('foo')));
     }
 
     public function testAll()
@@ -137,21 +133,21 @@ class AdapterTest extends TestCase
         $adapter = new Adapter(
             $inner = $this->createMock(AdapterInterface::class),
             $send = $this->createMock(SendActivity::class),
-            new Path('/tmp/')
+            Path::of('/tmp/')
         );
-        $file = new File\File(
+        $file = File\File::named(
             'foo',
             $this->createMock(Readable::class)
         );
         $send
             ->expects($this->once())
             ->method('__invoke')
-            ->with(new FileLoaded(new Path('/tmp/foo')));
+            ->with(new FileLoaded(Path::of('/tmp/foo')));
         $inner
             ->expects($this->once())
             ->method('all')
             ->willReturn(
-                $all = Map::of('string', File::class)('foo', $file)
+                $all = Set::of(File::class, $file)
             );
 
         $this->assertSame($all, $adapter->all());

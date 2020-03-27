@@ -15,7 +15,7 @@ class FilePersistedTest extends TestCase
     public function testInterface()
     {
         $activity = new FilePersisted(
-            $path = new Path('foo')
+            $path = Path::of('foo')
         );
 
         $this->assertInstanceOf(Activity::class, $activity);

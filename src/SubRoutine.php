@@ -38,7 +38,7 @@ final class SubRoutine
 
         ($this->listen)(function(Message $message, Client $client): void {
             if ($this->panelActivated->equals($message)) {
-                $tags = Json::decode((string) $message->content())['tags'];
+                $tags = Json::decode($message->content()->toString())['tags'];
                 $this->register($client, ...$tags);
             } else if ($message->equals(new PanelDeactivated)) {
                 $this->unregister($client);

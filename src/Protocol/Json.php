@@ -14,9 +14,9 @@ use Innmind\SilentCartographer\{
     Exception\UnknownProtocol,
 };
 use Innmind\IPC\Message;
-use Innmind\Filesystem\MediaType\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Url\Url;
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 use Innmind\Json\Json as Format;
 use Innmind\Immutable\Str;
 
@@ -28,7 +28,7 @@ final class Json implements Protocol
             new MediaType('application', 'json'),
             Str::of(Format::encode([
                 'room' => [
-                    'location' => (string) $roomActivity->program()->room()->location(),
+                    'location' => $roomActivity->program()->room()->location()->toString(),
                     'program' => [
                         'id' => $roomActivity->program()->id()->toInt(),
                         'type' => (string) $roomActivity->program()->type(),
@@ -44,18 +44,18 @@ final class Json implements Protocol
 
     public function decode(Message $message): RoomActivity
     {
-        if ((string) $message->mediaType() !== 'application/json') {
+        if ($message->mediaType()->toString() !== 'application/json') {
             throw new UnknownProtocol;
         }
 
-        $data = Format::decode((string) $message->content());
+        $data = Format::decode($message->content()->toString());
 
         return new RoomActivity(
             new Program(
                 new Pid($data['room']['program']['id']),
                 Type::{$data['room']['program']['type']}(),
                 new Room(
-                    Url::fromString($data['room']['location'])
+                    Url::of($data['room']['location'])
                 )
             ),
             new Activity\Generic(

@@ -19,7 +19,7 @@ class PortOpenedTest extends TestCase
         $activity = new PortOpened(
             Transport::tcp(),
             IPv4::localhost(),
-            new Port(80)
+            Port::of(80)
         );
 
         $this->assertInstanceOf(Activity::class, $activity);

@@ -8,7 +8,7 @@ use Innmind\IPC\{
     Message,
     Exception\Timedout,
 };
-use Innmind\TimeContinuum\ElapsedPeriodInterface;
+use Innmind\TimeContinuum\ElapsedPeriod;
 
 final class NullProcess implements Process
 {
@@ -33,7 +33,7 @@ final class NullProcess implements Process
     /**
      * {@inheritdoc}
      */
-    public function wait(ElapsedPeriodInterface $timeout = null): Message
+    public function wait(ElapsedPeriod $timeout = null): Message
     {
         throw new Timedout;
     }

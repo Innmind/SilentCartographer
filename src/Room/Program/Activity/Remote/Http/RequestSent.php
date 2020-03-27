@@ -27,7 +27,7 @@ final class RequestSent implements Activity
 
     public function __toString(): string
     {
-        $request = "{$this->request->method()} {$this->request->url()} HTTP/{$this->request->protocolVersion()}";
+        $request = "{$this->request->method()->toString()} {$this->request->url()->toString()} HTTP/{$this->request->protocolVersion()->toString()}";
 
         return "Request sent: $request";
     }

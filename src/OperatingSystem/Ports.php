@@ -8,7 +8,7 @@ use Innmind\SilentCartographer\{
     Room\Program\Activity\Ports\PortOpened,
 };
 use Innmind\OperatingSystem\Ports as PortsInterface;
-use Innmind\Url\Authority\PortInterface;
+use Innmind\Url\Authority\Port;
 use Innmind\Socket\{
     Internet\Transport,
     Server,
@@ -29,7 +29,7 @@ final class Ports implements PortsInterface
     public function open(
         Transport $transport,
         IP $ip,
-        PortInterface $port
+        Port $port
     ): Server {
         ($this->send)(new PortOpened($transport, $ip, $port));
 

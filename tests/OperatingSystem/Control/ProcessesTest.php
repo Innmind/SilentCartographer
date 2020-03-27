@@ -68,6 +68,6 @@ class ProcessesTest extends TestCase
             ->with($pid, Signal::kill())
             ->will($this->returnSelf());
 
-        $this->assertSame($processes, $processes->kill($pid, Signal::kill()));
+        $this->assertNull($processes->kill($pid, Signal::kill()));
     }
 }

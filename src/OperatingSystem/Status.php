@@ -17,7 +17,7 @@ use Innmind\Server\Status\{
     Server\LoadAverage,
     Server\Disk,
 };
-use Innmind\Url\PathInterface;
+use Innmind\Url\Path;
 
 final class Status implements Server
 {
@@ -72,7 +72,7 @@ final class Status implements Server
         );
     }
 
-    public function tmp(): PathInterface
+    public function tmp(): Path
     {
         return $this->server->tmp();
     }

@@ -5,7 +5,7 @@ namespace Tests\Innmind\SilentCartographer\IPC\Message;
 
 use Innmind\SilentCartographer\IPC\Message\PanelActivated;
 use Innmind\IPC\Message;
-use Innmind\Filesystem\MediaType\MediaType;
+use Innmind\MediaType\MediaType;
 use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
@@ -16,10 +16,10 @@ class PanelActivatedTest extends TestCase
         $message = new PanelActivated('foo', 'bar', 'baz');
 
         $this->assertInstanceOf(Message::class, $message);
-        $this->assertSame('application/json', (string) $message->mediaType());
+        $this->assertSame('application/json', $message->mediaType()->toString());
         $this->assertSame(
             '{"message":"panel_activated","tags":["foo","bar","baz"]}',
-            (string) $message->content()
+            $message->content()->toString(),
         );
     }
 

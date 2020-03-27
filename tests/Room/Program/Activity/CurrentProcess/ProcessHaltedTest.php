@@ -7,7 +7,7 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\CurrentProcess\ProcessHalted,
     Activity,
 };
-use Innmind\TimeContinuum\Period\Earth\Minute;
+use Innmind\TimeContinuum\Earth\Period\Minute;
 use PHPUnit\Framework\TestCase;
 
 class ProcessHaltedTest extends TestCase

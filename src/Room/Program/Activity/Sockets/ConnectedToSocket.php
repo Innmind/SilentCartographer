@@ -27,6 +27,6 @@ final class ConnectedToSocket implements Activity
 
     public function __toString(): string
     {
-        return "Connected to socket: {$this->address}";
+        return "Connected to socket: {$this->address->toString()}";
     }
 }

@@ -15,8 +15,8 @@ use Innmind\OperatingSystem\{
     CurrentProcess\Children,
     CurrentProcess\Signals,
 };
-use Innmind\Server\Status\Server\Process\Pid;
-use Innmind\TimeContinuum\PeriodInterface;
+use Innmind\Server\Control\Server\Process\Pid;
+use Innmind\TimeContinuum\Period;
 use PHPUnit\Framework\TestCase;
 
 class CurrentProcessTest extends TestCase
@@ -124,7 +124,7 @@ class CurrentProcessTest extends TestCase
             $inner = $this->createMock(CurrentProcessInterface::class),
             $send = $this->createMock(SendActivity::class)
         );
-        $period = $this->createMock(PeriodInterface::class);
+        $period = $this->createMock(Period::class);
         $send
             ->expects($this->once())
             ->method('__invoke')

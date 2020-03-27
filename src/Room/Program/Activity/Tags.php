@@ -3,21 +3,19 @@ declare(strict_types = 1);
 
 namespace Innmind\SilentCartographer\Room\Program\Activity;
 
-use Innmind\Immutable\Stream;
-
 final class Tags implements \Iterator
 {
-    private Stream $tags;
+    private array $tags;
 
     public function __construct(string ...$tags)
     {
-        $this->tags = Stream::of('string', ...$tags);
+        $this->tags = $tags;
     }
 
     public function matches(string ...$tags): bool
     {
         foreach ($tags as $tag) {
-            if (!$this->tags->contains($tag)) {
+            if (!\in_array($tag, $this->tags, true)) {
                 return false;
             }
         }
@@ -27,26 +25,26 @@ final class Tags implements \Iterator
 
     public function current(): string
     {
-        return $this->tags->current();
+        return \current($this->tags);
     }
 
     public function key(): int
     {
-        return $this->tags->key();
+        return \key($this->tags);
     }
 
     public function next(): void
     {
-        $this->tags->next();
+        \next($this->tags);
     }
 
     public function rewind(): void
     {
-        $this->tags->rewind();
+        \reset($this->tags);
     }
 
     public function valid(): bool
     {
-        return $this->tags->valid();
+        return \is_string(\current($this->tags));
     }
 }

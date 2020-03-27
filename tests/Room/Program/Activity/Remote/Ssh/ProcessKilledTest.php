@@ -16,7 +16,7 @@ class ProcessKilledTest extends TestCase
     public function testInterface()
     {
         $activity = new ProcessKilled(
-            Url::fromString('ssh://foo@bar:2224/')->authority(),
+            Url::of('ssh://foo@bar:2224/')->authority(),
             new Pid(42)
         );
 

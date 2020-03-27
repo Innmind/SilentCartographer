@@ -14,8 +14,9 @@ use Innmind\OperatingSystem\{
     CurrentProcess\Children,
     CurrentProcess\Signals,
 };
-use Innmind\Server\Status\Server\Process\Pid;
-use Innmind\TimeContinuum\PeriodInterface;
+use Innmind\Server\Control\Server\Process\Pid;
+use Innmind\Server\Status\Server\Memory\Bytes;
+use Innmind\TimeContinuum\Period;
 
 final class CurrentProcess implements CurrentProcessInterface
 {
@@ -57,10 +58,15 @@ final class CurrentProcess implements CurrentProcessInterface
         return $this->process->signals();
     }
 
-    public function halt(PeriodInterface $period): void
+    public function halt(Period $period): void
     {
         ($this->send)(new ProcessHalted($period));
 
         $this->process->halt($period);
+    }
+
+    public function memory(): Bytes
+    {
+        return $this->process->memory();
     }
 }

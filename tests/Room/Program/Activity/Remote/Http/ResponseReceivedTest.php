@@ -9,8 +9,8 @@ use Innmind\SilentCartographer\Room\Program\{
 };
 use Innmind\Http\{
     Message\Response\Response,
-    Message\StatusCode\StatusCode,
-    ProtocolVersion\ProtocolVersion,
+    Message\StatusCode,
+    ProtocolVersion,
 };
 use PHPUnit\Framework\TestCase;
 

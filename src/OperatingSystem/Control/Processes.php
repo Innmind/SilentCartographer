@@ -34,11 +34,9 @@ final class Processes implements ProcessesInterface
         return $this->processes->execute($command);
     }
 
-    public function kill(Pid $pid, Signal $signal): ProcessesInterface
+    public function kill(Pid $pid, Signal $signal): void
     {
         ($this->send)(new ProcessKilled($pid));
         $this->processes->kill($pid, $signal);
-
-        return $this;
     }
 }

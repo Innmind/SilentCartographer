@@ -17,7 +17,7 @@ use Innmind\Server\Status\Server\{
     Process\Command,
     Cpu\Percentage,
 };
-use Innmind\TimeContinuum\PointInTimeInterface;
+use Innmind\TimeContinuum\PointInTime;
 use Innmind\Immutable\Map;
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +45,7 @@ class ProcessesTest extends TestCase
             new User('root'),
             new Percentage(42),
             new Memory(42),
-            $this->createMock(PointInTimeInterface::class),
+            $this->createMock(PointInTime::class),
             new Command('echo')
         );
         $send
@@ -73,7 +73,7 @@ class ProcessesTest extends TestCase
             new User('root'),
             new Percentage(42),
             new Memory(42),
-            $this->createMock(PointInTimeInterface::class),
+            $this->createMock(PointInTime::class),
             new Command('echo')
         );
         $send

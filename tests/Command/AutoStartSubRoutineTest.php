@@ -35,10 +35,10 @@ class AutoStartSubRoutineTest extends TestCase
         );
         $inner
             ->expects($this->once())
-            ->method('__toString')
+            ->method('toString')
             ->willReturn('foo');
 
-        $this->assertSame('foo', (string) $command);
+        $this->assertSame('foo', $command->toString());
     }
 
     public function testInvokation()
@@ -51,8 +51,8 @@ class AutoStartSubRoutineTest extends TestCase
             ->expects($this->once())
             ->method('execute')
             ->with($this->callback(static function($command): bool {
-                return (string) $command === "silent-cartographer 'sub-routine'" &&
-                    $command->workingDirectory() === '/somewhere';
+                return $command->toString() === "silent-cartographer 'sub-routine'" &&
+                    $command->workingDirectory()->toString() === '/somewhere';
             }));
         $env = $this->createMock(Environment::class);
         $arguments = new Arguments;
@@ -60,7 +60,7 @@ class AutoStartSubRoutineTest extends TestCase
         $env
             ->expects($this->once())
             ->method('workingDirectory')
-            ->willReturn(new Path('/somewhere'));
+            ->willReturn(Path::of('/somewhere'));
         $inner
             ->expects($this->once())
             ->method('__invoke')

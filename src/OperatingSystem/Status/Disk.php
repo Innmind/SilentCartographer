@@ -12,7 +12,7 @@ use Innmind\Server\Status\Server\{
     Disk\Volume,
     Disk\Volume\MountPoint,
 };
-use Innmind\Immutable\MapInterface;
+use Innmind\Immutable\Map;
 
 final class Disk implements DiskInterface
 {
@@ -28,11 +28,14 @@ final class Disk implements DiskInterface
     /**
      * {@inheritdoc}
      */
-    public function volumes(): MapInterface
+    public function volumes(): Map
     {
-        return $this->disk->volumes()->foreach(function(string $_, Volume $volume): void {
+        $volumes = $this->disk->volumes();
+        $volumes->foreach(function(string $_, Volume $volume): void {
             ($this->send)(new VolumeUsageAccessed($volume->mountPoint()));
         });
+
+        return $volumes;
     }
 
     public function get(MountPoint $point): Volume

@@ -7,18 +7,18 @@ use Innmind\OperatingSystem\Factory;
 use Innmind\Url\Url;
 use Innmind\Http\{
     Message\Request\Request,
-    Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    Message\Method,
+    ProtocolVersion,
 };
-use Innmind\TimeContinuum\Period\Earth\Millisecond;
+use Innmind\TimeContinuum\Earth\Period\Millisecond;
 use function Innmind\SilentCartographer\bootstrap;
 
 $os = Factory::build();
-$os = bootstrap($os)['cli'](Url::fromString('file://'.__DIR__));
+$os = bootstrap($os)['cli'](Url::of('file://'.__DIR__));
 
 do {
     $os->remote()->http()(new Request(
-        Url::fromString('https://github.com'),
+        Url::of('https://github.com'),
         Method::get(),
         new ProtocolVersion(2, 0)
     ));

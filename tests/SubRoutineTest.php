@@ -22,8 +22,10 @@ use Innmind\IPC\{
     Message,
     Exception\Stop,
 };
-use Innmind\Server\Status\Server\Process\Pid;
-use Innmind\Url\UrlInterface;
+use Innmind\Server\Control\Server\Process\Pid;
+use Innmind\Url\Url;
+use Innmind\MediaType\MediaType;
+use Innmind\Immutable\Str;
 use PHPUnit\Framework\TestCase;
 
 class SubRoutineTest extends TestCase
@@ -34,7 +36,10 @@ class SubRoutineTest extends TestCase
             $server = $this->createMock(Server::class),
             $protocol = $this->createMock(Protocol::class)
         );
-        $message = $this->createMock(Message::class);
+        $message = new Message\Generic(
+            new MediaType('application', 'json'),
+            Str::of('{}'),
+        );
         $program = $this->createMock(Client::class);
         $protocol
             ->expects($this->once())
@@ -44,7 +49,7 @@ class SubRoutineTest extends TestCase
                 new Program(
                     new Pid(42),
                     Type::http(),
-                    new Room($this->createMock(UrlInterface::class))
+                    new Room(Url::of('file:///somewhere'))
                 ),
                 $this->createMock(Activity::class)
             ));
@@ -66,7 +71,10 @@ class SubRoutineTest extends TestCase
             $server = $this->createMock(Server::class),
             $protocol = $this->createMock(Protocol::class)
         );
-        $message = $this->createMock(Message::class);
+        $message = new Message\Generic(
+            new MediaType('application', 'json'),
+            Str::of('{}'),
+        );
         $program = $this->createMock(Client::class);
         $protocol
             ->expects($this->once())
@@ -76,7 +84,7 @@ class SubRoutineTest extends TestCase
                 new Program(
                     new Pid(42),
                     Type::http(),
-                    new Room($this->createMock(UrlInterface::class))
+                    new Room(Url::of('file:///somewhere'))
                 ),
                 $this->createMock(Activity::class)
             ));
@@ -107,7 +115,10 @@ class SubRoutineTest extends TestCase
             $server = $this->createMock(Server::class),
             $protocol = $this->createMock(Protocol::class)
         );
-        $message = $this->createMock(Message::class);
+        $message = new Message\Generic(
+            new MediaType('application', 'json'),
+            Str::of('{}'),
+        );
         $program = $this->createMock(Client::class);
         $protocol
             ->expects($this->once())
@@ -140,7 +151,10 @@ class SubRoutineTest extends TestCase
             $server = $this->createMock(Server::class),
             $protocol = $this->createMock(Protocol::class)
         );
-        $message = $this->createMock(Message::class);
+        $message = new Message\Generic(
+            new MediaType('application', 'json'),
+            Str::of('{}'),
+        );
         $program = $this->createMock(Client::class);
         $protocol
             ->expects($this->once())
@@ -150,7 +164,7 @@ class SubRoutineTest extends TestCase
                 new Program(
                     new Pid(42),
                     Type::http(),
-                    new Room($this->createMock(UrlInterface::class))
+                    new Room(Url::of('file:///somewhere'))
                 ),
                 new Activity\Generic(
                     new Tags('foo'),
@@ -184,7 +198,10 @@ class SubRoutineTest extends TestCase
             $server = $this->createMock(Server::class),
             $protocol = $this->createMock(Protocol::class)
         );
-        $message = $this->createMock(Message::class);
+        $message = new Message\Generic(
+            new MediaType('application', 'json'),
+            Str::of('{}'),
+        );
         $program = $this->createMock(Client::class);
         $protocol
             ->expects($this->once())
@@ -194,7 +211,7 @@ class SubRoutineTest extends TestCase
                 new Program(
                     new Pid(42),
                     Type::http(),
-                    new Room($this->createMock(UrlInterface::class))
+                    new Room(Url::of('file:///somewhere'))
                 ),
                 new Activity\Generic(
                     new Tags('foo'),
@@ -230,7 +247,10 @@ class SubRoutineTest extends TestCase
             $server = $this->createMock(Server::class),
             $protocol = $this->createMock(Protocol::class)
         );
-        $message = $this->createMock(Message::class);
+        $message = new Message\Generic(
+            new MediaType('application', 'json'),
+            Str::of('{}'),
+        );
         $program = $this->createMock(Client::class);
         $protocol
             ->expects($this->once())
@@ -240,7 +260,7 @@ class SubRoutineTest extends TestCase
                 new Program(
                     new Pid(42),
                     Type::http(),
-                    new Room($this->createMock(UrlInterface::class))
+                    new Room(Url::of('file:///somewhere'))
                 ),
                 new Activity\Generic(
                     new Tags('foo'),
@@ -273,7 +293,10 @@ class SubRoutineTest extends TestCase
             $server = $this->createMock(Server::class),
             $protocol = $this->createMock(Protocol::class)
         );
-        $message = $this->createMock(Message::class);
+        $message = new Message\Generic(
+            new MediaType('application', 'json'),
+            Str::of('{}'),
+        );
         $program = $this->createMock(Client::class);
         $protocol
             ->expects($this->once())
@@ -283,7 +306,7 @@ class SubRoutineTest extends TestCase
                 new Program(
                     new Pid(42),
                     Type::http(),
-                    new Room($this->createMock(UrlInterface::class))
+                    new Room(Url::of('file:///somewhere'))
                 ),
                 new Activity\Generic(
                     new Tags('foo'),

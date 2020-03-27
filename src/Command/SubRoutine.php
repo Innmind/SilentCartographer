@@ -40,7 +40,7 @@ final class SubRoutine implements Command
         ($this->listen)();
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 sub-routine

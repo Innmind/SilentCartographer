@@ -27,6 +27,6 @@ final class VolumeUsageAccessed implements Activity
 
     public function __toString(): string
     {
-        return "Volume usage accessed: {$this->mountPoint}";
+        return "Volume usage accessed: {$this->mountPoint->toString()}";
     }
 }

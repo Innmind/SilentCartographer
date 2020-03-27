@@ -20,8 +20,8 @@ use Innmind\IPC\{
     Exception\FailedToConnect,
 };
 use Innmind\OperatingSystem\CurrentProcess;
-use Innmind\Url\UrlInterface;
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Url\Url;
+use Innmind\Server\Control\Server\Process\Pid;
 use PHPUnit\Framework\TestCase;
 
 class IPCTest extends TestCase
@@ -29,7 +29,7 @@ class IPCTest extends TestCase
     public function testInterface()
     {
         $send = new IPC(
-            new Room($this->createMock(UrlInterface::class)),
+            new Room(Url::of('file:///somewhere')),
             Type::cli(),
             $this->createMock(CurrentProcess::class),
             $this->createMock(Protocol::class),
@@ -43,7 +43,7 @@ class IPCTest extends TestCase
     public function testDoesntSendWhenSubRoutineDoesntExist()
     {
         $send = new IPC(
-            new Room($this->createMock(UrlInterface::class)),
+            new Room(Url::of('file:///somewhere')),
             Type::cli(),
             $process = $this->createMock(CurrentProcess::class),
             $this->createMock(Protocol::class),
@@ -69,7 +69,7 @@ class IPCTest extends TestCase
     public function testSend()
     {
         $send = new IPC(
-            $room = new Room($this->createMock(UrlInterface::class)),
+            $room = new Room(Url::of('file:///somewhere')),
             $type = Type::cli(),
             $process = $this->createMock(CurrentProcess::class),
             $protocol = $this->createMock(Protocol::class),
@@ -117,7 +117,7 @@ class IPCTest extends TestCase
     public function testDoesntSendOnceTheSubRoutineIsGone()
     {
         $send = new IPC(
-            $room = new Room($this->createMock(UrlInterface::class)),
+            $room = new Room(Url::of('file:///somewhere')),
             $type = Type::cli(),
             $process = $this->createMock(CurrentProcess::class),
             $protocol = $this->createMock(Protocol::class),
@@ -164,7 +164,7 @@ class IPCTest extends TestCase
     public function testRefetchProcessWhenClosed()
     {
         $send = new IPC(
-            $room = new Room($this->createMock(UrlInterface::class)),
+            $room = new Room(Url::of('file:///somewhere')),
             $type = Type::cli(),
             $process = $this->createMock(CurrentProcess::class),
             $protocol = $this->createMock(Protocol::class),
@@ -222,7 +222,7 @@ class IPCTest extends TestCase
     public function testCatchWhenTheMessageCantBeSent()
     {
         $send = new IPC(
-            $room = new Room($this->createMock(UrlInterface::class)),
+            $room = new Room(Url::of('file:///somewhere')),
             $type = Type::cli(),
             $process = $this->createMock(CurrentProcess::class),
             $protocol = $this->createMock(Protocol::class),
@@ -266,7 +266,7 @@ class IPCTest extends TestCase
     public function testCatchWhenFailToConnectToProcess()
     {
         $send = new IPC(
-            $room = new Room($this->createMock(UrlInterface::class)),
+            $room = new Room(Url::of('file:///somewhere')),
             $type = Type::cli(),
             $process = $this->createMock(CurrentProcess::class),
             $protocol = $this->createMock(Protocol::class),

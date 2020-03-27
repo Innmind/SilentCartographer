@@ -17,7 +17,7 @@ class SocketOpenedTest extends TestCase
     {
         $activity = new SocketOpened(
             Transport::tcp(),
-            Url::fromString('tcp://user:pwd@foo:443/')->authority()
+            Url::of('tcp://user:pwd@foo:443/')->authority()
         );
 
         $this->assertInstanceOf(Activity::class, $activity);

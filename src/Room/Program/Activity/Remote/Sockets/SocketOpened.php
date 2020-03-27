@@ -8,15 +8,15 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\Tags,
 };
 use Innmind\Socket\Internet\Transport;
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 
 final class SocketOpened implements Activity
 {
     private Transport $transport;
-    private AuthorityInterface $authority;
+    private Authority $authority;
     private Tags $tags;
 
-    public function __construct(Transport $transport, AuthorityInterface $authority)
+    public function __construct(Transport $transport, Authority $authority)
     {
         $this->transport = $transport;
         $this->authority = $authority;
@@ -30,6 +30,6 @@ final class SocketOpened implements Activity
 
     public function __toString(): string
     {
-        return "Socket opened: {$this->transport}://{$this->authority}";
+        return "Socket opened: {$this->transport->toString()}://{$this->authority->toString()}";
     }
 }

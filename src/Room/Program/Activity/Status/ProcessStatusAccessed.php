@@ -27,6 +27,6 @@ final class ProcessStatusAccessed implements Activity
 
     public function __toString(): string
     {
-        return "Process status accessed: {$this->pid}";
+        return "Process status accessed: {$this->pid->toString()}";
     }
 }

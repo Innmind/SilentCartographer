@@ -8,7 +8,7 @@ use Innmind\SilentCartographer\{
     SendActivity,
 };
 use Innmind\Server\Control\Server;
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 use PHPUnit\Framework\TestCase;
 
 class SshTest extends TestCase
@@ -17,7 +17,7 @@ class SshTest extends TestCase
     {
         $server = new Ssh(
             $this->createMock(Server::class),
-            $this->createMock(AuthorityInterface::class),
+            Authority::none(),
             $this->createMock(SendActivity::class)
         );
 

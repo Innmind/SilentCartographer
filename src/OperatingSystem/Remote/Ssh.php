@@ -7,19 +7,20 @@ use Innmind\SilentCartographer\SendActivity;
 use Innmind\Server\Control\{
     Server,
     Server\Processes,
+    Server\Volumes,
 };
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 
 final class Ssh implements Server
 {
     private Server $server;
-    private AuthorityInterface $authority;
+    private Authority $authority;
     private SendActivity $send;
     private ?Ssh\Processes $processes = null;
 
     public function __construct(
         Server $server,
-        AuthorityInterface $authority,
+        Authority $authority,
         SendActivity $send
     ) {
         $this->server = $server;
@@ -34,5 +35,20 @@ final class Ssh implements Server
             $this->authority,
             $this->send
         );
+    }
+
+    public function volumes(): Volumes
+    {
+        return $this->server->volumes();
+    }
+
+    public function reboot(): void
+    {
+        $this->server->reboot();
+    }
+
+    public function shutdown(): void
+    {
+        $this->server->shutdown();
     }
 }

@@ -15,6 +15,8 @@ use Innmind\Socket\{
     Server,
     Client,
 };
+use Innmind\Stream\Watch;
+use Innmind\TimeContinuum\ElapsedPeriod;
 
 final class Sockets implements SocketsInterface
 {
@@ -52,5 +54,10 @@ final class Sockets implements SocketsInterface
         ($this->send)(new ConnectedToSocket($address));
 
         return $this->sockets->connectTo($address);
+    }
+
+    public function watch(ElapsedPeriod $timeout): Watch
+    {
+        return $this->sockets->watch($timeout);
     }
 }

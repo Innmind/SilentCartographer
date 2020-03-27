@@ -12,12 +12,10 @@ use Innmind\SilentCartographer\{
 use Innmind\Filesystem\{
     Adapter as AdapterInterface,
     File,
+    Name,
 };
-use Innmind\Url\{
-    PathInterface,
-    Path,
-};
-use Innmind\Immutable\MapInterface;
+use Innmind\Url\Path;
+use Innmind\Immutable\Set;
 
 final class Adapter implements AdapterInterface
 {
@@ -28,59 +26,58 @@ final class Adapter implements AdapterInterface
     public function __construct(
         AdapterInterface $adapter,
         SendActivity $send,
-        PathInterface $path
+        Path $path
     ) {
         $this->adapter = $adapter;
         $this->send = $send;
-        $this->path = \rtrim((string) $path, '/');
+        $this->path = \rtrim($path->toString(), '/');
     }
 
-    public function add(File $file): AdapterInterface
+    public function add(File $file): void
     {
-        ($this->send)(new FilePersisted($this->path((string) $file->name())));
+        ($this->send)(new FilePersisted($this->path($file->name())));
         $this->adapter->add($file);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get(string $file): File
+    public function get(Name $file): File
     {
         ($this->send)(new FileLoaded($this->path($file)));
 
         return $this->adapter->get($file);
     }
 
-    public function has(string $file): bool
+    public function contains(Name $file): bool
     {
-        return $this->adapter->has($file);
+        return $this->adapter->contains($file);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove(string $file): AdapterInterface
+    public function remove(Name $file): void
     {
         ($this->send)(new FileRemoved($this->path($file)));
         $this->adapter->remove($file);
-
-        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function all(): MapInterface
+    public function all(): Set
     {
-        return $this->adapter->all()->foreach(function(string $name): void {
-            ($this->send)(new FileLoaded($this->path($name)));
+        $all = $this->adapter->all();
+        $all->foreach(function(File $file): void {
+            ($this->send)(new FileLoaded($this->path($file->name())));
         });
+
+        return $all;
     }
 
-    private function path(string $file): PathInterface
+    private function path(Name $file): Path
     {
-        return new Path($this->path.'/'.$file);
+        return Path::of($this->path.'/'.$file->toString());
     }
 }

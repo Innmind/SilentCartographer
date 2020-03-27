@@ -27,6 +27,6 @@ final class SocketTakenOver implements Activity
 
     public function __toString(): string
     {
-        return "Socket taken over: {$this->address}";
+        return "Socket taken over: {$this->address->toString()}";
     }
 }

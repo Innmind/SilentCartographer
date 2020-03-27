@@ -54,7 +54,7 @@ sub-routine
 Start the server that collects all activity messages and forward them to panels
 USAGE;
 
-        $this->assertSame($expected, (string) $command);
+        $this->assertSame($expected, $command->toString());
     }
 
     public function testInvokation()

@@ -15,7 +15,7 @@ class FileLoadedTest extends TestCase
     public function testInterface()
     {
         $activity = new FileLoaded(
-            $path = new Path('foo')
+            $path = Path::of('foo')
         );
 
         $this->assertInstanceOf(Activity::class, $activity);

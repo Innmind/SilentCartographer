@@ -8,15 +8,15 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\Tags,
 };
 use Innmind\Server\Control\Server\Command;
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 
 final class ExecutingCommand implements Activity
 {
-    private AuthorityInterface $authority;
+    private Authority $authority;
     private Command $command;
     private Tags $tags;
 
-    public function __construct(AuthorityInterface $authority, Command $command)
+    public function __construct(Authority $authority, Command $command)
     {
         $this->authority = $authority;
         $this->command = $command;
@@ -30,6 +30,6 @@ final class ExecutingCommand implements Activity
 
     public function __toString(): string
     {
-        return "Executing command: [{$this->authority}] {$this->command}";
+        return "Executing command: [{$this->authority->toString()}] {$this->command->toString()}";
     }
 }

@@ -7,7 +7,7 @@ use Innmind\SilentCartographer\{
     Room,
     Room\Program\Type,
 };
-use Innmind\Server\Status\Server\Process\Pid;
+use Innmind\Server\Control\Server\Process\Pid;
 
 final class Program
 {

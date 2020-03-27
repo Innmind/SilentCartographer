@@ -9,8 +9,8 @@ use Innmind\SilentCartographer\Room\Program\{
 };
 use Innmind\Http\{
     Message\Request\Request,
-    Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    Message\Method,
+    ProtocolVersion,
 };
 use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ class RequestSentTest extends TestCase
     {
         $activity = new RequestSent(
             new Request(
-                Url::fromString('https://example.com/foo'),
+                Url::of('https://example.com/foo'),
                 Method::get(),
                 new ProtocolVersion(2, 0)
             )

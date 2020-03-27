@@ -15,17 +15,17 @@ use Innmind\Server\Control\Server\{
     Command,
     Signal,
 };
-use Innmind\Url\AuthorityInterface;
+use Innmind\Url\Authority;
 
 final class Processes implements ProcessesInterface
 {
     private ProcessesInterface $processes;
-    private AuthorityInterface $authority;
+    private Authority $authority;
     private SendActivity $send;
 
     public function __construct(
         ProcessesInterface $processes,
-        AuthorityInterface $authority,
+        Authority $authority,
         SendActivity $send
     ) {
         $this->processes = $processes;
@@ -40,11 +40,9 @@ final class Processes implements ProcessesInterface
         return $this->processes->execute($command);
     }
 
-    public function kill(Pid $pid, Signal $signal): ProcessesInterface
+    public function kill(Pid $pid, Signal $signal): void
     {
         ($this->send)(new ProcessKilled($this->authority, $pid));
         $this->processes->kill($pid, $signal);
-
-        return $this;
     }
 }

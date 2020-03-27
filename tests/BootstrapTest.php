@@ -10,7 +10,7 @@ use Innmind\SilentCartographer\{
     SendActivity,
 };
 use Innmind\OperatingSystem\Factory;
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\IPC\Process\Name;
 use Innmind\CLI\Commands;
 use Innmind\ObjectGraph\{
@@ -34,10 +34,10 @@ class BootstrapTest extends TestCase
         $this->assertIsCallable($services['commands']);
 
         $httpServer = $services['http_server'](
-            $this->createMock(UrlInterface::class)
+            Url::of('file:///somewhere')
         );
         $cli = $services['cli'](
-            $this->createMock(UrlInterface::class)
+            Url::of('file:///somewhere')
         );
         $commands = $services['commands']();
 

@@ -27,6 +27,6 @@ final class CpuUsageAccessed implements Activity
 
     public function __toString(): string
     {
-        return (string) $this->cpu;
+        return $this->cpu->toString();
     }
 }

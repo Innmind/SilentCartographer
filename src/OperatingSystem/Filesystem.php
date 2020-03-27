@@ -9,7 +9,8 @@ use Innmind\SilentCartographer\{
 };
 use Innmind\OperatingSystem\Filesystem as FilesystemInterface;
 use Innmind\Filesystem\Adapter;
-use Innmind\Url\PathInterface;
+use Innmind\FileWatch\Ping;
+use Innmind\Url\Path;
 
 final class Filesystem implements FilesystemInterface
 {
@@ -22,7 +23,7 @@ final class Filesystem implements FilesystemInterface
         $this->send = $send;
     }
 
-    public function mount(PathInterface $path): Adapter
+    public function mount(Path $path): Adapter
     {
         ($this->send)(new PathMounted($path));
 
@@ -31,5 +32,15 @@ final class Filesystem implements FilesystemInterface
             $this->send,
             $path
         );
+    }
+
+    public function contains(Path $path): bool
+    {
+        return $this->filesystem->contains($path);
+    }
+
+    public function watch(Path $path): Ping
+    {
+        return $this->filesystem->watch($path);
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types = 1);
 namespace Innmind\SilentCartographer;
 
 use Innmind\OperatingSystem\OperatingSystem as OS;
-use Innmind\Url\UrlInterface;
+use Innmind\Url\Url;
 use Innmind\IPC\Process\Name;
 use Innmind\CLI\Commands;
 use function Innmind\IPC\bootstrap as ipc;
@@ -18,7 +18,7 @@ function bootstrap(OS $os): array
     return [
         'protocol' => $protocol,
         'sub_routine' => $subRoutine,
-        'http_server' => static function(UrlInterface $location) use ($os, $ipc, $protocol, $subRoutine): OS {
+        'http_server' => static function(Url $location) use ($os, $ipc, $protocol, $subRoutine): OS {
             return new OperatingSystem(
                 $os,
                 new SendActivity\DiscardSubsequentSend(
@@ -35,7 +35,7 @@ function bootstrap(OS $os): array
                 )
             );
         },
-        'cli' => static function(UrlInterface $location) use ($os, $ipc, $protocol, $subRoutine): OS {
+        'cli' => static function(Url $location) use ($os, $ipc, $protocol, $subRoutine): OS {
             return new OperatingSystem(
                 $os,
                 new SendActivity\IPC(

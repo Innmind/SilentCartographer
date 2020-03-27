@@ -27,7 +27,7 @@ final class ResponseReceived implements Activity
 
     public function __toString(): string
     {
-        $response = "HTTP/{$this->response->protocolVersion()} {$this->response->statusCode()} {$this->response->reasonPhrase()}";
+        $response = "HTTP/{$this->response->protocolVersion()->toString()} {$this->response->statusCode()->toString()} {$this->response->reasonPhrase()->toString()}";
 
         return "Response received: $response";
     }

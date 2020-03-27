@@ -7,6 +7,7 @@ use Innmind\SilentCartographer\SendActivity;
 use Innmind\Server\Control\{
     Server,
     Server\Processes,
+    Server\Volumes,
 };
 
 final class Control implements Server
@@ -27,5 +28,20 @@ final class Control implements Server
             $this->server->processes(),
             $this->send,
         );
+    }
+
+    public function volumes(): Volumes
+    {
+        return $this->server->volumes();
+    }
+
+    public function reboot(): void
+    {
+        $this->server->reboot();
+    }
+
+    public function shutdown(): void
+    {
+        $this->server->shutdown();
     }
 }

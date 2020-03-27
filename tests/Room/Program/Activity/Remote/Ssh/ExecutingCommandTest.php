@@ -16,7 +16,7 @@ class ExecutingCommandTest extends TestCase
     public function testInterface()
     {
         $activity = new ExecutingCommand(
-            Url::fromString('ssh://foo@bar:2224/')->authority(),
+            Url::of('ssh://foo@bar:2224/')->authority(),
             Command::foreground('php')
         );
 

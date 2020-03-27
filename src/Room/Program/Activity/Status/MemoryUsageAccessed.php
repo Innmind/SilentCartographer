@@ -29,12 +29,12 @@ final class MemoryUsageAccessed implements Activity
     {
         return \sprintf(
             'Memory usage: total(%s) wired(%s) active(%s) free(%s) swap(%s) used(%s)',
-            $this->memory->total(),
-            $this->memory->wired(),
-            $this->memory->active(),
-            $this->memory->free(),
-            $this->memory->swap(),
-            $this->memory->used()
+            $this->memory->total()->toString(),
+            $this->memory->wired()->toString(),
+            $this->memory->active()->toString(),
+            $this->memory->free()->toString(),
+            $this->memory->swap()->toString(),
+            $this->memory->used()->toString(),
         );
     }
 }
