@@ -5,6 +5,8 @@ namespace Tests\Innmind\SilentCartographer\OperatingSystem\Filesystem;
 
 use Innmind\SilentCartographer\{
     OperatingSystem\Filesystem\Adapter,
+    OperatingSystem\Filesystem\File as DecoratedFile,
+    OperatingSystem\Filesystem\Directory as DecoratedDirectory,
     SendActivity,
     Room\Program\Activity\Filesystem\FilePersisted,
     Room\Program\Activity\Filesystem\FileLoaded,
@@ -13,11 +15,13 @@ use Innmind\SilentCartographer\{
 use Innmind\Filesystem\{
     Adapter as AdapterInterface,
     File,
+    Directory,
     Name,
 };
 use Innmind\Url\Path;
 use Innmind\Stream\Readable;
 use Innmind\Immutable\Set;
+use function Innmind\Immutable\first;
 use PHPUnit\Framework\TestCase;
 
 class AdapterTest extends TestCase
@@ -64,7 +68,7 @@ class AdapterTest extends TestCase
             $send = $this->createMock(SendActivity::class),
             Path::of('/tmp/')
         );
-        $file = File\File::named(
+        $expected = File\File::named(
             'foo',
             $this->createMock(Readable::class)
         );
@@ -76,9 +80,37 @@ class AdapterTest extends TestCase
             ->expects($this->once())
             ->method('get')
             ->with(new Name('foo'))
-            ->willReturn($file);
+            ->willReturn($expected);
 
-        $this->assertSame($file, $adapter->get(new Name('foo')));
+        $file = $adapter->get(new Name('foo'));
+
+        $this->assertInstanceOf(DecoratedFile::class, $file);
+        $this->assertSame($expected->name(), $file->name());
+        $this->assertSame($expected->content(), $file->content());
+        $this->assertSame($expected->mediaType(), $file->mediaType());
+    }
+
+    public function testGetDirectory()
+    {
+        $adapter = new Adapter(
+            $inner = $this->createMock(AdapterInterface::class),
+            $send = $this->createMock(SendActivity::class),
+            Path::of('/tmp/')
+        );
+        $expected = Directory\Directory::named('foo');
+        $send
+            ->expects($this->once())
+            ->method('__invoke')
+            ->with(new FileLoaded(Path::of('/tmp/foo/')));
+        $inner
+            ->expects($this->once())
+            ->method('get')
+            ->with(new Name('foo'))
+            ->willReturn($expected);
+
+        $directory = $adapter->get(new Name('foo'));
+
+        $this->assertInstanceOf(DecoratedDirectory::class, $directory);
     }
 
     public function testHas()
@@ -135,7 +167,7 @@ class AdapterTest extends TestCase
             $send = $this->createMock(SendActivity::class),
             Path::of('/tmp/')
         );
-        $file = File\File::named(
+        $expected = File\File::named(
             'foo',
             $this->createMock(Readable::class)
         );
@@ -147,9 +179,16 @@ class AdapterTest extends TestCase
             ->expects($this->once())
             ->method('all')
             ->willReturn(
-                $all = Set::of(File::class, $file)
+                Set::of(File::class, $expected)
             );
 
-        $this->assertSame($all, $adapter->all());
+        $all = $adapter->all();
+
+        $this->assertInstanceOf(Set::class, $all);
+        $this->assertSame(File::class, $all->type());
+        $this->assertInstanceOf(DecoratedFile::class, first($all));
+        $this->assertSame($expected->name(), first($all)->name());
+        $this->assertSame($expected->content(), first($all)->content());
+        $this->assertSame($expected->mediaType(), first($all)->mediaType());
     }
 }

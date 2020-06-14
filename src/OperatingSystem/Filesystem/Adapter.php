@@ -6,12 +6,12 @@ namespace Innmind\SilentCartographer\OperatingSystem\Filesystem;
 use Innmind\SilentCartographer\{
     SendActivity,
     Room\Program\Activity\Filesystem\FilePersisted,
-    Room\Program\Activity\Filesystem\FileLoaded,
     Room\Program\Activity\Filesystem\FileRemoved,
 };
 use Innmind\Filesystem\{
     Adapter as AdapterInterface,
-    File,
+    File as FileInterface,
+    Directory as DirectoryInterface,
     Name,
 };
 use Innmind\Url\Path;
@@ -21,7 +21,7 @@ final class Adapter implements AdapterInterface
 {
     private AdapterInterface $adapter;
     private SendActivity $send;
-    private string $path;
+    private Path $path;
 
     public function __construct(
         AdapterInterface $adapter,
@@ -30,10 +30,10 @@ final class Adapter implements AdapterInterface
     ) {
         $this->adapter = $adapter;
         $this->send = $send;
-        $this->path = \rtrim($path->toString(), '/');
+        $this->path = $path;
     }
 
-    public function add(File $file): void
+    public function add(FileInterface $file): void
     {
         ($this->send)(new FilePersisted($this->path($file->name())));
         $this->adapter->add($file);
@@ -42,11 +42,9 @@ final class Adapter implements AdapterInterface
     /**
      * {@inheritdoc}
      */
-    public function get(Name $file): File
+    public function get(Name $file): FileInterface
     {
-        ($this->send)(new FileLoaded($this->path($file)));
-
-        return $this->adapter->get($file);
+        return $this->wrap($this->adapter->get($file));
     }
 
     public function contains(Name $file): bool
@@ -68,16 +66,27 @@ final class Adapter implements AdapterInterface
      */
     public function all(): Set
     {
-        $all = $this->adapter->all();
-        $all->foreach(function(File $file): void {
-            ($this->send)(new FileLoaded($this->path($file->name())));
-        });
+        return $this
+            ->adapter
+            ->all()
+            ->map(fn(FileInterface $file): FileInterface => $this->wrap($file));
+    }
 
-        return $all;
+    private function wrap(FileInterface $file): FileInterface
+    {
+        if ($file instanceof DirectoryInterface) {
+            return Directory::load(
+                $file,
+                $this->send,
+                $this->path->resolve(Path::of($file->name()->toString().'/')),
+            );
+        }
+
+        return new File($file, $this->send, $this->path);
     }
 
     private function path(Name $file): Path
     {
-        return Path::of($this->path.'/'.$file->toString());
+        return $this->path->resolve(Path::of($file->toString()));
     }
 }
