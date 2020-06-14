@@ -31,7 +31,7 @@ class VolumesTest extends TestCase
             VolumesInterface::class,
             new Volumes(
                 $this->createMock(VolumesInterface::class),
-                Authority::any()->values()->current()->unwrap(),
+                $this->seeder()(Authority::any()),
                 $this->createMock(SendActivity::class),
             ),
         );
