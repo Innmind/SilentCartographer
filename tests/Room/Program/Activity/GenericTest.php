@@ -9,22 +9,22 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\Tags,
 };
 use PHPUnit\Framework\TestCase;
-use Eris\{
-    Generator,
-    TestTrait,
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    Set,
 };
 
 class GenericTest extends TestCase
 {
-    use TestTrait;
+    use BlackBox;
 
     public function testInterface()
     {
         $this
             ->forAll(
-                Generator\string(),
-                Generator\string(),
-                Generator\string()
+                Set\Unicode::strings(),
+                Set\Unicode::strings(),
+                Set\Unicode::strings()
             )
             ->then(function($s1, $s2, $s3): void {
                 $activity = new Generic(
