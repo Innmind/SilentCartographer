@@ -5,27 +5,23 @@ namespace Tests\Innmind\SilentCartographer\Room\Program\Activity;
 
 use Innmind\SilentCartographer\Room\Program\Activity\Tags;
 use PHPUnit\Framework\TestCase;
-use Eris\{
-    Generator,
-    TestTrait,
+use Innmind\BlackBox\{
+    PHPUnit\BlackBox,
+    Set,
 };
 
 class TagsTest extends TestCase
 {
-    use TestTrait;
+    use BlackBox;
 
     public function testInterface()
     {
         $this
-            ->forAll(
-                Generator\string(),
-                Generator\string(),
-                Generator\string()
-            )
-            ->then(function($s1, $s2, $s3): void {
+            ->forAll(Set\Sequence::of(Set\Unicode::strings()))
+            ->then(function($tags): void {
                 $this->assertSame(
-                    [$s1, $s2, $s3],
-                    (new Tags($s1, $s2, $s3))->list(),
+                    $tags,
+                    (new Tags(...$tags))->list(),
                 );
             });
     }

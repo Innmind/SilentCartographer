@@ -3,6 +3,15 @@ name: CI
 on: [push]
 
 jobs:
+  roave_bc_check:
+    name: Roave BC Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: fetch tags
+        run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+      - name: Roave BC Check
+        uses: docker://nyholm/roave-bc-check-ga
   phpunit:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -18,8 +27,6 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: mbstring, intl
-          coverage: xdebug
-          ini-values: xdebug.max_nesting_level=2048
       - name: Get Composer Cache Directory
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -35,6 +42,38 @@ jobs:
         run: vendor/bin/phpunit --coverage-clover=coverage.clover
         env:
           CI: 'github'
+  coverage:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+        php-version: ['7.4']
+    name: 'Coverage - PHP/${{ matrix.php-version }} - OS/${{ matrix.os }}'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl
+          coverage: xdebug
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Dependencies
+        run: composer install --no-progress
+      - name: PHPUnit
+        run: vendor/bin/phpunit --coverage-clover=coverage.clover
+        env:
+          CI: 'github'
+          BLACKBOX_SET_SIZE: '1'
       - uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
