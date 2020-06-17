@@ -78,7 +78,7 @@ final class Adapter implements AdapterInterface
             return Directory::load(
                 $file,
                 $this->send,
-                $this->path->resolve(Path::of($file->name()->toString().'/')),
+                $this->path,
             );
         }
 

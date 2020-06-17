@@ -11,8 +11,6 @@ use Innmind\Filesystem\{
     Directory as DirectoryInterface,
     File as FileInterface,
     Name,
-    Source,
-    Adapter,
 };
 use Innmind\Stream\Readable;
 use Innmind\MediaType\MediaType;
@@ -22,13 +20,13 @@ use Innmind\Immutable\{
     Set,
 };
 
-final class Directory implements DirectoryInterface, Source
+final class UnsourcedDirectory implements DirectoryInterface
 {
     private DirectoryInterface $directory;
     private SendActivity $send;
     private Path $path;
 
-    private function __construct(
+    public function __construct(
         DirectoryInterface $directory,
         SendActivity $send,
         Path $path
@@ -36,27 +34,6 @@ final class Directory implements DirectoryInterface, Source
         $this->directory = $directory;
         $this->send = $send;
         $this->path = $path;
-    }
-
-    public static function load(
-        DirectoryInterface $directory,
-        SendActivity $send,
-        Path $parent
-    ): self {
-        $path = $parent->resolve(Path::of($directory->name()->toString().'/'));
-        $self = new self($directory, $send, $path);
-        $send(new FileLoaded($path));
-
-        return $self;
-    }
-
-    public function sourcedAt(Adapter $adapter, Path $path): bool
-    {
-        if (!$this->directory instanceof Source) {
-            return false;
-        }
-
-        return $this->directory->sourcedAt($adapter, $path);
     }
 
     public function name(): Name
@@ -76,7 +53,7 @@ final class Directory implements DirectoryInterface, Source
 
     public function add(FileInterface $file): DirectoryInterface
     {
-        return new UnsourcedDirectory(
+        return new self(
             $this->directory->add($file),
             $this->send,
             $this->path,
@@ -101,7 +78,7 @@ final class Directory implements DirectoryInterface, Source
             return $this;
         }
 
-        return new UnsourcedDirectory(
+        return new self(
             $this->directory->remove($name),
             $this->send,
             $this->path,
@@ -110,7 +87,7 @@ final class Directory implements DirectoryInterface, Source
 
     public function replaceAt(Path $path, FileInterface $file): DirectoryInterface
     {
-        return new UnsourcedDirectory(
+        return new self(
             $this->directory->replaceAt($path, $file),
             $this->send,
             $this->path,
@@ -151,7 +128,7 @@ final class Directory implements DirectoryInterface, Source
     private function wrap(FileInterface $file): FileInterface
     {
         if ($file instanceof DirectoryInterface) {
-            return self::load(
+            return Directory::load(
                 $file,
                 $this->send,
                 $this->path,
