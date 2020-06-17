@@ -4,16 +4,11 @@ declare(strict_types = 1);
 namespace Tests\Innmind\SilentCartographer\OperatingSystem\Filesystem;
 
 use Innmind\SilentCartographer\{
-    OperatingSystem\Filesystem\Directory,
     OperatingSystem\Filesystem\UnsourcedDirectory,
+    OperatingSystem\Filesystem\Directory,
     OperatingSystem\Filesystem\File as DecoratedFile,
     SendActivity,
     Room\Program\Activity\Filesystem\FileLoaded,
-};
-use Innmind\Filesystem\{
-    Adapter,
-    Source,
-    Directory as DirectoryInterface,
 };
 use Innmind\Url\Path as RealPath;
 use PHPUnit\Framework\TestCase;
@@ -28,7 +23,7 @@ use Fixtures\Innmind\Filesystem\{
 use Fixtures\Innmind\Url\Path;
 use Properties\Innmind\Filesystem\Directory as Properties;
 
-class DirectoryTest extends TestCase
+class UnsourcedDirectoryTest extends TestCase
 {
     use BlackBox;
 
@@ -41,83 +36,11 @@ class DirectoryTest extends TestCase
                 Path::directories(),
             )
             ->then(function($properties, $inner, $path) {
-                $properties->ensureHeldBy(Directory::load(
+                $properties->ensureHeldBy(new UnsourcedDirectory(
                     $inner,
                     $this->createMock(SendActivity::class),
                     $path,
                 ));
-            });
-    }
-
-    public function testAlwaysReturnFalseWhenCheckingSourceOfUnknownDirectoryOrigin()
-    {
-        $this
-            ->forAll(
-                Fixture::any(),
-                Path::any(),
-                Path::directories(),
-            )
-            ->then(function($inner, $path, $parent) {
-                $directory = Directory::load(
-                    $inner,
-                    $this->createMock(SendActivity::class),
-                    $parent,
-                );
-
-                $this->assertFalse($directory->sourcedAt(
-                    $this->createMock(Adapter::class),
-                    $path,
-                ));
-            });
-    }
-
-    public function testSourcedAt()
-    {
-        $this
-            ->forAll(
-                Fixture::any(),
-                Path::any(),
-                Path::any(),
-                Path::directories(),
-            )
-            ->then(function($inner, $pathA, $pathB, $parent) {
-                $adapter = $this->createMock(Adapter::class);
-                $directory = Directory::load(
-                    new DirectoryInterface\Source(
-                        $inner,
-                        $adapter,
-                        $pathA,
-                    ),
-                    $this->createMock(SendActivity::class),
-                    $parent,
-                );
-
-                $this->assertTrue($directory->sourcedAt($adapter, $pathA));
-                $this->assertFalse($directory->sourcedAt($adapter, $pathB));
-                $this->assertFalse($directory->sourcedAt(
-                    $this->createMock(Adapter::class),
-                    $pathA,
-                ));
-            });
-    }
-
-    public function testSendActivityWhenLoadingDirectory()
-    {
-        $this
-            ->forAll(
-                Fixture::any(),
-                Path::directories(),
-            )
-            ->then(function($inner, $path) {
-                $send = $this->createMock(SendActivity::class);
-                $send
-                    ->expects($this->once())
-                    ->method('__invoke')
-                    ->with($this->callback(function(FileLoaded $activity) use ($path, $inner) {
-                        return $activity->path()->toString() === $path->toString().$inner->name()->toString().'/';
-                    }));
-
-                Directory::load($inner, $send, $path);
             });
     }
 
@@ -129,7 +52,7 @@ class DirectoryTest extends TestCase
                 Path::directories(),
             )
             ->then(function($inner, $path) {
-                $file = Directory::load(
+                $file = new UnsourcedDirectory(
                     $inner,
                     $this->createMock(SendActivity::class),
                     $path,
@@ -152,10 +75,10 @@ class DirectoryTest extends TestCase
             ->then(function($inner, $file, $path) {
                 $send = $this->createMock(SendActivity::class);
                 $send
-                    ->expects($this->once())
+                    ->expects($this->never())
                     ->method('__invoke');
 
-                $directory = Directory::load($inner, $send, $path)->add($file);
+                $directory = (new UnsourcedDirectory($inner, $send, $path))->add($file);
                 $this->assertInstanceOf(UnsourcedDirectory::class, $directory);
             });
     }
@@ -171,9 +94,9 @@ class DirectoryTest extends TestCase
             ->then(function($inner, $path, $file) {
                 $send = $this->createMock(SendActivity::class);
                 $send
-                    ->expects($this->once())
+                    ->expects($this->never())
                     ->method('__invoke');
-                $directory = Directory::load($inner, $send, $path)->replaceAt(
+                $directory = (new UnsourcedDirectory($inner, $send, $path))->replaceAt(
                     RealPath::of('/'),
                     $file,
                 );
@@ -190,7 +113,7 @@ class DirectoryTest extends TestCase
                 Path::any(),
             )
             ->then(function($inner, $path) {
-                $directory = Directory::load(
+                $directory = new UnsourcedDirectory(
                     $inner,
                     $this->createMock(SendActivity::class),
                     $path,
@@ -216,7 +139,7 @@ class DirectoryTest extends TestCase
                 Path::any(),
             )
             ->then(function($inner, $path) {
-                $directory = Directory::load(
+                $directory = new UnsourcedDirectory(
                     $inner,
                     $this->createMock(SendActivity::class),
                     $path,
@@ -244,7 +167,7 @@ class DirectoryTest extends TestCase
                 Path::any(),
             )
             ->then(function($inner, $path) {
-                $directory = Directory::load(
+                $directory = new UnsourcedDirectory(
                     $inner,
                     $this->createMock(SendActivity::class),
                     $path,

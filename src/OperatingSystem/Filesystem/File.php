@@ -10,12 +10,14 @@ use Innmind\SilentCartographer\{
 use Innmind\Filesystem\{
     File as FileInterface,
     Name,
+    Source,
+    Adapter,
 };
 use Innmind\Stream\Readable;
 use Innmind\MediaType\MediaType;
 use Innmind\Url\Path;
 
-final class File implements FileInterface
+final class File implements FileInterface, Source
 {
     private FileInterface $file;
 
@@ -26,6 +28,15 @@ final class File implements FileInterface
     ) {
         $this->file = $file;
         $send(new FileLoaded($folder->resolve(Path::of($file->name()->toString()))));
+    }
+
+    public function sourcedAt(Adapter $adapter, Path $path): bool
+    {
+        if (!$this->file instanceof Source) {
+            return false;
+        }
+
+        return $this->file->sourcedAt($adapter, $path);
     }
 
     public function name(): Name

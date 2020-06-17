@@ -7,12 +7,19 @@ use Innmind\SilentCartographer\{
     OperatingSystem\Filesystem\File,
     SendActivity,
 };
+use Innmind\Filesystem\{
+    Source,
+    Adapter,
+};
 use PHPUnit\Framework\TestCase;
 use Innmind\BlackBox\{
     PHPUnit\BlackBox,
     Set,
 };
-use Fixtures\Innmind\Filesystem\File as Fixture;
+use Fixtures\Innmind\Filesystem\{
+    File as Fixture,
+    Name,
+};
 use Fixtures\Innmind\Url\Path;
 
 class FileTest extends TestCase
@@ -56,6 +63,63 @@ class FileTest extends TestCase
                     }));
 
                 new File($inner, $send, $path);
+            });
+    }
+
+    public function testFileFromUnknownOriginWillAlwaysReturnFalseToSourcedAt()
+    {
+        $this
+            ->forAll(
+                Fixture::any(),
+                Path::any(),
+                Path::directories(),
+            )
+            ->then(function($inner, $path, $folder) {
+                $file = new File(
+                    $inner,
+                    $this->createMock(SendActivity::class),
+                    $folder,
+                );
+
+                $this->assertFalse($file->sourcedAt(
+                    $this->createMock(Adapter::class),
+                    $path,
+                ));
+            });
+    }
+
+    public function testSourcedAt()
+    {
+        $this
+            ->forAll(
+                Set\Elements::of(true, false),
+                Path::any(),
+                Path::directories(),
+                Name::any(),
+            )
+            ->then(function($expected, $path, $folder, $name) {
+                $inner = $this->createMock(Source::class);
+                $inner
+                    ->expects($this->once())
+                    ->method('sourcedAt')
+                    ->willReturn($expected);
+                $inner
+                    ->expects($this->any())
+                    ->method('name')
+                    ->willReturn($name);
+                $file = new File(
+                    $inner,
+                    $this->createMock(SendActivity::class),
+                    $folder,
+                );
+
+                $this->assertSame(
+                    $expected,
+                    $file->sourcedAt(
+                        $this->createMock(Adapter::class),
+                        $path,
+                    ),
+                );
             });
     }
 }
