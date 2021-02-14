@@ -15,7 +15,7 @@
         "issues": "http://github.com/Innmind/SilentCartographer/issues"
     },
     "require": {
-        "php": "~7.4",
+        "php": "~7.4|~8.0",
         "innmind/url": "~3.3",
         "innmind/immutable": "~3.5",
         "innmind/operating-system": "~2.0",
@@ -35,10 +35,11 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "~8.0",
+        "phpunit/phpunit": "~9.0",
         "innmind/object-graph": "~2.0",
-        "vimeo/psalm": "^3.10",
-        "innmind/black-box": "^4.2"
+        "vimeo/psalm": "~4.4",
+        "innmind/black-box": "^4.9",
+        "innmind/coding-standard": "^1.1"
     },
     "bin": ["silent-cartographer"]
 }

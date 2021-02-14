@@ -7,7 +7,6 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\Control\Shutdown,
     Activity,
 };
-use Innmind\Server\Control\Server\Volumes\Name;
 use PHPUnit\Framework\TestCase;
 
 class ShutdownTest extends TestCase

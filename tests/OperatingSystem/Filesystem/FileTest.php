@@ -58,7 +58,7 @@ class FileTest extends TestCase
                 $send
                     ->expects($this->once())
                     ->method('__invoke')
-                    ->with($this->callback(function($activity) use ($inner, $path) {
+                    ->with($this->callback(static function($activity) use ($inner, $path) {
                         return $activity->path()->toString() === $path->toString().$inner->name()->toString();
                     }));
 

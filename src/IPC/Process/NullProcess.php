@@ -30,9 +30,6 @@ final class NullProcess implements Process
         // pass
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function wait(ElapsedPeriod $timeout = null): Message
     {
         throw new Timedout;

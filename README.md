@@ -1,6 +1,6 @@
 # Silent Cartographer
 
-[![Build Status](https://github.com/Innmind/SilentCartographer/workflows/CI/badge.svg)](https://github.com/Innmind/SilentCartographer/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/Innmind/SilentCartographer/workflows/CI/badge.svg?branch=master)](https://github.com/Innmind/SilentCartographer/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/Innmind/SilentCartographer/branch/develop/graph/badge.svg)](https://codecov.io/gh/Innmind/SilentCartographer)
 [![Type Coverage](https://shepherd.dev/github/Innmind/SilentCartographer/coverage.svg)](https://shepherd.dev/github/Innmind/SilentCartographer)
 

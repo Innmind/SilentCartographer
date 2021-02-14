@@ -29,9 +29,6 @@ final class Sockets implements SocketsInterface
         $this->send = $send;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function open(Unix $address): Server
     {
         ($this->send)(new SocketOpened($address));
@@ -39,9 +36,6 @@ final class Sockets implements SocketsInterface
         return $this->sockets->open($address);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function takeOver(Unix $address): Server
     {
         ($this->send)(new SocketTakenOver($address));

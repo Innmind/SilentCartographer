@@ -43,13 +43,12 @@ class HttpTest extends TestCase
             ->with($request)
             ->willReturn($response);
         $send
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('__invoke')
-            ->with(new RequestSent($request));
-        $send
-            ->expects($this->at(1))
-            ->method('__invoke')
-            ->with(new ResponseReceived($response));
+            ->withConsecutive(
+                [new RequestSent($request)],
+                [new ResponseReceived($response)],
+            );
 
         $this->assertSame($response, $fulfill($request));
     }

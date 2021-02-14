@@ -181,8 +181,6 @@ class UnsourcedDirectoryTest extends TestCase
                             $this->isInstanceOf(DecoratedFile::class),
                         ),
                     );
-
-                    return null;
                 });
             });
     }

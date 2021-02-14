@@ -44,11 +44,17 @@ final class SubRoutine
                 $content = Json::decode($message->content()->toString());
                 $tags = $content['tags'];
                 $this->register($client, ...$tags);
-            } else if ($message->equals(new PanelDeactivated)) {
-                $this->unregister($client);
-            } else {
-                $this->forward($message);
+
+                return;
             }
+
+            if ($message->equals(new PanelDeactivated)) {
+                $this->unregister($client);
+
+                return;
+            }
+
+            $this->forward($message);
         });
     }
 

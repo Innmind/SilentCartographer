@@ -7,7 +7,6 @@ use Innmind\SilentCartographer\Room\Program\{
     Activity\Remote\Ssh\Shutdown,
     Activity,
 };
-use Innmind\Server\Control\Server\Volumes\Name;
 use Innmind\Url\Url;
 use PHPUnit\Framework\TestCase;
 

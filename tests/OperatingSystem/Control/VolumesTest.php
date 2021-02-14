@@ -60,7 +60,7 @@ class VolumesTest extends TestCase
     public function testUnount()
     {
         $this
-            ->forAll(Set\Strings::any())
+            ->forAll(Set\Strings::atLeast(1))
             ->then(function($name) {
                 $volumes = new Volumes(
                     $inner = $this->createMock(VolumesInterface::class),
