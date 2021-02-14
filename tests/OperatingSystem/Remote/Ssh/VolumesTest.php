@@ -42,7 +42,7 @@ class VolumesTest extends TestCase
         $this
             ->forAll(
                 Authority::any(),
-                Set\Strings::any(),
+                Set\Strings::atLeast(1),
                 Path::any(),
             )
             ->then(function($authority, $name, $path) {
@@ -68,7 +68,7 @@ class VolumesTest extends TestCase
         $this
             ->forAll(
                 Authority::any(),
-                Set\Strings::any()
+                Set\Strings::atLeast(1)
             )
             ->then(function($authority, $name) {
                 $volumes = new Volumes(
