@@ -98,13 +98,16 @@ USAGE;
             ->with($subRoutine)
             ->willReturn($process = $this->createMock(Process::class));
         $process
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('send')
             ->with(new PanelActivated('foo', 'bar'));
         $process
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('wait')
-            ->willReturn($message = $this->createMock(Message::class));
+            ->will($this->onConsecutiveCalls(
+                $message = $this->createMock(Message::class),
+                $this->throwException(new RuntimeException),
+            ));
         $protocol
             ->expects($this->once())
             ->method('decode')
@@ -133,13 +136,9 @@ USAGE;
             ->with(Str::of("[http][42][/somewhere/on/filesystem][foo/bar/baz] message\n"))
             ->will($this->returnSelf());
         $process
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('closed')
             ->willReturn(false);
-        $process
-            ->expects($this->at(3))
-            ->method('wait')
-            ->will($this->throwException(new RuntimeException));
 
         $this->assertNull($command(
             $env,
@@ -169,13 +168,16 @@ USAGE;
             ->with($subRoutine)
             ->willReturn($process = $this->createMock(Process::class));
         $process
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('send')
             ->with(new PanelActivated('foo', 'bar'));
         $process
-            ->expects($this->at(1))
+            ->expects($this->exactly(2))
             ->method('wait')
-            ->willReturn($message = $this->createMock(Message::class));
+            ->will($this->onConsecutiveCalls(
+                $message = $this->createMock(Message::class),
+                $this->throwException(new RuntimeException),
+            ));
         $protocol
             ->expects($this->once())
             ->method('decode')
@@ -204,13 +206,9 @@ USAGE;
             ->with(Str::of("[/somewhere/on/filesystem] message\n"))
             ->will($this->returnSelf());
         $process
-            ->expects($this->at(2))
+            ->expects($this->once())
             ->method('closed')
             ->willReturn(false);
-        $process
-            ->expects($this->at(3))
-            ->method('wait')
-            ->will($this->throwException(new RuntimeException));
 
         $this->assertNull($command(
             $env,
@@ -252,71 +250,20 @@ USAGE;
         $process
             ->expects($this->exactly(6))
             ->method('close');
-        $signals
-            ->expects($this->at(0))
-            ->method('listen')
-            ->with(
-                Signal::hangup(),
-                $this->callback(static function($listen): bool {
-                    $listen();
+        $callback = $this->callback(static function($listen): bool {
+            $listen();
 
-                    return true;
-                })
-            );
+            return true;
+        });
         $signals
-            ->expects($this->at(1))
             ->method('listen')
-            ->with(
-                Signal::interrupt(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(2))
-            ->method('listen')
-            ->with(
-                Signal::abort(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(3))
-            ->method('listen')
-            ->with(
-                Signal::terminate(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(4))
-            ->method('listen')
-            ->with(
-                Signal::terminalStop(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(5))
-            ->method('listen')
-            ->with(
-                Signal::alarm(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
+            ->withConsecutive(
+                [Signal::hangup(), $callback],
+                [Signal::interrupt(), $callback],
+                [Signal::abort(), $callback],
+                [Signal::terminate(), $callback],
+                [Signal::terminalStop(), $callback],
+                [Signal::alarm(), $callback],
             );
         $process
             ->expects($this->once())
@@ -361,71 +308,20 @@ USAGE;
             ->expects($this->exactly(6))
             ->method('close')
             ->will($this->throwException(new RuntimeException));
-        $signals
-            ->expects($this->at(0))
-            ->method('listen')
-            ->with(
-                Signal::hangup(),
-                $this->callback(static function($listen): bool {
-                    $listen();
+        $callback = $this->callback(static function($listen): bool {
+            $listen();
 
-                    return true;
-                })
-            );
+            return true;
+        });
         $signals
-            ->expects($this->at(1))
             ->method('listen')
-            ->with(
-                Signal::interrupt(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(2))
-            ->method('listen')
-            ->with(
-                Signal::abort(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(3))
-            ->method('listen')
-            ->with(
-                Signal::terminate(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(4))
-            ->method('listen')
-            ->with(
-                Signal::terminalStop(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
-            );
-        $signals
-            ->expects($this->at(5))
-            ->method('listen')
-            ->with(
-                Signal::alarm(),
-                $this->callback(static function($listen): bool {
-                    $listen();
-
-                    return true;
-                })
+            ->withConsecutive(
+                [Signal::hangup(), $callback],
+                [Signal::interrupt(), $callback],
+                [Signal::abort(), $callback],
+                [Signal::terminate(), $callback],
+                [Signal::terminalStop(), $callback],
+                [Signal::alarm(), $callback],
             );
         $process
             ->expects($this->once())

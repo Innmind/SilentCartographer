@@ -57,13 +57,9 @@ class DiscardSubsequentSendTest extends TestCase
         $activity1 = $this->createMock(Activity::class);
         $activity2 = $this->createMock(Activity::class);
         $inner
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('__invoke')
-            ->with($activity1);
-        $inner
-            ->expects($this->at(1))
-            ->method('__invoke')
-            ->with($activity2);
+            ->withConsecutive([$activity1], [$activity2]);
         $ipc
             ->expects($this->once())
             ->method('exist')
