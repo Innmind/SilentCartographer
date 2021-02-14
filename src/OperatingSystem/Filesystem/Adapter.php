@@ -39,9 +39,6 @@ final class Adapter implements AdapterInterface
         $this->adapter->add($file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(Name $file): FileInterface
     {
         return $this->wrap($this->adapter->get($file));
@@ -52,18 +49,12 @@ final class Adapter implements AdapterInterface
         return $this->adapter->contains($file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function remove(Name $file): void
     {
         ($this->send)(new FileRemoved($this->path($file)));
         $this->adapter->remove($file);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function all(): Set
     {
         return $this

@@ -15,7 +15,7 @@ class FunctionalTest extends TestCase
 {
     public function testBehaviour()
     {
-        if (getenv('CI') && PHP_OS === 'Linux') {
+        if (\getenv('CI') && \PHP_OS === 'Linux') {
             return;
         }
 
@@ -42,7 +42,7 @@ class FunctionalTest extends TestCase
         $processes->kill($crawler->pid(), Signal::interrupt());
         $pid = $crawler->pid();
 
-        $dir = dirname(__DIR__);
+        $dir = \dirname(__DIR__);
         $this->assertStringContainsString(
             "[cli][{$pid->toString()}][$dir/fixtures][os/remote/http] Request sent: GET https://github.com/ HTTP/2.0",
             $panel->output()->toString(),

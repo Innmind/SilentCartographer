@@ -11,7 +11,7 @@
     </exclude>
   </coverage>
   <php>
-    <env name="BLACKBOX_SET_SIZE" value="10"/>
+    <env name="BLACKBOX_SET_SIZE" value="1"/>
   </php>
   <testsuites>
     <testsuite name="Test suite">

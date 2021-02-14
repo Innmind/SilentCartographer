@@ -113,7 +113,7 @@ class DirectoryTest extends TestCase
                 $send
                     ->expects($this->once())
                     ->method('__invoke')
-                    ->with($this->callback(function(FileLoaded $activity) use ($path, $inner) {
+                    ->with($this->callback(static function(FileLoaded $activity) use ($path, $inner) {
                         return $activity->path()->toString() === $path->toString().$inner->name()->toString().'/';
                     }));
 
@@ -258,8 +258,6 @@ class DirectoryTest extends TestCase
                             $this->isInstanceOf(DecoratedFile::class),
                         ),
                     );
-
-                    return null;
                 });
             });
     }

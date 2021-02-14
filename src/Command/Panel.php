@@ -78,7 +78,7 @@ USAGE;
 
     private function safe(Process $process): void
     {
-        $softClose = function() use ($process): void {
+        $softClose = static function() use ($process): void {
             $process->send(new PanelDeactivated);
 
             try {

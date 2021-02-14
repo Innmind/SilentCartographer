@@ -25,9 +25,6 @@ final class Disk implements DiskInterface
         $this->send = $send;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function volumes(): Map
     {
         $volumes = $this->disk->volumes();

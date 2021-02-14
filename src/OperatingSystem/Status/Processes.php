@@ -25,9 +25,6 @@ final class Processes implements ProcessesInterface
         $this->send = $send;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function all(): Map
     {
         $processes =  $this->processes->all();

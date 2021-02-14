@@ -38,7 +38,8 @@
         "phpunit/phpunit": "~9.0",
         "innmind/object-graph": "~2.0",
         "vimeo/psalm": "~4.4",
-        "innmind/black-box": "^4.9"
+        "innmind/black-box": "^4.9",
+        "innmind/coding-standard": "^1.1"
     },
     "bin": ["silent-cartographer"]
 }
